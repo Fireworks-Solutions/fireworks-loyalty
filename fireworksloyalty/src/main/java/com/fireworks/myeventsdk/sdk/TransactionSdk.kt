@@ -192,9 +192,11 @@ object TransactionSdk {
 
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    fun archiveTransaction(
+    fun updateTransactionArchiveStatus(
         context: Context,
         transId: String,
+        archive: String = "1", // "1" for archive, "0" for unarchive
+        extraParams: Map<String, String> = emptyMap(),
         callback: TransactionArchiveCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -202,19 +204,22 @@ object TransactionSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "transid" to transId,
+            "archive" to archive,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.archiveTransaction(
-                    transId = transId,
-                    archive = "1",
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.archiveTransaction(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -232,10 +237,11 @@ object TransactionSdk {
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    fun unarchiveTransaction(
+    fun updateTransactionUnArchiveStatus(
         context: Context,
         transId: String,
-        archive : String,
+        archive: String = "0",
+        extraParams: Map<String, String> = emptyMap(),
         callback: TransactionArchiveCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -243,19 +249,22 @@ object TransactionSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "transid" to transId,
+            "archive" to archive,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.archiveTransaction(
-                    transId = transId,
-                    archive = archive,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.archiveTransaction(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -271,6 +280,7 @@ object TransactionSdk {
             }
         }
     }
+
 
 
 }
