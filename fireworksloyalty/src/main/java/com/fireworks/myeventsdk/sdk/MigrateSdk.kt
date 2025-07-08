@@ -38,6 +38,7 @@ class MigrateSdk {
         email: String,
         phone: String,
         countryCode: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: MigrateUserCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -45,16 +46,21 @@ class MigrateSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "type" to "login",
+            "email" to email,
+            "phone" to countryCode + phone,
+            "svc" to Constants.svc
+        )
+
+        // Add any host-supplied dynamic params
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.checkMigratedUser(
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    type = "login",
-                    email = email,
-                    phone = countryCode + phone,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.checkMigratedUser(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -70,6 +76,8 @@ class MigrateSdk {
             }
         }
     }
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getMigratedData(
         context: Context,
@@ -78,6 +86,7 @@ class MigrateSdk {
         nric: String,
         countryCode: String,
         phone: String,
+        extraParams: Map<String, String> = emptyMap(), // allow host to pass extra params
         callback: MigratedDataCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -85,19 +94,24 @@ class MigrateSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "member_card_no" to cardNo,
+            "id_type" to idType.toString(),
+            "nric" to nric,
+            "phone_country" to countryCode,
+            "phone" to phone,
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(AppPreference.getInstance(context).getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Merge host-supplied params (e.g., "search_type" to "basic")
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getMigratedUserData(
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    cardNo = cardNo,
-                    idType = idType,
-                    nric = nric,
-                    phoneCountry = countryCode,
-                    phone = phone,
-                    sv = Constants.svc,
-                    pvc = NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
-                )
+                val response = retrofitService.getMigratedUserData(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -106,7 +120,6 @@ class MigrateSdk {
                         callback.onFailure("Failed with code: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")

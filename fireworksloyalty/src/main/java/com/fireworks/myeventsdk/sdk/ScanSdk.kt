@@ -36,6 +36,7 @@ class ScanSdk {
         context: Context,
         custId: String,
         pic: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: UploadImageCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -43,16 +44,21 @@ class ScanSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "pic" to pic,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Merge dynamic params from host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.uploadImageAPI(
-                    custId = custId,
-                    pic = pic,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.uploadImageAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -76,12 +82,12 @@ class ScanSdk {
         mallId: String,
         custId: String,
         merchantId: String,
-        pic: String,               // Optional if API supports it
         price: String,
         receiptNum: String,
         picName: String,
         receiptDate: String,
         shop: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: ScanReceiptCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -89,23 +95,28 @@ class ScanSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "mall" to mallId,
+            "custid" to custId,
+            "merchantid" to merchantId,
+            "price" to price,
+            "c_receipt_id" to receiptNum,
+            "c_receipt_date" to receiptDate,
+            "c_amount" to price,
+            "c_merchant" to shop,
+            "pic_name" to picName,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Add any extra/dynamic fields from host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.scanReceiptAPI(
-                    mall = mallId,
-                    custId = custId,
-                    merchantId = merchantId,
-                    price = price,
-                    receiptId = receiptNum,
-                    receiptDate = receiptDate,
-                    receiptAmount = price,
-                    receiptMerchant = shop,
-                    picName = picName,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.scanReceiptAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -121,5 +132,6 @@ class ScanSdk {
             }
         }
     }
+
 
 }

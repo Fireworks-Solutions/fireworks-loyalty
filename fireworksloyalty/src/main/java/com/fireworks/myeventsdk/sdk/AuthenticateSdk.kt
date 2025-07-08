@@ -45,6 +45,7 @@ object AuthenticateSdk {
         context: Context,
         email: String,
         password: String,
+        extraParams: Map<String, String> = emptyMap(), // <-- optional dynamic fields
         callback: LoginCallback
     ) {
         appPreference = AppPreference.getInstance(context)
@@ -56,36 +57,41 @@ object AuthenticateSdk {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.loginAPI(
-                    email = email,
-                    phone = "",
-                    phoneCountry = "",
-                    nric = "",
-                    password = password,
-                    socialType = "",
-                    socialToken = "",
-                    merchantId = "44",
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    lang = "en",
-                    deviceId = deviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    svc = Constants.svc,
-                    pvc = NetworkUtils.getHello(email)
+                val fields = mutableMapOf(
+                    "email" to email,
+                    "phone" to "",
+                    "phone_country" to "",
+                    "nric" to "",
+                    "password" to password,
+                    "socialmediatype" to "",
+                    "socialmediatoken" to "",
+                    "mercid" to "44",
+                    "date" to NetworkUtils.unixTimeStamp().toString(),
+                    "vc" to NetworkUtils.getVCKey(),
+                    "os" to NetworkUtils.getOsVersion(),
+                    "phonename" to NetworkUtils.getDeviceName(context),
+                    "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "lang" to AppUtil.language,
+                    "deviceid" to AppUtil.getDeviceId(context),
+                    "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "svc" to Constants.svc,
+                    "pvc" to NetworkUtils.getHello(email)
                 )
+
+                // Merge any extra fields passed from host app
+                fields.putAll(extraParams)
+
+                val response = retrofitService.loginAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         val loginResponse = response.body()!!
 
-                        appPreference.putBoolean(PrefConstant.CHANGE_PW, loginResponse.changePassword!!.toBoolean())
-                        appPreference.putBoolean(PrefConstant.REGISTER, loginResponse.register!!.toBoolean())
-                        appPreference.putString(PrefConstant.URL, loginResponse.url!!)
+                        appPreference.putBoolean(PrefConstant.CHANGE_PW, loginResponse.changePassword?.toBoolean() ?: false)
+                        appPreference.putBoolean(PrefConstant.REGISTER, loginResponse.register?.toBoolean() ?: false)
+                        appPreference.putString(PrefConstant.URL, loginResponse.url ?: "")
 
-                        if (loginResponse.sid != null){
+                        if (loginResponse.sid != null) {
                             appPreference.putBoolean(PrefConstant.LOGGED_IN_STATUS, true)
                             appPreference.putString(PrefConstant.USER_EMAIL, loginResponse.email)
                             appPreference.putString(PrefConstant.USER_PHONE, loginResponse.phone)
@@ -114,12 +120,12 @@ object AuthenticateSdk {
         }
     }
 
-
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getOtp(
         context: Context,
         phone: String,
         countryCode: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: OtpCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -127,19 +133,24 @@ object AuthenticateSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "phone" to phone,
+            "phone_country" to countryCode,
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge additional fields from host app
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getOTP(
-                    phone = phone,
-                    phoneCountry = countryCode,
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    lang = AppUtil.language,
-                    os = NetworkUtils.getOsVersion(),
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getOTP(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -160,6 +171,7 @@ object AuthenticateSdk {
             }
         }
     }
+
 
 }
 

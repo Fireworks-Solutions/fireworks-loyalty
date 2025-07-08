@@ -35,6 +35,7 @@ object MerchantSdk {
     fun shopAPI(
         context: Context,
         merchantId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: ShopCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -42,18 +43,23 @@ object MerchantSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "userid" to merchantId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Inject additional fields from host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.shopAPI(
-                    merchantId = merchantId,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.shopAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

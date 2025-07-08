@@ -37,7 +37,8 @@ object SplashSdk {
         context: Context,
         customerId: String,
         appversion: String,
-        deviceflavour : String,
+        deviceflavour: String,
+        extraParams: Map<String, String> = emptyMap(), // <-- host can send more
         callback: VersioningCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -45,20 +46,25 @@ object SplashSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "custid" to customerId,
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceName(context),
+            "appversion" to appversion,
+            "deviceflavour" to deviceflavour,
+            "svc" to Constants.svc
+        )
+
+        // Add extra dynamic fields from host app
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.versioningAPI(
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    custId = customerId,
-                    lang = AppUtil.language,
-                    os = NetworkUtils.getOsVersion(),
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceName(context),
-                    appVersion = appversion,
-                    deviceflavour = deviceflavour,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.versioningAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -79,6 +85,7 @@ object SplashSdk {
             }
         }
     }
+
 
 
 }

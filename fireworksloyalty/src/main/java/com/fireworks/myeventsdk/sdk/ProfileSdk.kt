@@ -42,8 +42,8 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun profileAPI(
         context: Context,
-        custId: String,
         merchantId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: CommonInterface.ProfileCallback
     ) {
         appPreference = AppPreference.getInstance(context)
@@ -53,29 +53,34 @@ object ProfileSdk {
             return
         }
 
+        val baseParams = mutableMapOf(
+            "custid" to (appPreference.getString(PrefConstant.CUSTOMER_ID) ?: ""),
+            "mercid" to merchantId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Merge any extra fields passed from the host app
+        baseParams.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.profileAPI(
-                    custId = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    merchantId = merchantId,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc,
-                    sectoken = AppUtil.applicationToken,
-                    pv = NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
-                )
+                val response = retrofitService.profileAPI(baseParams)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         val profile = response.body()!!
 
-                        // Optional: Store profile data if needed
+                        // Optional: cache profile
                         appPreference.putString(PrefConstant.USER_FNAME, profile.profile?.fname)
                         appPreference.putString(PrefConstant.USER_LNAME, profile.profile?.lname)
 
@@ -93,6 +98,7 @@ object ProfileSdk {
             }
         }
     }
+
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun updateProfileAPI(
@@ -129,6 +135,7 @@ object ProfileSdk {
             return
         }
 
+        val appPreference = AppPreference.getInstance(context)
 
         val sRace = if (race == "Choose Race") "" else race
         val sTitle = if (title == "Choose Title") "" else title
@@ -140,46 +147,48 @@ object ProfileSdk {
             else -> gender
         }
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchantId,
+            "title" to sTitle,
+            "fname" to fName,
+            "lname" to lName,
+            "email" to email,
+            "phone" to phone,
+            "phone_country" to countryCode,
+            "dob" to dob,
+            "nric" to nric,
+            "id_type" to idType.toString(),
+            "display_name" to prefName,
+            "gender" to sGender,
+            "love_anniversary" to anniv,
+            "nationality" to nationality,
+            "country" to country,
+            "race" to sRace,
+            "householdincome" to income.toString(),
+            "selectedinterests" to interests,
+            "address1" to addressone,
+            "address2" to addresstwo,
+            "state" to sState,
+            "city" to city,
+            "postcode" to postcode,
+            "mall" to preferredMall.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.updateProfileAPI(
-                    custId = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    merchantId = merchantId,
-                    title = sTitle,
-                    firstName = fName,
-                    lastName = lName,
-                    email = email,
-                    phone = phone,
-                    countryCode = countryCode,
-                    dob = dob,
-                    nric = nric,
-                    idType = idType,
-                    prefName = prefName,
-                    gender = sGender,
-                    anniv = anniv,
-                    nationality = nationality,
-                    country = country,
-                    race = sRace,
-                    income = income,
-                    interests = interests,
-                    addressone = addressone,
-                    addresstwo = addresstwo,
-                    state = sState,
-                    city = city,
-                    postcode = postcode,
-                    preferredMall = preferredMall,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc,
-                    pv = NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
-                )
+                val response = retrofitService.updateProfileAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -200,7 +209,7 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun addPoints(
         context: Context,
-        custId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: AddPointsCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -210,17 +219,23 @@ object ProfileSdk {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.givePoints(
-                    rewardType = "complete_profile",
-                    custId = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc,
+                // Default fields
+                val params = mutableMapOf(
+                    "reward_type" to "complete_profile",
+                    "custid" to appPreference.getString(PrefConstant.CUSTOMER_ID).orEmpty(),
+                    "date" to NetworkUtils.unixTimeStamp().toString(),
+                    "vc" to NetworkUtils.getVCKey(),
+                    "os" to NetworkUtils.getOsVersion(),
+                    "phonename" to NetworkUtils.getDeviceName(context),
+                    "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "sectoken" to AppUtil.applicationToken,
+                    "svc" to Constants.svc
                 )
+
+                // Merge with dynamic fields from host app
+                params.putAll(extraParams)
+
+                val response = retrofitService.givePoints(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -229,7 +244,6 @@ object ProfileSdk {
                         callback.onFailure("Add points failed with status: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -244,6 +258,7 @@ object ProfileSdk {
         context: Context,
         newPassword: String,
         oldPassword: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: PasswordUpdateCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -257,30 +272,36 @@ object ProfileSdk {
             callback.onFailure("Customer ID not found")
             return
         }
+
         val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
             callback.onFailure("Merchant ID not found")
             return
         }
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchantId,
+            "oldpass" to oldPassword,
+            "newpass" to newPassword,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Add optional fields from host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.changePasswordAPI(
-                    custId = custId,
-                    merchantId = merchantId,
-                    oldPassword = oldPassword,
-                    newPassword = newPassword,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc,
-                    pv = NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
-                )
+                val response = retrofitService.changePasswordAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -301,6 +322,7 @@ object ProfileSdk {
     fun setPassword(
         context: Context,
         newPassword: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: SetPasswordCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -309,32 +331,39 @@ object ProfileSdk {
         }
 
         val appPreference = AppPreference.getInstance(context)
+
         val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
             callback.onFailure("Customer ID not found")
             return
         }
+
         val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
             callback.onFailure("Merchant ID not found")
             return
         }
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchantId,
+            "newpass" to newPassword,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge dynamic fields from host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.setPasswordAPI(
-                    custId = custId,
-                    merchantId = merchantId,
-                    newPassword = newPassword,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.setPasswordAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -343,7 +372,6 @@ object ProfileSdk {
                         callback.onFailure("Set password failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")

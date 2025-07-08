@@ -1,9 +1,11 @@
 package com.fireworks.myeventsdk.sdk
 
+import android.content.Context
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.CommonInterface.Callback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CategoryCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.EventDetailCallback
+import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.model.Event
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import digital.fireworks.kpdrm.data.dto.events_detail.Detail
@@ -27,6 +29,7 @@ object EventSdk {
     }
 
     fun fetchEvents(
+        context: Context,
         sectoken: String,
         custId: String,
         vcKey: String,
@@ -34,33 +37,35 @@ object EventSdk {
         searchTerm: String? = "",
         mall: String = "12",
         isLatest: String = "1",
+        extraParams: Map<String, String> = emptyMap(),
         callback: Callback
     ) {
-        val date = System.currentTimeMillis().toString()
+        val fields = mutableMapOf(
+            "cat_filter" to (category ?: ""),
+            "search_item" to (searchTerm ?: ""),
+            "mall" to mall,
+            "latest" to isLatest,
+            "custcode" to custId,
+            "date" to System.currentTimeMillis().toString(),
+            "vc" to vcKey
+        )
+
+        fields.putAll(extraParams)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.getEvents(
                     sectoken = sectoken,
-                    category = category,
-                    searchItem = searchTerm,
-                    mall = mall,
-                    isLatest = isLatest,
-                    custID = custId,
-                    date = date,
-                    vc = vcKey
+                    fields = fields
                 )
 
-                if (response.isSuccessful && response.body() != null) {
-                    withContext(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!.events)
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
+                    } else {
                         callback.onFailure("API failed with status: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Error: ${e.localizedMessage}")
@@ -70,63 +75,43 @@ object EventSdk {
     }
 
 
-    fun fetchEventCategories(
-        secToken: String,
-        customerId: String,
-        callback: CategoryCallback
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = retrofitService.getEventsCategories(secToken, customerId)
-                if (response.isSuccessful && response.body() != null) {
-                    withContext(Dispatchers.Main) {
-                        callback.onSuccess(response.body()!!.result)
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        callback.onFailure("Category API failed: ${response.code()}")
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    callback.onFailure("Category error: ${e.localizedMessage}")
-                }
-            }
-        }
-    }
-
 
     fun fetchEventDetail(
+        context: Context,
         eventId: String,
         token: String,
-        custId: String,
-        vc: String,
+        custId: String?,
+        extraParams: Map<String, String> = emptyMap(),
         callback: EventDetailCallback
     ) {
-        val date = System.currentTimeMillis().toString()
+        val fieldMap = mutableMapOf(
+            "eventid" to eventId,
+            "date" to System.currentTimeMillis().toString(),
+            "mall" to "12",
+            "vc" to NetworkUtils.getVCKey()
+        )
+
+        custId?.let { fieldMap["custcode"] = it }
+
+        // Add any extra fields from host app
+        fieldMap.putAll(extraParams)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.getEventsDetails(
                     secToken = token,
-                    event_id = eventId,
-                    customer_id = custId,
-                    vc = vc,
-                    date = date,
-                    mall = 12,
+                    fields = fieldMap
                 )
 
-                if (response.isSuccessful && response.body() != null) {
-                    val body = response.body()!!
-                    withContext(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val body = response.body()!!
                         if (body.status.equals("failed", ignoreCase = true)) {
                             callback.onFailure(body.message ?: "Unknown error")
                         } else {
                             callback.onSuccess(body.details.firstOrNull())
                         }
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
+                    } else {
                         callback.onFailure("API failed: ${response.code()}")
                     }
                 }

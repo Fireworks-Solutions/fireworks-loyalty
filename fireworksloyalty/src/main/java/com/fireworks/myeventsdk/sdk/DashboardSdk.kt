@@ -43,13 +43,12 @@ object DashboardSdk {
     }
 
 
-
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun ratePurchase(
         context: Context,
-        custId: String,
         purchaseId: String,
         rating: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: RatePurchaseCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -57,20 +56,25 @@ object DashboardSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "custid" to (appPreference.getString(PrefConstant.CUSTOMER_ID) ?: ""),
+            "purchaseid" to purchaseId,
+            "rating" to rating,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Host can override or append extra values
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.ratePurchase(
-                    custid = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    purchaseid = purchaseId,
-                    rating = rating,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.ratePurchase(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -79,6 +83,7 @@ object DashboardSdk {
                         callback.onFailure("Rating failed with status: ${response.code()}")
                     }
                 }
+
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -88,15 +93,15 @@ object DashboardSdk {
     }
 
 
-
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun dashboardAPI(
         context: Context,
         custId: String,
         mercId: String,
-        appversion: String,
+        appVersion: String,
         pv: String,
-        deviceflavour : String,
+        deviceFlavour: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DashboardCallback
     ) {
         val cachedDashboard = GetJsonResponse.getDashboardApi()
@@ -109,35 +114,37 @@ object DashboardSdk {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onFailure("No Internet Connection")
-
-            AppUtil.dashboardResponse?.let {
-                callback.onSuccess(it)
-            }
+            AppUtil.dashboardResponse?.let { callback.onSuccess(it) }
             return
         }
 
+        val params = mutableMapOf(
+            "mall" to AppUtil.currentMall.toString(),
+            "custid" to custId,
+            "mercid" to mercId,
+            "lat" to AppUtil.latitude.toString(),
+            "lng" to AppUtil.longitude.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "appversion" to appVersion,
+            "deviceflavour" to deviceFlavour,
+            "svc" to Constants.svc,
+            "pvc" to pv
+        )
+
+        // Allow host app to add or override any param
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.dashboardAPI(
-                    mall = AppUtil.currentMall.toString(),
-                    custId = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    merchantId = mercId,
-                    latitude = AppUtil.latitude,
-                    longitude = AppUtil.longitude,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    appVersion = appversion,
-                    pv = pv,
-                    sv = Constants.svc,
-                    deviceflavour = deviceflavour
-                )
+                val response = retrofitService.dashboardAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -160,6 +167,7 @@ object DashboardSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun multiMallAPI(
         context: Context,
+        extraParams: Map<String, String> = emptyMap(),
         callback: MultiMallCallback
     ) {
         val cachedMallList = GetJsonResponse.getMultiMallApi()
@@ -174,18 +182,22 @@ object DashboardSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        params.putAll(extraParams) // Host can override or add extra fields
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getMallList(
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getMallList(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -194,7 +206,6 @@ object DashboardSdk {
                         callback.onFailure("Failed with status: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -204,11 +215,13 @@ object DashboardSdk {
     }
 
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun addDeviceTokenAPI(
         context: Context,
         token: String,
         custId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DeviceTokenCallback? = null
     ) {
         if (OfflineCacheUtils.isDataAvailable()) return
@@ -218,22 +231,27 @@ object DashboardSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "token" to token,
+            "custid" to custId,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        // Inject extra host-defined fields
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.addDeviceTokenAPI(
-                    token = token,
-                    custId = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    deviceId = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.addDeviceTokenAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
@@ -256,6 +274,7 @@ object DashboardSdk {
     fun inAppAlertsAPI(
         context: Context,
         customerId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: InAppAlertCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -263,14 +282,19 @@ object DashboardSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "custid" to customerId,
+            "svc" to Constants.svc
+        )
+
+        // Append any extra dynamic fields passed from the host app
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.inAppAlertsAPI(
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    custId = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    sv = Constants.svc
-                )
+                val response = retrofitService.inAppAlertsAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -295,6 +319,7 @@ object DashboardSdk {
     fun updatePayableByPoints(
         context: Context,
         customerId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: PayablePointsCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -302,14 +327,19 @@ object DashboardSdk {
             return
         }
 
+        val params = mutableMapOf(
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "custid" to customerId,
+            "svc" to Constants.svc
+        )
+
+        // Merge host-app-provided extra params
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.updatePayableByPoints(
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    customerID = appPreference.getString(PrefConstant.CUSTOMER_ID)?:"",
-                    sv = Constants.svc
-                )
+                val response = retrofitService.updatePayableByPoints(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -323,7 +353,6 @@ object DashboardSdk {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("IO Exception: ${e.localizedMessage}")
                 }
-
             } catch (e: HttpException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("HTTP Exception: ${e.localizedMessage}")

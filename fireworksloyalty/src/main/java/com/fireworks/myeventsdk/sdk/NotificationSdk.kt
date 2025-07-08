@@ -38,6 +38,7 @@ object NotificationSdk {
         custId: String,
         read: String,
         archive: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: NotificationCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -45,21 +46,26 @@ object NotificationSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "read" to read,
+            "archive" to archive,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        // Merge extra parameters from host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getInbox(
-                    custid = custId,
-                    read = read,
-                    archive = archive,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = applicationToken,
-                    lang = AppUtil.language,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getInbox(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -68,7 +74,6 @@ object NotificationSdk {
                         callback.onFailure("Inbox API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -81,11 +86,12 @@ object NotificationSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun archiveNotification(
         context: Context,
+        custId: String,
+        inboxId: String,
         archive: String,
         read: String,
         type: String,
-        custId: String,
-        inboxId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: ArchiveNotificationCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -93,29 +99,34 @@ object NotificationSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "read" to read,
+            "archive" to archive,
+            "all" to "",
+            "type" to type,
+            "inbox_id" to inboxId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        // Add extra dynamic params if needed
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.inboxAction(
-                    custid = custId,
-                    read = read,
-                    archive = archive,
-                    all = "",
-                    type = type,
-                    inboxid = inboxId,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = applicationToken,
-                    lang = AppUtil.language,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.inboxAction(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.body()?.status?.contains("get new token", ignoreCase = true) == true) {
                         callback.onTokenExpired {
-                            archiveNotification(context, custId, inboxId, archive,read,type, callback)
+                            archiveNotification(context, custId, inboxId, archive, read, type, extraParams, callback)
                         }
                     } else if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)
@@ -123,17 +134,16 @@ object NotificationSdk {
                         callback.onFailure("Archive failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onTokenExpired {
-                        // Retry on network/token error
-                        archiveNotification(context, custId, inboxId, archive,read,type, callback)
+                        archiveNotification(context, custId, inboxId, archive, read, type, extraParams, callback)
                     }
                 }
             }
         }
     }
+
 
 
 

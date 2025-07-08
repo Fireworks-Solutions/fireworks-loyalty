@@ -49,6 +49,7 @@ object RegisterSdk {
         countryCode: String,
         socialType: String,
         socialToken: String,
+        extraParams: Map<String, String> = emptyMap(),  // <== for host-provided dynamic fields
         callback: RegisterCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -56,32 +57,37 @@ object RegisterSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "token" to fcmToken,
+            "member_card_no" to "",
+            "migrate" to "0",
+            "referral_code" to referral,
+            "promo" to promo.toString(),
+            "email" to email,
+            "pass" to password,
+            "title" to title,
+            "fname" to fName,
+            "lname" to lName,
+            "phone" to phone,
+            "phone_country" to countryCode,
+            "socialmediatype" to socialType,
+            "socialmediatoken" to socialToken,
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(AppPreference.getInstance(context).getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Merge additional host-supplied params
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.signUpAPI(
-                    fcmToken = fcmToken,
-                    cardNo = "",
-                    migrate = 0,
-                    referral = referral,
-                    promo = promo,
-                    email = email,
-                    password = password,
-                    title = title,
-                    firstName = fName,
-                    lastName = lName,
-                    phone = phone,
-                    phoneCountry = countryCode,
-                    socialType = socialType,
-                    socialToken = socialToken,
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    lang = AppUtil.language,
-                    os = NetworkUtils.getOsVersion(),
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc,
-                    pv = NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
-                )
+                val response = retrofitService.signUpAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -97,24 +103,35 @@ object RegisterSdk {
             }
         }
     }
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    fun getTitleList(context: Context, callback: TitleListCallback) {
+    fun getTitleList(
+        context: Context,
+        extraParams: Map<String, String> = emptyMap(), // Host can pass extra fields
+        callback: TitleListCallback
+    ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onFailure("No Internet Connection")
             return
         }
 
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Allow host app to add extra params
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getHonorificList(
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getHonorificList(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

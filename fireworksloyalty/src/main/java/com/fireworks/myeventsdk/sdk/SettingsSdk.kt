@@ -7,6 +7,7 @@ import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface
+import com.fireworks.myeventsdk.Utils.CommonInterface.CountryListCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ReferralDataCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SettingsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SettingsUpdateCallback
@@ -40,10 +41,10 @@ object SettingsSdk {
         retrofitService = retrofit.create(Service::class.java)
     }
 
-
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getStates(
         context: Context,
+        extraParams: Map<String, String> = emptyMap(),
         callback: StatesCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -51,17 +52,21 @@ object SettingsSdk {
             return
         }
 
+        val requestMap = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        requestMap.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getStates(
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getStates(requestMap)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -70,7 +75,6 @@ object SettingsSdk {
                         callback.onFailure("States API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Request timed out")
@@ -84,9 +88,54 @@ object SettingsSdk {
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getCountryList(
+        context: Context,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: CountryListCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        fields.putAll(extraParams) // Add dynamic parameters from host app
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getCountryList(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Country list failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getReferralData(
         context: Context,
         custId: String,
+        extraParams: Map<String, String> = emptyMap(),  // Optional dynamic parameters
         callback: ReferralDataCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -94,14 +143,19 @@ object SettingsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "custid" to custId,
+            "svc" to Constants.svc
+        )
+
+        // Add or override with any extra params from host
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getReferData(
-                    vc = NetworkUtils.getVCKey(),
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    custId = custId,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getReferData(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -110,7 +164,6 @@ object SettingsSdk {
                         callback.onFailure("Referral API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -123,6 +176,7 @@ object SettingsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getMemberCenterList(
         context: Context,
+        extraParams: Map<String, String> = emptyMap(),
         callback: UsefulLinkCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -130,18 +184,23 @@ object SettingsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        // Add or override with dynamic fields
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getUsefulLinks(
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getUsefulLinks(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -150,7 +209,6 @@ object SettingsSdk {
                         callback.onFailure("Useful Links API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -160,7 +218,11 @@ object SettingsSdk {
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    fun getSettings(context: Context, callback: SettingsCallback) {
+    fun getSettings(
+        context: Context,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: SettingsCallback
+    ) {
         val appPreference = AppPreference.getInstance(context)
         val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: ""
 
@@ -169,19 +231,24 @@ object SettingsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "custid" to custId,
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceName(context),
+            "svc" to Constants.svc
+        )
+
+        // Allow host to add/override fields dynamically
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getSettingsAPI(
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    custId = custId,
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    os = NetworkUtils.getOsVersion(),
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceName(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.getSettingsAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -199,6 +266,7 @@ object SettingsSdk {
     }
 
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun updateSettings(
         context: Context,
@@ -206,6 +274,7 @@ object SettingsSdk {
         notifications: Boolean,
         nearby: Boolean,
         generali: Boolean,
+        extraParams: Map<String, String> = emptyMap(),
         callback: SettingsUpdateCallback
     ) {
         val appPreference = AppPreference.getInstance(context)
@@ -220,23 +289,28 @@ object SettingsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "custid" to custId,
+            "setting" to setting,
+            "general" to general,
+            "news" to news,
+            "righthere" to righthere,
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceName(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge in any extra host app parameters
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.updateSettingsAPI(
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    custId = custId,
-                    setting = setting,
-                    general = general,
-                    news = news,
-                    righthere = righthere,
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    os = NetworkUtils.getOsVersion(),
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceName(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.updateSettingsAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -263,6 +337,8 @@ object SettingsSdk {
         subject: String,
         description: String,
         image: String,
+        issueType: String = "General Query",
+        extraParams: Map<String, String> = emptyMap(),
         callback: SupportCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -270,27 +346,32 @@ object SettingsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "name" to name,
+            "phone" to phone,
+            "email" to email,
+            "subject" to subject,
+            "IssueType" to issueType,
+            "description" to description,
+            "image" to image,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceName(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge in optional fields from the host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.supportAPI(
-                    name = name,
-                    phone = phone,
-                    email = email,
-                    subject = subject,
-                    issueType = "General Query",
-                    description = description,
-                    image = image,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceName(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.supportAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

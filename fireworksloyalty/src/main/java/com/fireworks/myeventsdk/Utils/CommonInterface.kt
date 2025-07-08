@@ -10,6 +10,7 @@ import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import com.fireworks.myeventsdk.model.Result
 import com.fireworks.myeventsdk.model.UploadImageResponse
+import com.fireworks.myeventsdk.model.country.CountryListResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
 import com.incredibleqr.mysogo.data.remote.model.ShippingPointResponse
@@ -358,12 +359,17 @@ class CommonInterface {
 
 
     interface RegisterCallback {
-        fun onSuccess(response: RegisterResponse)  // Replace with your actual model
+        fun onSuccess(response: RegisterResponse)
         fun onFailure(errorMessage: String)
     }
 
     interface TitleListCallback {
-        fun onSuccess(response: HonorificListResponse) // Replace with your actual model if different
+        fun onSuccess(response: HonorificListResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+    interface CountryListCallback {
+        fun onSuccess(response: CountryListResponse)  // Replace with your actual model
         fun onFailure(errorMessage: String)
     }
 

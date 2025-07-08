@@ -32,6 +32,7 @@ object TransactionSdk {
             .build()
         retrofitService = retrofit.create(Service::class.java)
     }
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getTransaction(
         context: Context,
@@ -40,6 +41,7 @@ object TransactionSdk {
         month: String,
         year: String,
         archive: Boolean,
+        extraParams: Map<String, String> = emptyMap(), // For host flexibility
         callback: TransactionCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -49,25 +51,30 @@ object TransactionSdk {
 
         val sArchive = if (archive) "1" else "0"
 
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "archive" to sArchive,
+            "merchantid" to merchantId,
+            "month" to month,
+            "year" to year,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceName(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge optional fields from host
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.transactionAPI(
-                    custId = custId,
-                    archive = sArchive,
-                    merchantId = merchantId,
-                    month = month,
-                    year = year,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceName(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.transactionAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -84,11 +91,13 @@ object TransactionSdk {
         }
     }
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getTransactionDetail(
         context: Context,
         type: String,
         transId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: TransactionDetailCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -96,23 +105,27 @@ object TransactionSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "type" to type,
+            "transid" to transId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceName(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge dynamic/optional params from host
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService
-                    .transactionDetailAPI(
-                        type = type,
-                        transactionId = transId,
-                        date = NetworkUtils.unixTimeStamp().toString(),
-                        vc = NetworkUtils.getVCKey(),
-                        os = NetworkUtils.getOsVersion(),
-                        phoneName = NetworkUtils.getDeviceName(context),
-                        phoneType = NetworkUtils.getDeviceLayoutType(context),
-                        sectoken = AppUtil.applicationToken,
-                        lang = AppUtil.language,
-                        deviceid = AppUtil.getDeviceId(context),
-                        deviceType = NetworkUtils.getDeviceName(context),
-                        sv = Constants.svc
-                    )
+                val response = retrofitService.transactionDetailAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -130,10 +143,12 @@ object TransactionSdk {
     }
 
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun releasePoints(
         context: Context,
         receiptNo: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: ReleasePointsCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -141,20 +156,24 @@ object TransactionSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "receipt_no" to receiptNo,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        // Merge optional dynamic fields from host
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.releasePoints(
-                    reciptNo = receiptNo,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    sv = Constants.svc
-
-                )
+                val response = retrofitService.releasePoints(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

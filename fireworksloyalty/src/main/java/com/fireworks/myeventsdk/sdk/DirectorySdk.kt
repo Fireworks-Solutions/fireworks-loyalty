@@ -41,6 +41,7 @@ object DirectorySdk {
         context: Context,
         custID: String,
         merchantId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryDetailCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -48,20 +49,25 @@ object DirectorySdk {
             return
         }
 
+        val fieldMap = mutableMapOf(
+            "custid" to custID,
+            "mall" to AppUtil.mall.toString(),
+            "merchantid" to merchantId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Host app can add fields like "language", "version", etc.
+        fieldMap.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.directoryDetailAPI(
-                    custid = custID,
-                    mall = AppUtil.mall,
-                    merchantId = merchantId,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.directoryDetailAPI(fieldMap)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -70,7 +76,6 @@ object DirectorySdk {
                         callback.onFailure("Directory API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Request timed out")
@@ -88,6 +93,7 @@ object DirectorySdk {
     fun getDirectory(
         context: Context,
         categoryId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -95,19 +101,24 @@ object DirectorySdk {
             return
         }
 
+        val fieldMap = mutableMapOf(
+            "categoryid" to categoryId,
+            "mall" to AppUtil.mall.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Add optional params provided by host app
+        fieldMap.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.directoryAPI(
-                    categoryId = categoryId,
-                    mall = AppUtil.mall,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.directoryAPI(fieldMap)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -116,7 +127,6 @@ object DirectorySdk {
                         callback.onFailure("Directory API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Request timed out")
@@ -129,10 +139,12 @@ object DirectorySdk {
         }
     }
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun searchDirectory(
         context: Context,
         searchTerm: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DirectorySearchCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -140,19 +152,24 @@ object DirectorySdk {
             return
         }
 
+        val params = mutableMapOf(
+            "mall" to AppUtil.mall.toString(),
+            "searchterm" to searchTerm,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        // Merge additional fields
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.directorySearchAPI(
-                    mall = AppUtil.mall,
-                    searchTerm = searchTerm,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.directorySearchAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -161,7 +178,6 @@ object DirectorySdk {
                         callback.onFailure("Directory search failed: ${response.code()}")
                     }
                 }
-
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Request timed out")
@@ -174,10 +190,12 @@ object DirectorySdk {
         }
     }
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getDirectoryCategory(
         context: Context,
         merchantId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryCategoryCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -185,19 +203,23 @@ object DirectorySdk {
             return
         }
 
+        val params = mutableMapOf(
+            "merchantid" to merchantId,
+            "mall" to AppUtil.mall.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.directoryCategoryAPI(
-                    merchantId = merchantId,
-                    mall = AppUtil.mall,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.directoryCategoryAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -206,7 +228,6 @@ object DirectorySdk {
                         callback.onFailure("Directory category failed: ${response.code()}")
                     }
                 }
-
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Request timed out")
@@ -222,6 +243,7 @@ object DirectorySdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getDirectoryFloor(
         context: Context,
+        extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryFloorCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -229,18 +251,22 @@ object DirectorySdk {
             return
         }
 
+        val params = mutableMapOf(
+            "mall" to AppUtil.mall.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "svc" to Constants.svc
+        )
+
+        params.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.directoryFloorAPI(
-                    mall = AppUtil.mall,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    sv = Constants.svc
-                )
+                val response = retrofitService.directoryFloorAPI(params)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -249,7 +275,6 @@ object DirectorySdk {
                         callback.onFailure("Directory floor failed: ${response.code()}")
                     }
                 }
-
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure("Request timed out")
@@ -261,6 +286,7 @@ object DirectorySdk {
             }
         }
     }
+
 
 
 

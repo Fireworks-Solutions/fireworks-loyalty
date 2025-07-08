@@ -31,10 +31,12 @@ class PromotionsSdk {
         retrofitService = retrofit.create(Service::class.java)
     }
 
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getNewsDetail(
         context: Context,
         newsId: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: NewsDetailCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -42,22 +44,27 @@ class PromotionsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "mall" to AppUtil.currentMall.toString(),
+            "newsid" to newsId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Allow overriding or adding new fields
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.newsDetailAPI(
-                    mall = AppUtil.currentMall.toString(),
-                    newsId = newsId,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.newsDetailAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -66,7 +73,6 @@ class PromotionsSdk {
                         callback.onFailure("News detail fetch failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
@@ -74,12 +80,16 @@ class PromotionsSdk {
             }
         }
     }
+
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getNews(
         context: Context,
         start: Int,
         category: String,
         latest: String,
+        extraParams: Map<String, String> = emptyMap(),
         callback: NewsListCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -87,24 +97,29 @@ class PromotionsSdk {
             return
         }
 
+        val fields = mutableMapOf(
+            "mall" to AppUtil.currentMall.toString(),
+            "latest" to latest,
+            "start" to start.toString(),
+            "category" to category,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to AppUtil.applicationToken,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge any additional parameters from the host app
+        fields.putAll(extraParams)
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.newsAPI(
-                    mall = AppUtil.currentMall.toString(),
-                    latest = latest,
-                    start = start,
-                    category = category,
-                    date = NetworkUtils.unixTimeStamp().toString(),
-                    vc = NetworkUtils.getVCKey(),
-                    os = NetworkUtils.getOsVersion(),
-                    phoneName = NetworkUtils.getDeviceName(context),
-                    phoneType = NetworkUtils.getDeviceLayoutType(context),
-                    sectoken = AppUtil.applicationToken,
-                    lang = AppUtil.language,
-                    deviceid = AppUtil.getDeviceId(context),
-                    deviceType = NetworkUtils.getDeviceLayoutType(context),
-                    sv = Constants.svc
-                )
+                val response = retrofitService.newsAPI(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -113,7 +128,6 @@ class PromotionsSdk {
                         callback.onFailure("News API failed: ${response.code()}")
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onFailure(e.localizedMessage ?: "Unexpected error")
