@@ -10,7 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/myeventsdk" />
+            <option value="$PROJECT_DIR$/fireworksloyalty" />
           </set>
         </option>
       </GradleProjectSettings>

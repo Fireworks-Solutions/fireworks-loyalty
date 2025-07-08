@@ -23,5 +23,5 @@ dependencyResolutionManagement {
 
 
 rootProject.name = "FireworksSdk"
-include(":fireworksloyaltysdk")
+include(":fireworksloyalty")
 
