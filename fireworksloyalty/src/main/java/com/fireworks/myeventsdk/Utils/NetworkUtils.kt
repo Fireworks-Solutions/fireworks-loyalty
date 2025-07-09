@@ -177,10 +177,4 @@ object NetworkUtils {
         return buf.toString()
     }
 
-//    @SuppressLint("HardwareIds")
-//    fun getDeviceId(): String {
-//        val androidId =
-//            Settings.Secure.getString(App.instance?.contentResolver, Settings.Secure.ANDROID_ID)
-//        return UUID.nameUUIDFromBytes(androidId.toByteArray()).toString()
-//    }
 }

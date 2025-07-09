@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 object SplashSdk {
-
+    //test
     private lateinit var retrofitService: Service
     private lateinit var appPreference: AppPreference
 

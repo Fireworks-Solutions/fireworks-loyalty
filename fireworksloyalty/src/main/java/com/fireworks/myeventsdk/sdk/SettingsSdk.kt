@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.net.SocketTimeoutException
 
 object SettingsSdk {
-
+//test
 
     private lateinit var retrofitService: Service
     private lateinit var appPreference: AppPreference

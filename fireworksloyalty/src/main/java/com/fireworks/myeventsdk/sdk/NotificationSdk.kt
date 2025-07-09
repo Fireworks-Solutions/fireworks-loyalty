@@ -19,7 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NotificationSdk {
-
+    //test
     private lateinit var retrofitService: Service
     private lateinit var appPreference: AppPreference
 

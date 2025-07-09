@@ -1,8 +1,6 @@
-package digital.fireworks.kpdrm.storage
+package com.fireworks.myeventsdk.Utils.storage
 
 import android.content.Context
-import android.util.Log
-import com.fireworks.myeventsdk.Utils.Constants
 
 
 object LocalStorage {
@@ -79,5 +77,5 @@ object LocalStorage {
                 ?.plus(it).toString()
         }?:""
     }
-
+//test
 }

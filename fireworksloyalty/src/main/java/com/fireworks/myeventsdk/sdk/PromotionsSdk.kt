@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class PromotionsSdk {
-
+    //test
     private lateinit var retrofitService: Service
     private lateinit var appPreference: AppPreference
 
