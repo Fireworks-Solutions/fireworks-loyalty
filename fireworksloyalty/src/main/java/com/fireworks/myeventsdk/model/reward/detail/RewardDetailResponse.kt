@@ -1,20 +1,18 @@
-package com.incredibleqr.mysogo.data.remote.model.reward.detail
+package com.fireworks.myeventsdk.model.reward.detail
 
 import com.google.gson.annotations.SerializedName
-import javax.annotation.Generated
 
-@Generated("com.robohorse.robopojogenerator")
 data class RewardDetailResponse(
 
-	@field:SerializedName("details")
+    @field:SerializedName("details")
 	val details: List<DetailsItem?>? = null,
 
-	@field:SerializedName("custname")
+    @field:SerializedName("custname")
 	val custname: String? = null,
 
-	@field:SerializedName("status")
+    @field:SerializedName("status")
 	val status: String? = null,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String? = null
 )

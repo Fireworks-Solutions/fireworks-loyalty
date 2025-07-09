@@ -1,11 +1,11 @@
-package com.incredibleqr.mysogo.util.offline_caching
+package com.fireworks.myeventsdk.model.offline_caching
 
-import com.incredibleqr.mysogo.data.remote.model.PointDetailResponse
-import com.incredibleqr.mysogo.data.remote.model.dashboard.DashboardResponse
-import com.incredibleqr.mysogo.data.remote.model.event.EventResponse
+import com.fireworks.myeventsdk.model.EventResponse
+import com.fireworks.myeventsdk.model.PointDetailResponse
+import com.fireworks.myeventsdk.model.Profile.ProfileResponse
+import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
 import com.incredibleqr.mysogo.data.remote.model.mall.MultiMallResponse
 import com.fireworks.myeventsdk.model.news.NewsResponse
-import com.incredibleqr.mysogo.data.remote.model.profile.ProfileResponse
 import io.paperdb.Paper
 
 object SaveJsonResponses {

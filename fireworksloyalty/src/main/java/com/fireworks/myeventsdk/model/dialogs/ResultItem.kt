@@ -1,9 +1,7 @@
-package com.incredibleqr.mysogo.data.remote.model.dialogs
+package com.fireworks.myeventsdk.model.dialogs
 
-import javax.annotation.Generated
 import com.google.gson.annotations.SerializedName
 
-@Generated("com.robohorse.robopojogenerator")
 data class ResultItem(
 
 	@field:SerializedName("image")

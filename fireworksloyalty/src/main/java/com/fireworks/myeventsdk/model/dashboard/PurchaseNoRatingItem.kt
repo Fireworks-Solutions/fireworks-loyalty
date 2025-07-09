@@ -1,9 +1,7 @@
-package com.incredibleqr.mysogo.data.remote.model.dashboard
+package com.fireworks.myeventsdk.model.dashboard
 
 import com.google.gson.annotations.SerializedName
-import javax.annotation.Generated
 
-@Generated("com.robohorse.robopojogenerator")
 data class PurchaseNoRatingItem (
 
         @field:SerializedName("title")

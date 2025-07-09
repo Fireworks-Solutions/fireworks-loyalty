@@ -1,9 +1,7 @@
-package com.incredibleqr.mysogo.data.remote.model.wallet.voucher
+package com.fireworks.myeventsdk.model.wallet.voucher
 
-import javax.annotation.Generated
 import com.google.gson.annotations.SerializedName
 
-@Generated("com.robohorse.robopojogenerator")
 data class PeopleItem(
 
 	@field:SerializedName("custid")

@@ -17,8 +17,8 @@ import com.incredibleqr.mysogo.data.remote.model.ShippingPointResponse
 import com.incredibleqr.mysogo.data.remote.model.branch.states.StatesResponse
 import com.incredibleqr.mysogo.data.remote.model.dailyReward.DailyRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.daily_check_in.DailyCheckInResponse
-import com.incredibleqr.mysogo.data.remote.model.dashboard.DashboardResponse
-import com.incredibleqr.mysogo.data.remote.model.dialogs.VersionChecking
+import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
+import com.fireworks.myeventsdk.model.dialogs.VersionChecking
 import com.fireworks.myeventsdk.model.directory.detail.DirectoryDetailResponse
 import com.fireworks.myeventsdk.model.directory.floor.DirectoryFloorResponse
 import com.fireworks.myeventsdk.model.facility.FacilityResponse
@@ -40,11 +40,11 @@ import com.incredibleqr.mysogo.data.remote.model.ReferralDataResponse
 import com.incredibleqr.mysogo.data.remote.model.inAppAlert.InAppAlertResponse
 import com.incredibleqr.mysogo.data.remote.model.mall.MultiMallResponse
 import com.incredibleqr.mysogo.data.remote.model.reward.RewardResponse
-import com.incredibleqr.mysogo.data.remote.model.reward.category.RewardCategoryResponse
-import com.incredibleqr.mysogo.data.remote.model.reward.detail.RewardDetailResponse
+import com.fireworks.myeventsdk.model.reward.category.RewardCategoryResponse
+import com.fireworks.myeventsdk.model.reward.detail.RewardDetailResponse
 import com.fireworks.myeventsdk.model.wallet.WalletResponse
-import com.incredibleqr.mysogo.data.remote.model.wallet.detail.WalletDetailResponse
-import com.incredibleqr.mysogo.data.remote.model.wallet.multiple.WalletMultipleResponse
+import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
+import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import digital.fireworks.kpdrm.data.dto.events_detail.Detail
 
 class CommonInterface {

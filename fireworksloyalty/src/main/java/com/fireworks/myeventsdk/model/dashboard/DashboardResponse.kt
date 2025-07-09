@@ -1,10 +1,8 @@
-package com.incredibleqr.mysogo.data.remote.model.dashboard
+package com.fireworks.myeventsdk.model.dashboard
 
 import com.google.gson.annotations.SerializedName
 import com.fireworks.myeventsdk.model.news.NewsItem
-import javax.annotation.Generated
 
-@Generated("com.robohorse.robopojogenerator")
 data class DashboardResponse(
 
         @field:SerializedName("profile")

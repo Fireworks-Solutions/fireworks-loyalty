@@ -1,7 +1,6 @@
-package com.incredibleqr.mysogo.data.remote.model.dashboard
+package com.fireworks.myeventsdk.model.dashboard
 
-import javax.annotation.Generated
-import com.google.gson.annotations.SerializedName
+import com.incredibleqr.mysogo.data.remote.model.dashboard.LabelInfo
 
 data class RewardsItem(
 	val date: String,

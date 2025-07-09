@@ -1,7 +1,7 @@
 package com.fireworks.myeventsdk.Utils
 
 import android.content.Context
-import com.incredibleqr.mysogo.data.remote.model.dashboard.DashboardResponse
+import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
 
 class AppUtil {
 

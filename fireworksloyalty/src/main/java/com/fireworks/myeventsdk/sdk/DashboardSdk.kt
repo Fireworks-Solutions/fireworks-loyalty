@@ -2,7 +2,6 @@ package com.fireworks.myeventsdk.sdk
 
 import android.Manifest
 import android.content.Context
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
@@ -16,7 +15,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.RatePurchaseCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.PrefConstant
-import com.incredibleqr.mysogo.util.offline_caching.GetJsonResponse
+import com.fireworks.myeventsdk.model.offline_caching.GetJsonResponse
 import com.incredibleqr.mysogo.util.offline_caching.OfflineCacheUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,23 +1,21 @@
-package com.incredibleqr.mysogo.data.remote.model.wallet.detail
+package com.fireworks.myeventsdk.model.wallet.detail
 
 import com.google.gson.annotations.SerializedName
-import javax.annotation.Generated
 
-@Generated("com.robohorse.robopojogenerator")
 data class WalletDetailResponse(
 
-	@field:SerializedName("shared_message")
+    @field:SerializedName("shared_message")
 	val shareMessage: ShareMessage? = null,
 
-	@field:SerializedName("details")
+    @field:SerializedName("details")
 	val details: List<DetailsItem?>? = null,
 
-	@field:SerializedName("custname")
+    @field:SerializedName("custname")
 	val custname: String? = null,
 
-	@field:SerializedName("status")
+    @field:SerializedName("status")
 	val status: String? = null,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String? = null
 )

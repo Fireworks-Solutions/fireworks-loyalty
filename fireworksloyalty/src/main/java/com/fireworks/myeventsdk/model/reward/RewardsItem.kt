@@ -1,10 +1,8 @@
-package com.incredibleqr.mysogo.data.remote.model.reward
+package com.fireworks.myeventsdk.model.reward
 
-import javax.annotation.Generated
 import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.dashboard.LabelInfo
 
-@Generated("com.robohorse.robopojogenerator")
 data class RewardsItem(
 
 	@field:SerializedName("buy_to")

@@ -1,7 +1,6 @@
 package com.fireworks.myeventsdk.model.wallet
 
 import com.google.gson.annotations.SerializedName
-import com.incredibleqr.mysogo.data.remote.model.wallet.WalletItem
 
 
 data class WalletResponse(

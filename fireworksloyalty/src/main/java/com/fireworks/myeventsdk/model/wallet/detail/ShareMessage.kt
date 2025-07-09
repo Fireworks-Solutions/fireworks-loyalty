@@ -1,7 +1,6 @@
-package com.incredibleqr.mysogo.data.remote.model.wallet.detail
+package com.fireworks.myeventsdk.model.wallet.detail
 
 import com.google.gson.annotations.SerializedName
-import javax.annotation.Generated
 
 /**
  * @project:      Asterspring
@@ -12,7 +11,6 @@ import javax.annotation.Generated
  * @since:        25/08/2019 13:30
  */
 
-@Generated("com.robohorse.robopojogenerator")
 data class ShareMessage(
 
 @field:SerializedName("to")

@@ -1,10 +1,8 @@
-package com.incredibleqr.mysogo.data.remote.model.wallet
+package com.fireworks.myeventsdk.model.wallet
 
 import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.dashboard.LabelInfo
-import javax.annotation.Generated
 
-@Generated("com.robohorse.robopojogenerator")
 data class WalletItem(
 
     @field:SerializedName("img")

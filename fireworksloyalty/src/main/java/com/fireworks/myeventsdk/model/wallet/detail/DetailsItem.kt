@@ -1,10 +1,8 @@
-package com.incredibleqr.mysogo.data.remote.model.wallet.detail
+package com.fireworks.myeventsdk.model.wallet.detail
 
-import javax.annotation.Generated
 import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.reward.detail.MerchantItem
 
-@Generated("com.robohorse.robopojogenerator")
 data class DetailsItem(
 
         @field:SerializedName("validity_message")

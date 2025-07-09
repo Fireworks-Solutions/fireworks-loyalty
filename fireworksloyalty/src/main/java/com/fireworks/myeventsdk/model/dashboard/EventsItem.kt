@@ -1,9 +1,7 @@
-package com.incredibleqr.mysogo.data.remote.model.dashboard
+package com.fireworks.myeventsdk.model.dashboard
 
-import javax.annotation.Generated
 import com.google.gson.annotations.SerializedName
 
-@Generated("com.robohorse.robopojogenerator")
 data class EventsItem(
 
 	@field:SerializedName("date")

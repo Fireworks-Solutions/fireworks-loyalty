@@ -1,12 +1,6 @@
 package com.fireworks.myeventsdk.NetworkService
 
-import android.Manifest
-import android.content.Context
-import androidx.annotation.RequiresPermission
-import com.fireworks.myeventsdk.Utils.AppUtil
-import com.fireworks.myeventsdk.Utils.CommonInterface.DirectorySearchCallback
 import com.fireworks.myeventsdk.Utils.Constants
-import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
@@ -14,8 +8,6 @@ import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
-import com.fireworks.myeventsdk.model.promotions_news.PromotionNewsResponse
-import com.fireworks.myeventsdk.model.HighlightsCategoriesResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
@@ -26,8 +18,8 @@ import com.incredibleqr.mysogo.data.remote.model.ShippingPointResponse
 import com.incredibleqr.mysogo.data.remote.model.branch.states.StatesResponse
 import com.incredibleqr.mysogo.data.remote.model.dailyReward.DailyRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.daily_check_in.DailyCheckInResponse
-import com.incredibleqr.mysogo.data.remote.model.dashboard.DashboardResponse
-import com.incredibleqr.mysogo.data.remote.model.dialogs.VersionChecking
+import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
+import com.fireworks.myeventsdk.model.dialogs.VersionChecking
 import com.fireworks.myeventsdk.model.facility.FacilityResponse
 import com.fireworks.myeventsdk.model.facility.category.FacilityCategoryResponse
 import com.fireworks.myeventsdk.model.facility.floor.FacilityFloorResponse
@@ -39,8 +31,8 @@ import com.incredibleqr.mysogo.data.remote.model.inAppAlert.InAppAlertResponse
 import com.incredibleqr.mysogo.data.remote.model.mall.MultiMallResponse
 import com.fireworks.myeventsdk.model.notifications.NotificationResponse
 import com.incredibleqr.mysogo.data.remote.model.reward.RewardResponse
-import com.incredibleqr.mysogo.data.remote.model.reward.category.RewardCategoryResponse
-import com.incredibleqr.mysogo.data.remote.model.reward.detail.RewardDetailResponse
+import com.fireworks.myeventsdk.model.reward.category.RewardCategoryResponse
+import com.fireworks.myeventsdk.model.reward.detail.RewardDetailResponse
 import com.fireworks.myeventsdk.model.shop.ShopResponse
 import com.fireworks.myeventsdk.model.support.SupportResponse
 import com.fireworks.myeventsdk.model.transaction.TransactionDetailResponse
@@ -50,22 +42,15 @@ import com.fireworks.myeventsdk.model.wallet.WalletResponse
 import com.fireworks.myeventsdk.model.migratedUser.MigratedUserDataResponse
 import com.fireworks.myeventsdk.model.register.RegisterResponse
 import com.fireworks.myeventsdk.model.country.CountryListResponse
-import com.incredibleqr.mysogo.data.remote.model.wallet.detail.WalletDetailResponse
-import com.incredibleqr.mysogo.data.remote.model.wallet.multiple.WalletMultipleResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
+import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import retrofit2.Response
-import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Query
 import retrofit2.http.QueryMap
-import java.net.SocketTimeoutException
 
 interface Service {
 

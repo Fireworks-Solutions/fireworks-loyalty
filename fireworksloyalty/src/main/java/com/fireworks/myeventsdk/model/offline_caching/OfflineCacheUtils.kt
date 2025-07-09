@@ -1,6 +1,7 @@
 package com.incredibleqr.mysogo.util.offline_caching
 
 import android.annotation.SuppressLint
+import com.fireworks.myeventsdk.model.offline_caching.GetJsonResponse
 import io.paperdb.Paper
 import java.text.SimpleDateFormat
 
