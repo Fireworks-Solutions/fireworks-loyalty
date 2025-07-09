@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MigrateSdk {
+object MigrateSdk {
 
     //test
     private lateinit var retrofitService: Service

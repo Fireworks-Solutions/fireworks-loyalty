@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PromotionsSdk {
+object PromotionsSdk {
     //test
     private lateinit var retrofitService: Service
     private lateinit var appPreference: AppPreference
