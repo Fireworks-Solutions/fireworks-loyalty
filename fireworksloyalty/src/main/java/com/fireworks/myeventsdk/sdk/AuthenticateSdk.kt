@@ -103,6 +103,8 @@ object AuthenticateSdk {
                             appPreference.putString(PrefConstant.USER_LNAME, loginResponse.lname)
                             appPreference.putString(PrefConstant.USER_TOKEN, loginResponse.token)
                             appPreference.putBoolean(PrefConstant.REMEMBER_ME, true)
+
+                            AppUtil.applicationToken = loginResponse.token ?: ""
                         }
 
                         Log.d("AuthenticateSdk", "Login successful: $loginResponse")
