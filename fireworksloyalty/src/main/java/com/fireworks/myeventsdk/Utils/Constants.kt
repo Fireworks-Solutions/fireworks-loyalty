@@ -25,7 +25,7 @@ object Constants {
     const val SIGN_UP_JUNIOR_API = "$API_PATH/registerjr.php?"
 
     //DASHBOARD API
-    const val DASHBOARD_API = "$API_PATH/dashboard.php?"
+    const val DASHBOARD_API = "$API1_PATH/dashboard.php?"
 
     //USER INFO API
     const val PROFILE_PIC_API = "$API_PATH/getProfileImage.php?"
