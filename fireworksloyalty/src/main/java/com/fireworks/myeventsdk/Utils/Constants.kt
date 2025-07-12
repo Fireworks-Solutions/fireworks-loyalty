@@ -9,7 +9,7 @@ object Constants {
      * network
      */
     //LOGIN API
-    const val LOGIN_API = "$API_PATH/login.php?"
+    const val LOGIN_API = "$API1_PATH/login.php?"
     const val ADD_DEVICE_TOKEN_API = "$API_PATH/addDeviceToken.php?"
     const val CHECK_SESSION_API = "$API_PATH/checkSession.php"
     const val VERIFY_PASSWORD_API = "$API_PATH/get_verify_password.php?"
