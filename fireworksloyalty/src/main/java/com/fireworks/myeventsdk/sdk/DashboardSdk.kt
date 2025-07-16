@@ -98,6 +98,7 @@ object DashboardSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun dashboardAPI(
         context: Context,
+        mall: String,
         custId: String,
         mercId: String,
         appVersion: String,
@@ -121,7 +122,7 @@ object DashboardSdk {
         }
 
         val params = mutableMapOf(
-            "mall" to AppUtil.currentMall.toString(),
+            "mall" to mall,
             "custid" to custId,
             "mercid" to mercId,
             "lat" to AppUtil.latitude.toString(),

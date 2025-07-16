@@ -35,6 +35,7 @@ object PromotionsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getNewsDetail(
         context: Context,
+        mall : String,
         newsId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: NewsDetailCallback
@@ -45,7 +46,7 @@ object PromotionsSdk {
         }
 
         val fields = mutableMapOf(
-            "mall" to AppUtil.currentMall.toString(),
+            "mall" to mall,
             "newsid" to newsId,
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "vc" to NetworkUtils.getVCKey(),
@@ -87,6 +88,7 @@ object PromotionsSdk {
     fun getNews(
         context: Context,
         start: Int,
+        mall: String,
         category: String,
         latest: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -98,7 +100,7 @@ object PromotionsSdk {
         }
 
         val fields = mutableMapOf(
-            "mall" to AppUtil.currentMall.toString(),
+            "mall" to mall,
             "latest" to latest,
             "start" to start.toString(),
             "category" to category,

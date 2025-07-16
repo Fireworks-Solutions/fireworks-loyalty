@@ -211,6 +211,7 @@ object RewardsSdk {
     fun getWallet(
         context: Context,
         custId: String,
+        mall: String,
         merchantId: String,
         walletType: String,
         condition: String,
@@ -224,7 +225,7 @@ object RewardsSdk {
         }
 
         val params = mutableMapOf(
-            "mall" to AppUtil.currentMall.toString(),
+            "mall" to mall,
             "custid" to custId,
             "mercid" to merchantId,
             "type" to walletType,
@@ -607,6 +608,7 @@ object RewardsSdk {
     fun getReward(
         context: Context,
         custId: String,
+        mall: String,
         merchantId: String,
         offset: String,
         location: String,
@@ -626,7 +628,7 @@ object RewardsSdk {
         val appPreference = AppPreference.getInstance(context)
 
         val fieldMap = mutableMapOf(
-            "mall" to AppUtil.currentMall.toString(),
+            "mall" to mall,
             "custid" to custId,
             "mercid" to merchantId,
             "offset" to offset,
@@ -730,6 +732,7 @@ object RewardsSdk {
     fun getMultiWallet(
         context: Context,
         custId: String,
+        mall: String,
         merchantId: String,
         type: String,
         id: String,
@@ -743,7 +746,7 @@ object RewardsSdk {
         }
 
         val fields = mutableMapOf(
-            "mall" to AppUtil.currentMall.toString(),
+            "mall" to mall,
             "custid" to custId,
             "mercid" to merchantId,
             "type" to type,
