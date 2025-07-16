@@ -9,7 +9,7 @@ class AppUtil {
         var applicationToken = ""
         var language = "en"
         var dashboardResponse: DashboardResponse? = null
-        var currentMall = 0
+        var currentMall = 12
         var latitude = 0.0
         var longitude = 0.0
         var mall = 0
@@ -18,5 +18,4 @@ class AppUtil {
         }
     }
 
-//test
 }

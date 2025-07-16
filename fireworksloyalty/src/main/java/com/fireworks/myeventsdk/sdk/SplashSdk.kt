@@ -2,6 +2,7 @@ package com.fireworks.myeventsdk.sdk
 
 import android.Manifest
 import android.content.Context
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
@@ -69,6 +70,8 @@ object SplashSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)
+                        Log.d("Version", "successful: $response")
+
                     } else {
                         callback.onFailure("Error: ${response.code()}")
                     }

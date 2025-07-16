@@ -2,6 +2,7 @@ package com.fireworks.myeventsdk.sdk
 
 import android.Manifest
 import android.content.Context
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
@@ -78,6 +79,8 @@ object DashboardSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)
+                        Log.d("ratePurchase", "successful: $response")
+
                     } else {
                         callback.onFailure("Rating failed with status: ${response.code()}")
                     }
@@ -147,6 +150,8 @@ object DashboardSdk {
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
+                        Log.d("Dashboard", "successful: $response")
+
                         AppUtil.dashboardResponse = response.body()!!
                         callback.onSuccess(response.body()!!)
                     } else {
@@ -255,6 +260,8 @@ object DashboardSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         callback?.onSuccess()
+                        Log.d("devicetoken", "successful: $response")
+
                     } else {
                         callback?.onFailure("Failed with status: ${response.code()}")
                     }
@@ -298,6 +305,8 @@ object DashboardSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)
+                        Log.d("alerts", "successful: $response")
+
                     } else {
                         callback.onFailure("API failed with status: ${response.code()}")
                     }
@@ -343,6 +352,8 @@ object DashboardSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess()
+                        Log.d("points", "successful: $response")
+
                     } else {
                         callback.onFailure("Error: ${response.code()}")
                     }
