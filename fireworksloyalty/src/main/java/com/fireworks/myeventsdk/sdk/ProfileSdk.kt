@@ -43,6 +43,7 @@ object ProfileSdk {
     fun profileAPI(
         context: Context,
         merchantId: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: CommonInterface.ProfileCallback
     ) {
@@ -61,7 +62,7 @@ object ProfileSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -122,6 +123,7 @@ object ProfileSdk {
         race: String,
         income: Int,
         interests: String,
+        token: String,
         addressone: String,
         addresstwo: String,
         state: String,
@@ -178,7 +180,7 @@ object ProfileSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -209,6 +211,7 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun addPoints(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: AddPointsCallback
     ) {
@@ -228,7 +231,7 @@ object ProfileSdk {
                     "os" to NetworkUtils.getOsVersion(),
                     "phonename" to NetworkUtils.getDeviceName(context),
                     "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-                    "sectoken" to AppUtil.applicationToken,
+                    "sectoken" to token ,
                     "svc" to Constants.svc
                 )
 
@@ -257,6 +260,7 @@ object ProfileSdk {
     fun updatePassword(
         context: Context,
         newPassword: String,
+        token: String,
         oldPassword: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: PasswordUpdateCallback
@@ -288,7 +292,7 @@ object ProfileSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -322,6 +326,7 @@ object ProfileSdk {
     fun setPassword(
         context: Context,
         newPassword: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: SetPasswordCallback
     ) {
@@ -351,7 +356,7 @@ object ProfileSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),

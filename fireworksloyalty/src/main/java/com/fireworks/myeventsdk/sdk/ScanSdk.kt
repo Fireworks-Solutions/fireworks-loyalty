@@ -36,6 +36,7 @@ object ScanSdk {
         context: Context,
         custId: String,
         pic: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: UploadImageCallback
     ) {
@@ -49,7 +50,7 @@ object ScanSdk {
             "pic" to pic,
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "vc" to NetworkUtils.getVCKey(),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -82,6 +83,7 @@ object ScanSdk {
         mallId: String,
         custId: String,
         merchantId: String,
+        token: String,
         price: String,
         receiptNum: String,
         picName: String,
@@ -107,7 +109,7 @@ object ScanSdk {
             "pic_name" to picName,
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "vc" to NetworkUtils.getVCKey(),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 

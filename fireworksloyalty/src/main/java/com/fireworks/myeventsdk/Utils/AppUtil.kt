@@ -6,7 +6,7 @@ import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
 class AppUtil {
 
     companion object {
-        var applicationToken = ""
+//        var applicationToken = ""
         var language = "en"
         var dashboardResponse: DashboardResponse? = null
         var latitude = 0.0

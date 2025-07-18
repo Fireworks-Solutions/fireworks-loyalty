@@ -36,6 +36,7 @@ object PromotionsSdk {
     fun getNewsDetail(
         context: Context,
         mall : String,
+        token: String,
         newsId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: NewsDetailCallback
@@ -53,7 +54,7 @@ object PromotionsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -90,6 +91,7 @@ object PromotionsSdk {
         start: Int,
         mall: String,
         category: String,
+        token: String,
         latest: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: NewsListCallback
@@ -109,7 +111,7 @@ object PromotionsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),

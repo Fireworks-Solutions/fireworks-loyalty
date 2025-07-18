@@ -47,6 +47,7 @@ object RewardsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getDailyRewards(
         context: Context,
+        token: String,
         custId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: DailyRewardsCallback
@@ -63,7 +64,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -100,6 +101,7 @@ object RewardsSdk {
     fun checkIn(
         context: Context,
         custId: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(), // <- Optional additional fields
         callback: CheckInCallback
     ) {
@@ -115,7 +117,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -152,6 +154,7 @@ object RewardsSdk {
         context: Context,
         custId: String,
         merchantId: String,
+        token: String,
         id: String,
         type: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -172,7 +175,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -213,6 +216,7 @@ object RewardsSdk {
         custId: String,
         mall: String,
         merchantId: String,
+        token: String,
         walletType: String,
         condition: String,
         start: Int,
@@ -236,7 +240,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token ,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -275,6 +279,7 @@ object RewardsSdk {
     fun verifyPassword(
         context: Context,
         custId: String,
+        token: String,
         password: String,
         extraParams: Map<String, String> = emptyMap(), // Host app can add more fields
         callback: VerifyPasswordCallback
@@ -292,7 +297,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -382,6 +387,7 @@ object RewardsSdk {
         itemId: String,
         custId: String,
         quantity: String,
+        token: String,
         method: String,
         extraParams: Map<String, String> = emptyMap(), // Optional
         callback: PickupCheckoutCallback
@@ -401,7 +407,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -437,6 +443,7 @@ object RewardsSdk {
     fun rewardCheckout(
         context: Context,
         itemId: String,
+        token: String,
         custId: String,
         quantity: String,
         method: String,
@@ -460,7 +467,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -498,6 +505,7 @@ object RewardsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getShippingPointByName(
         context: Context,
+        token: String,
         rewardId: String,
         stateName: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -516,7 +524,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -550,6 +558,7 @@ object RewardsSdk {
     fun getRewardDetail(
         context: Context,
         custId: String,
+        token: String,
         merchantId: String,
         couponId: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -571,7 +580,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -611,6 +620,7 @@ object RewardsSdk {
         mall: String,
         merchantId: String,
         offset: String,
+        token: String,
         location: String,
         lat: String,
         long: String,
@@ -642,7 +652,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to lang,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -679,6 +689,7 @@ object RewardsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getRewardCategory(
         context: Context,
+        token: String,
         merchantId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: RewardCategoryCallback
@@ -695,7 +706,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -733,6 +744,7 @@ object RewardsSdk {
         context: Context,
         custId: String,
         mall: String,
+        token: String,
         merchantId: String,
         type: String,
         id: String,
@@ -757,7 +769,7 @@ object RewardsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),

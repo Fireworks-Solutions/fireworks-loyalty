@@ -44,6 +44,7 @@ object SettingsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getStates(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: StatesCallback
     ) {
@@ -58,7 +59,7 @@ object SettingsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -90,6 +91,7 @@ object SettingsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getCountryList(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: CountryListCallback
     ) {
@@ -104,7 +106,7 @@ object SettingsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -176,6 +178,7 @@ object SettingsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getMemberCenterList(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: UsefulLinkCallback
     ) {
@@ -190,7 +193,7 @@ object SettingsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -220,6 +223,7 @@ object SettingsSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getSettings(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: SettingsCallback
     ) {
@@ -235,7 +239,7 @@ object SettingsSdk {
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "vc" to NetworkUtils.getVCKey(),
             "custid" to custId,
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "os" to NetworkUtils.getOsVersion(),
             "deviceid" to AppUtil.getDeviceId(context),
@@ -271,6 +275,7 @@ object SettingsSdk {
     fun updateSettings(
         context: Context,
         setting: String,
+        token: String,
         notifications: Boolean,
         nearby: Boolean,
         generali: Boolean,
@@ -297,7 +302,7 @@ object SettingsSdk {
             "general" to general,
             "news" to news,
             "righthere" to righthere,
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "os" to NetworkUtils.getOsVersion(),
             "deviceid" to AppUtil.getDeviceId(context),
@@ -333,6 +338,7 @@ object SettingsSdk {
         context: Context,
         name: String,
         phone: String,
+        token: String,
         email: String,
         subject: String,
         description: String,
@@ -359,7 +365,7 @@ object SettingsSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceName(context),

@@ -6,7 +6,6 @@ import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
-import com.fireworks.myeventsdk.Utils.AppUtil.Companion.applicationToken
 import com.fireworks.myeventsdk.Utils.CommonInterface.ArchiveNotificationCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.NotificationCallback
 import com.fireworks.myeventsdk.Utils.Constants
@@ -36,6 +35,7 @@ object NotificationSdk {
     fun getNotifications(
         context: Context,
         custId: String,
+        token: String,
         read: String,
         archive: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -55,7 +55,7 @@ object NotificationSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -90,6 +90,7 @@ object NotificationSdk {
         inboxId: String,
         archive: String,
         read: String,
+        token: String,
         type: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: ArchiveNotificationCallback
@@ -111,7 +112,7 @@ object NotificationSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -126,7 +127,7 @@ object NotificationSdk {
                 withContext(Dispatchers.Main) {
                     if (response.body()?.status?.contains("get new token", ignoreCase = true) == true) {
                         callback.onTokenExpired {
-                            archiveNotification(context, custId, inboxId, archive, read, type, extraParams, callback)
+                            archiveNotification(context, custId, inboxId, archive, read, type, token,extraParams, callback)
                         }
                     } else if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)
@@ -137,7 +138,7 @@ object NotificationSdk {
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     callback.onTokenExpired {
-                        archiveNotification(context, custId, inboxId, archive, read, type, extraParams, callback)
+                        archiveNotification(context, custId, inboxId, archive, read, type, token,extraParams, callback)
                     }
                 }
             }

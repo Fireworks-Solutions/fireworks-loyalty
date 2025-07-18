@@ -48,6 +48,7 @@ object DashboardSdk {
         context: Context,
         purchaseId: String,
         rating: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: RatePurchaseCallback
     ) {
@@ -65,7 +66,7 @@ object DashboardSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -101,6 +102,7 @@ object DashboardSdk {
         mall: String,
         custId: String,
         mercId: String,
+        token: String,
         appVersion: String,
         pv: String,
         deviceFlavour: String,
@@ -132,7 +134,7 @@ object DashboardSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
@@ -172,6 +174,7 @@ object DashboardSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun multiMallAPI(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: MultiMallCallback
     ) {
@@ -193,7 +196,7 @@ object DashboardSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -246,7 +249,7 @@ object DashboardSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )

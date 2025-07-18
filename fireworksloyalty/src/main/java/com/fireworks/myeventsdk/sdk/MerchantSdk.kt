@@ -35,6 +35,7 @@ object MerchantSdk {
     fun shopAPI(
         context: Context,
         merchantId: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: ShopCallback
     ) {
@@ -50,7 +51,7 @@ object MerchantSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 

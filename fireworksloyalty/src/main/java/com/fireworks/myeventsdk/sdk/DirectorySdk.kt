@@ -40,6 +40,7 @@ object DirectorySdk {
     fun getDirectoryDetail(
         context: Context,
         custID: String,
+        token: String,
         merchantId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryDetailCallback
@@ -58,7 +59,7 @@ object DirectorySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -93,6 +94,7 @@ object DirectorySdk {
     fun getDirectory(
         context: Context,
         categoryId: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryCallback
     ) {
@@ -109,7 +111,7 @@ object DirectorySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -144,6 +146,7 @@ object DirectorySdk {
     fun searchDirectory(
         context: Context,
         searchTerm: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: DirectorySearchCallback
     ) {
@@ -160,7 +163,7 @@ object DirectorySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -194,6 +197,7 @@ object DirectorySdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getDirectoryCategory(
         context: Context,
+        token: String,
         merchantId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryCategoryCallback
@@ -211,7 +215,7 @@ object DirectorySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -243,6 +247,7 @@ object DirectorySdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getDirectoryFloor(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: DirectoryFloorCallback
     ) {
@@ -258,7 +263,7 @@ object DirectorySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 

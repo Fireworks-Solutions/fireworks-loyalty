@@ -39,6 +39,7 @@ object TransactionSdk {
         custId: String,
         merchantId: String,
         month: String,
+        token: String,
         year: String,
         archive: Boolean,
         extraParams: Map<String, String> = emptyMap(), // For host flexibility
@@ -62,7 +63,7 @@ object TransactionSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceName(context),
@@ -96,6 +97,7 @@ object TransactionSdk {
     fun getTransactionDetail(
         context: Context,
         type: String,
+        token: String,
         transId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: TransactionDetailCallback
@@ -113,7 +115,7 @@ object TransactionSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceName(context),
@@ -148,6 +150,7 @@ object TransactionSdk {
     fun releasePoints(
         context: Context,
         receiptNo: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: ReleasePointsCallback
     ) {
@@ -163,7 +166,7 @@ object TransactionSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "lang" to AppUtil.language,
             "svc" to Constants.svc
         )
@@ -195,6 +198,7 @@ object TransactionSdk {
     fun updateTransactionArchiveStatus(
         context: Context,
         transId: String,
+        token: String,
         archive: String = "1", // "1" for archive, "0" for unarchive
         extraParams: Map<String, String> = emptyMap(),
         callback: TransactionArchiveCallback
@@ -212,7 +216,7 @@ object TransactionSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
         fields.putAll(extraParams)
@@ -240,6 +244,7 @@ object TransactionSdk {
     fun updateTransactionUnArchiveStatus(
         context: Context,
         transId: String,
+        token: String,
         archive: String = "0",
         extraParams: Map<String, String> = emptyMap(),
         callback: TransactionArchiveCallback
@@ -257,7 +262,7 @@ object TransactionSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
         fields.putAll(extraParams)

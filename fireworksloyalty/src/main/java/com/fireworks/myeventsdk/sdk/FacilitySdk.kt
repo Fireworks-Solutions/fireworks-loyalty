@@ -39,6 +39,7 @@ object FacilitySdk {
     fun getFacilities(
         context: Context,
         categoryId: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),  // allows new optional fields
         callback: FacilityCallback
     ) {
@@ -55,7 +56,7 @@ object FacilitySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -90,6 +91,7 @@ object FacilitySdk {
     fun searchFacilities(
         context: Context,
         searchTerm: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: FacilitySearchCallback
     ) {
@@ -106,7 +108,7 @@ object FacilitySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -141,6 +143,7 @@ object FacilitySdk {
     fun getFacilityCategories(
         context: Context,
         merchantId: String,
+        token: String,
         extraParams: Map<String, String> = emptyMap(),  // allow host to add custom params
         callback: FacilityCategoryCallback
     ) {
@@ -157,7 +160,7 @@ object FacilitySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
@@ -192,6 +195,7 @@ object FacilitySdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getFacilityFloors(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(), // <-- dynamic params
         callback: FacilityFloorCallback
     ) {
@@ -207,7 +211,7 @@ object FacilitySdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
