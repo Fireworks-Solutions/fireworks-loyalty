@@ -108,6 +108,7 @@ object RegisterSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getTitleList(
         context: Context,
+        token: String,
         extraParams: Map<String, String> = emptyMap(), // Host can pass extra fields
         callback: TitleListCallback
     ) {
@@ -122,7 +123,7 @@ object RegisterSdk {
             "os" to NetworkUtils.getOsVersion(),
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to AppUtil.applicationToken,
+            "sectoken" to token,
             "svc" to Constants.svc
         )
 
