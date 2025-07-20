@@ -6,6 +6,7 @@ import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
+import com.fireworks.myeventsdk.Utils.CommonInterface
 import com.fireworks.myeventsdk.Utils.CommonInterface.RegisterCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.TitleListCallback
 import com.fireworks.myeventsdk.Utils.Constants
@@ -156,7 +157,7 @@ object RegisterSdk {
         context: Context,
         token: String,
         extraParams: Map<String, String> = emptyMap(), // Host can pass extra fields
-        callback: TitleListCallback
+        callback: CommonInterface.PointsCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onFailure("No Internet Connection")
@@ -178,7 +179,7 @@ object RegisterSdk {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getPoint(fields)
+                val response = retrofitService.getPointDetails()
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

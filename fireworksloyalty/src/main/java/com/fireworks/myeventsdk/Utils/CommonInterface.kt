@@ -5,6 +5,7 @@ import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.Event
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
@@ -376,6 +377,11 @@ class CommonInterface {
 
     interface CountryCodesCallback {
         fun onSuccess(response: CountryCodesResponse)  // Replace with your actual model
+        fun onFailure(errorMessage: String)
+    }
+
+    interface PointsCallback {
+        fun onSuccess(response: PointDetailResponse)  // Replace with your actual model
         fun onFailure(errorMessage: String)
     }
 //test
