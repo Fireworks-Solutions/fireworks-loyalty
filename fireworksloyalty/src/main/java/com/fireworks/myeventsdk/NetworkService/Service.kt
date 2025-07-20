@@ -9,6 +9,7 @@ import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
@@ -346,6 +347,9 @@ interface Service {
 
     @GET(Constants.COUNTRY_CODES_API)
     suspend fun getCountryCodes(): Response<CountryCodesResponse>
+
+    @POST(Constants.POINT_DETAIL_API)
+    suspend fun getPointDetails(): Response<PointDetailResponse>
 
 
 }

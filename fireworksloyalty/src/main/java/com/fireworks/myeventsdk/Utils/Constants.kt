@@ -20,7 +20,7 @@ object Constants {
     const val SEND_OTP_API = "otp_register.php?"
     const val OTP_VERIFY_API = "otp_register_verification.php?"
     const val SIGN_UP_API = "register.php?"
-    const val CHECK_EMAIL_API = "/checkEmail.php?"
+    const val CHECK_EMAIL_API = "checkEmail.php?"
     const val SIGN_UP_FRIEND_API = "/registerfr.php?"
     const val SIGN_UP_JUNIOR_API = "/registerjr.php?"
 
@@ -120,8 +120,8 @@ object Constants {
     const val DELETE_SHIPPING_ADDRESS_API = "/deleteShippingAddress.php?"
 
     //NOTIFICATION API
-    const val GET_NOTI_API = "/getnoti.php?"
-    const val SAVE_NOTI_API = "/savenoti.php?"
+    const val GET_NOTI_API = "getnoti.php?"
+    const val SAVE_NOTI_API = "savenoti.php?"
     const val INBOX_ACTION_API = "/inbox_action.php?"
     const val INBOX_LISTING_API = "/inbox_listing.php?"
 
@@ -132,13 +132,13 @@ object Constants {
     const val BEACON_API = "getResult.php"
     const val BEACON_DETAIL_API = "push_details.php"
     const val ACTION_BUTTON_ANALYTIC_API = "action_button_respond.php?"
-    const val VERSION_DIALOG_CHECKING_API = "/alertList.php?"
+    const val VERSION_DIALOG_CHECKING_API = "alertList.php?"
     const val IN_APP_ALERT_API = "/member_alertList.php?"
     const val REFRESH_TOKEN = "/refreshToken.php?"
 
     //SCAN RECEIPT API
-    const val UPLOAD_IMAGE_API = "/uploadReceipt.php?"
-    const val SCAN_RECEIPT_API = "/addReceipt.php?"
+    const val UPLOAD_IMAGE_API = "uploadReceipt.php?"
+    const val SCAN_RECEIPT_API = "addReceipt.php?"
 
     //JEWEL BOX API
     const val JEWEL_CATEGORY_API = "/purchase_categories.php?"
@@ -156,7 +156,7 @@ object Constants {
     const val INCOME_INTEREST_API = "/registration_selection.php?"
     const val NOTIFICATION_HISTORY_API = "/getNotifications.php?"
     const val MALL_LIST_API = "malllist.php?"
-    const val POINT_DETAIL_API = "/PointDetails.php?"
+    const val POINT_DETAIL_API = "PointDetails.php?"
     const val USEFUL_LINKS_API = "usefullinks.php?"
     const val MAKE_TOURIST_API = "/makeCustomerTourist.php?"
     const val REFERRAL_DATA_API = "getReferralRewardData.php?"

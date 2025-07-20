@@ -150,4 +150,50 @@ object RegisterSdk {
     }
 
 
+
+  @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getPoint(
+        context: Context,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(), // Host can pass extra fields
+        callback: TitleListCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "svc" to Constants.svc
+        )
+
+        // Allow host app to add extra params
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getPoint(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Failed with code: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error occurred")
+                }
+            }
+        }
+    }
+
+
 }
