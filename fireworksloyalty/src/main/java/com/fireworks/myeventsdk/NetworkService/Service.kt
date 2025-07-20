@@ -75,6 +75,12 @@ interface Service {
     @POST(Constants.SEND_OTP_API)
     suspend fun getOTP(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
+       @FormUrlEncoded
+    @POST(Constants.OTP_VERIFY_API)
+    suspend fun getOtpVerify(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+
 
     @FormUrlEncoded
     @POST(Constants.PROFILE_API)

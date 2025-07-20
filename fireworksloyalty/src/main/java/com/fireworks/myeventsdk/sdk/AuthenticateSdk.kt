@@ -175,5 +175,61 @@ object AuthenticateSdk {
     }
 
 
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getOtpVerify(
+        context: Context,
+        phone: String,
+        pin: String,
+        countryCode: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: OtpCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "phone" to phone,
+            "phone_country" to countryCode,
+            "pin" to pin,
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge additional fields from host app
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getOtpVerify(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("OTP API failed: ${response.code()}")
+                    }
+                }
+
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("OTP request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
 }
 
