@@ -45,6 +45,7 @@ import com.fireworks.myeventsdk.model.reward.detail.RewardDetailResponse
 import com.fireworks.myeventsdk.model.wallet.WalletResponse
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
+import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import digital.fireworks.kpdrm.data.dto.events_detail.Detail
 
 class CommonInterface {
@@ -370,6 +371,11 @@ class CommonInterface {
 
     interface CountryListCallback {
         fun onSuccess(response: CountryListResponse)  // Replace with your actual model
+        fun onFailure(errorMessage: String)
+    }
+
+    interface CountryCodesCallback {
+        fun onSuccess(response: CountryCodesResponse)  // Replace with your actual model
         fun onFailure(errorMessage: String)
     }
 //test

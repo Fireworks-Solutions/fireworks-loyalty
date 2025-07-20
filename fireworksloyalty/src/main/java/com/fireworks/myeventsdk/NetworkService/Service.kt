@@ -44,6 +44,7 @@ import com.fireworks.myeventsdk.model.register.RegisterResponse
 import com.fireworks.myeventsdk.model.country.CountryListResponse
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
+import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import retrofit2.Response
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -336,6 +337,9 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.COUNTRY_LIST_API)
     suspend fun getCountryList(@FieldMap fields: Map<String, String>): Response<CountryListResponse>
+
+    @GET(Constants.COUNTRY_CODES_API)
+    suspend fun getCountryCodes(): Response<CountryCodesResponse>
 
 
 }

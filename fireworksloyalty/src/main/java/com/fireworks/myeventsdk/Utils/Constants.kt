@@ -167,6 +167,6 @@ object Constants {
     const val CHECK_IN_API = "daily_check_in_rewards.php?"
     const val UPDATE_PAYABLE_BY_POINTS = "updatePayableByPoints.php?"
     const val SURVEY_API = "/view_survey_uncompleted.php?"
-    const val COUNTRY_CODES_API = "/getCountryCodes.php"
+    const val COUNTRY_CODES_API = "getCountryCodes.php"
 //test
 }
