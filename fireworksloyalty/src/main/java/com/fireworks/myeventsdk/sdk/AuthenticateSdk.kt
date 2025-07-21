@@ -193,7 +193,7 @@ object AuthenticateSdk {
         val params = mutableMapOf(
             "phone" to phone,
             "phone_country" to countryCode,
-            "pin" to pin,
+            "otp_pin" to pin,
             "vc" to NetworkUtils.getVCKey(),
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "lang" to AppUtil.language,
