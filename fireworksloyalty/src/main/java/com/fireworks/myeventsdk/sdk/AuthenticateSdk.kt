@@ -202,6 +202,7 @@ object AuthenticateSdk {
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
             "svc" to Constants.svc
         )
+//
 
         // Merge additional fields from host app
         params.putAll(extraParams)
