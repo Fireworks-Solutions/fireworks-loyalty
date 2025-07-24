@@ -122,8 +122,8 @@ object Constants {
     //NOTIFICATION API
     const val GET_NOTI_API = "getnoti.php?"
     const val SAVE_NOTI_API = "savenoti.php?"
-    const val INBOX_ACTION_API = "/inbox_action.php?"
-    const val INBOX_LISTING_API = "/inbox_listing.php?"
+    const val INBOX_ACTION_API = "inbox_action.php?"
+    const val INBOX_LISTING_API = "inbox_listing.php?"
 
     //NEARBY REWARD API
     const val FEED_VERSION_API = "feed_version.php"
