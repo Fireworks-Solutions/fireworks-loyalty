@@ -2,9 +2,11 @@ package com.fireworks.myeventsdk.sdk
 
 import android.content.Context
 import com.fireworks.myeventsdk.NetworkService.Service
+import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface.Callback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CategoryCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.EventDetailCallback
+import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.model.Event
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
@@ -32,8 +34,8 @@ object EventSdk {
         context: Context,
         sectoken: String,
         custId: String,
-        vcKey: String,
         category: String? = "0",
+        merchId: String = "44", // Assuming 44 is the merchant ID
         searchTerm: String? = "",
         mall: String = "12",
         isLatest: String = "1",
@@ -41,13 +43,20 @@ object EventSdk {
         callback: Callback
     ) {
         val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchId, // Assuming 44 is the merchant ID
+            "sectoken" to sectoken,
             "cat_filter" to (category ?: ""),
             "search_item" to (searchTerm ?: ""),
             "mall" to mall,
             "latest" to isLatest,
-            "custcode" to custId,
             "date" to System.currentTimeMillis().toString(),
-            "vc" to vcKey
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
         )
 
         fields.putAll(extraParams)
