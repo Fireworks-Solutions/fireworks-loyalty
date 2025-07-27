@@ -131,6 +131,15 @@ interface Service {
 
 
     @FormUrlEncoded
+    @POST(Constants.STAMPS_REWARDS_API)
+    suspend fun getStampRewards(@FieldMap params: Map<String, String>): Response<DailyRewardResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.STAMPS_REWARDS_CHECKIN_API)
+    suspend fun checkInStampReward(@FieldMap params: Map<String, String>): Response<DailyCheckInResponse>
+
+    @FormUrlEncoded
     @POST(Constants.DAILY_REWARD_API)
     suspend fun getDailyRewards(@FieldMap params: Map<String, String>): Response<DailyRewardResponse>
 

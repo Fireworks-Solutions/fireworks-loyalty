@@ -150,6 +150,114 @@ object RewardsSdk {
 
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getStampRewards(
+        context: Context,
+        token: String,
+        custId: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: DailyRewardsCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "custid" to custId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        // Merge dynamic fields from host app
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getStampRewards(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("API failed with code: ${response.code()}")
+                    }
+                }
+
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun StampcheckIn(
+        context: Context,
+        custId: String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(), // <- Optional additional fields
+        callback: CheckInCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "custid" to custId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        params.putAll(extraParams) // <- Merge any custom fields
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.checkInStampReward(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Check-in failed: ${response.code()}")
+                    }
+                }
+
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Check-in timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun walletDetailAPI(
         context: Context,
         custId: String,
