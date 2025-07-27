@@ -3,6 +3,7 @@ package com.fireworks.myeventsdk.NetworkService
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
+import com.fireworks.myeventsdk.model.EventResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
@@ -59,7 +60,7 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.EVENT_API)
     suspend fun getEvents(@Header("X-Auth-Token") sectoken: String,
-    @FieldMap fields: Map<String, String>): Response<EventsResponse>
+    @FieldMap fields: Map<String, String>): Response<EventResponse>
 
 
     @FormUrlEncoded
