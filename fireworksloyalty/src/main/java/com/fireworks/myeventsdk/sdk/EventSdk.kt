@@ -37,7 +37,7 @@ object EventSdk {
         category: String? = "0",
         merchId: String = "44", // Assuming 44 is the merchant ID
         searchTerm: String? = "",
-        mall: String = "12",
+        mall: String,
         isLatest: String = "1",
         extraParams: Map<String, String> = emptyMap(),
         callback: Callback
