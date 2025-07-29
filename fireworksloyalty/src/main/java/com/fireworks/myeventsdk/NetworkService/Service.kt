@@ -283,6 +283,11 @@ interface Service {
 
 
     @FormUrlEncoded
+    @POST(Constants.FORGET_PASSWORD_API)
+    suspend fun fogotPasswordAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+    @FormUrlEncoded
     @POST(Constants.UPLOAD_IMAGE_API)
     suspend fun uploadImageAPI(@FieldMap fields: Map<String, String>): Response<UploadImageResponse>
 
