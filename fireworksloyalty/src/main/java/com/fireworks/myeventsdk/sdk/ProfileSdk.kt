@@ -231,7 +231,7 @@ object ProfileSdk {
                     "os" to NetworkUtils.getOsVersion(),
                     "phonename" to NetworkUtils.getDeviceName(context),
                     "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-                    "sectoken" to token ,
+                    "sectoken" to token,
                     "svc" to Constants.svc
                 )
 
@@ -455,6 +455,6 @@ object ProfileSdk {
         }
     }
 
-
-
 }
+//
+//}
