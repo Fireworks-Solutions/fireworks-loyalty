@@ -8,6 +8,9 @@ data class WalletResponse(
 	@field:SerializedName("wallet")
 	val wallet: ArrayList<WalletItem>? = null,
 
+	@field:SerializedName("events")
+	val events: ArrayList<WalletItem>? = null,
+
 	@field:SerializedName("custname")
 	val custname: String? = null,
 

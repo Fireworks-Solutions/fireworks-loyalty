@@ -53,7 +53,7 @@ data class DataItem(
 	val custname: String? = null,
 
 	@field:SerializedName("timestamp")
-	val timestamp: Long? = null,
+	val timestamp: String? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null,
