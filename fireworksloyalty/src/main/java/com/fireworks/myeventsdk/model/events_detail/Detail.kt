@@ -30,5 +30,6 @@ data class Detail(
     val validity_message: String,
     val rank_text: String,
     val purchase_start_time: String,
-    val interest: Boolean
+    val interest: Boolean,
+    val is_rsvp : Int
 )
