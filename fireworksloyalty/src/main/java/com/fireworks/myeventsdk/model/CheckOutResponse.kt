@@ -19,5 +19,11 @@ data class CheckOutResponse(
 	val message: String? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null
+	val status: String? = null,
+
+	@field:SerializedName("redemption_id")
+	val redemption_id: String? = null,
+
+	@field:SerializedName("rsvp_id")
+	val rsvp_id: String? = null
 )
