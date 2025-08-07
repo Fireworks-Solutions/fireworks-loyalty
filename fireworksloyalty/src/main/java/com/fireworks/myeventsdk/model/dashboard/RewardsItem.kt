@@ -12,5 +12,9 @@ data class RewardsItem(
 	val mall: String,
 	val mall_name: String,
 	val name: String,
-	val point: String
+	val point: String,
+	val points_raw: String,
+	val cash: String,
+	val cash_payment: String,
+	val is_donation: String,
 )

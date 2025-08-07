@@ -70,6 +70,12 @@ interface Service {
 
 
     @FormUrlEncoded
+    @POST(Constants.EVENT_CHECKOUT_API)
+    suspend fun getEventCheckout(@Header("X-Auth-Token") secToken: String,
+    @FieldMap fields: Map<String, String>): Response<EventsDetailResponse>
+
+
+    @FormUrlEncoded
     @POST(Constants.LOGIN_API)
     suspend fun loginAPI(@FieldMap fields: Map<String, String>): Response<LoginResponse>
 
@@ -247,6 +253,9 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.REFERRAL_DATA_API)
     suspend fun getReferData(@FieldMap fields: Map<String, String>): Response<ReferralDataResponse>
+   @FormUrlEncoded
+    @POST(Constants.CHECK_REFERRAL_API)
+    suspend fun getReferAPI(@FieldMap fields: Map<String, String>): Response<ReferralDataResponse>
 
     @FormUrlEncoded
     @POST(Constants.USEFUL_LINKS_API)

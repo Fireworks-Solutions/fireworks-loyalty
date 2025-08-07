@@ -160,7 +160,7 @@ object Constants {
     const val USEFUL_LINKS_API = "usefullinks.php?"
     const val MAKE_TOURIST_API = "/makeCustomerTourist.php?"
     const val REFERRAL_DATA_API = "getReferralRewardData.php?"
-    const val CHECK_REFERRAL_API = "/check_valid_referral.php?"
+    const val CHECK_REFERRAL_API = "check_valid_referral.php?"
     const val RELEASE_POINTS_API = "releasePoints.php?"
 
     const val DAILY_REWARD_API = "get_daily_check_in_rewards.php?"
