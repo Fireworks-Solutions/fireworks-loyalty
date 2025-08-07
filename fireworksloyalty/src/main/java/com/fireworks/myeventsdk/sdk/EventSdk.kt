@@ -5,6 +5,7 @@ import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface.Callback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CategoryCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.CheckoutEventCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.EventDetailCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
@@ -71,6 +72,58 @@ object EventSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!.events)
+                    } else {
+                        callback.onFailure("API failed with status: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Error: ${e.localizedMessage}")
+                }
+            }
+        }
+    }
+
+
+   fun eventCheckOut(
+        context: Context,
+        sectoken: String,
+        custId: String,
+        merchId: String = "44", // Assuming 44 is the merchant ID
+        mall: String,
+        qty: String,
+        itemid : String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: CheckoutEventCallback
+    ) {
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchId, // Assuming 44 is the merchant ID
+            "sectoken" to sectoken,
+            "mall" to mall,
+            "qty" to qty,
+            "itemid" to itemid,
+            "date" to System.currentTimeMillis().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getEventCheckout(
+                    secToken = sectoken,
+                    fiellds = fields
+                )
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body())
                     } else {
                         callback.onFailure("API failed with status: ${response.code()}")
                     }

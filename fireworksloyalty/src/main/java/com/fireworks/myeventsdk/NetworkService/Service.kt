@@ -72,7 +72,7 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.EVENT_CHECKOUT_API)
     suspend fun getEventCheckout(@Header("X-Auth-Token") secToken: String,
-    @FieldMap fields: Map<String, String>): Response<EventsDetailResponse>
+    @FieldMap fiellds: Map<String, String>): Response<CheckOutResponse>
 
 
     @FormUrlEncoded

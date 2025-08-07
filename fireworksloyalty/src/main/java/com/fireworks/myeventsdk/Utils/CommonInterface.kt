@@ -84,6 +84,10 @@ class CommonInterface {
         fun onFailure(errorMessage: String)
     }
 
+    interface CheckoutEventCallback {
+        fun onSuccess(detail: CheckOutResponse?)
+        fun onFailure(errorMessage: String)
+    }
     interface CategoryCallback {
         fun onSuccess(categories: List<Result>)
         fun onFailure(errorMessage: String)
