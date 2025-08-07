@@ -66,6 +66,12 @@ data class DetailsItem(
 	@field:SerializedName("purchase_start")
 	val purchaseStart: String? = null,
 
+	@field:SerializedName("cash_purchase")
+	val cashPurchase: Boolean? = null,
+
+    @field:SerializedName("purchase_amount")
+	val purchaseAmount: String? = null,
+
 	@field:SerializedName("bookmark_status")
 	val bookmarkStatus: Int? = null,
 
@@ -86,6 +92,9 @@ data class DetailsItem(
 
 	@field:SerializedName("gift")
 	val gift: Boolean? = null,
+
+	@field:SerializedName("is_swipe")
+	val isSwipe: Boolean? = null,
 
 	@field:SerializedName("pickup")
 	val pickup: Boolean? = null,
