@@ -45,5 +45,17 @@ data class RewardsItem(
 	val label: String? = null,
 
 	@field:SerializedName("label_info")
-	val label_info:LabelInfo?
+	val label_info:LabelInfo? = null,
+
+	@field:SerializedName("points_raw")
+	val pointsraw: Int?= null,
+
+	@field:SerializedName("cash")
+	val cash: String?= null,
+
+	@field:SerializedName("cash_payment")
+	val cashpayment: Boolean?= null,
+
+	@field:SerializedName("is_donation")
+	val isdonation: Boolean?= null
 )
