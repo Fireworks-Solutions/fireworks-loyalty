@@ -105,5 +105,8 @@ data class DetailsItem(
         val showBARCODE: Boolean? = null,
 
         @field:SerializedName("text_code")
-        val showTEXTCODE: Boolean? = null
+        val showTEXTCODE: Boolean? = null,
+
+        @field:SerializedName("full_address")
+        val full_address: String? = null
 )

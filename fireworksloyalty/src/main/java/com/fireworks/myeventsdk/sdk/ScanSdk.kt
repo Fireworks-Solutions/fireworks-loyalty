@@ -32,8 +32,9 @@ object ScanSdk {
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    fun uploadImage(
+    fun uploadScanReceiptAPI(
         context: Context,
+        mall: String,
         custId: String,
         pic: String,
         token: String,
@@ -46,6 +47,7 @@ object ScanSdk {
         }
 
         val fields = mutableMapOf(
+            "mall" to mall,
             "custid" to custId,
             "pic" to pic,
             "date" to NetworkUtils.unixTimeStamp().toString(),

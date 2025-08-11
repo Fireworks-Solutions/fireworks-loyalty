@@ -306,6 +306,11 @@ interface Service {
 
 
     @FormUrlEncoded
+    @POST(Constants.UPLOAD_RECEIPT_DIRECT_API)
+    suspend fun uploadScanReceiptAPI(@FieldMap fields: Map<String, String>): Response<UploadImageResponse>
+
+
+    @FormUrlEncoded
     @POST(Constants.MERCHANT_BRANCH_API)
     suspend fun shopAPI(@FieldMap fields: Map<String, String>): Response<ShopResponse>
 

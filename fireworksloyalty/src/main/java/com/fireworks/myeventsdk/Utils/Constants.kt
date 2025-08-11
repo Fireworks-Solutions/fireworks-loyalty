@@ -139,6 +139,9 @@ object Constants {
     //SCAN RECEIPT API
     const val UPLOAD_IMAGE_API = "uploadReceipt.php?"
     const val SCAN_RECEIPT_API = "addReceipt.php?"
+    const val UPLOAD_RECEIPT_DIRECT_API = "uploadReceiptDirect.php?"
+
+
 
     //JEWEL BOX API
     const val JEWEL_CATEGORY_API = "/purchase_categories.php?"
@@ -170,5 +173,10 @@ object Constants {
     const val UPDATE_PAYABLE_BY_POINTS = "updatePayableByPoints.php?"
     const val SURVEY_API = "/view_survey_uncompleted.php?"
     const val COUNTRY_CODES_API = "getCountryCodes.php"
+
+
+
+
+
 //test
 }

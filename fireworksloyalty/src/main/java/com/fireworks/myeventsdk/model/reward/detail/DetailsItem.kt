@@ -105,6 +105,9 @@ data class DetailsItem(
 	@field:SerializedName("label")
 	val label: String? = null,
 
+	@field:SerializedName("full_address")
+	val fullAddress: String? = null,
+
 	@field:SerializedName("collection_method")
 	val collectionMethod: ArrayList<CollectionItem>? = null
 )
