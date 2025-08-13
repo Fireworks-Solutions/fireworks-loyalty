@@ -201,6 +201,10 @@ interface Service {
     suspend fun rewardAPI(@FieldMap fields: Map<String, String>): Response<RewardResponse>
 
     @FormUrlEncoded
+    @POST(Constants.NEARBY_REWARDS)
+    suspend fun nearByrewardAPI(@FieldMap fields: Map<String, String>): Response<RewardResponse>
+
+    @FormUrlEncoded
     @POST(Constants.REWARD_CATEGORY_API)
     suspend fun rewardCategoryAPI(@FieldMap fields: Map<String, String>): Response<RewardCategoryResponse>
 
