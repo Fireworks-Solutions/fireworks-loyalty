@@ -3,6 +3,8 @@ package com.fireworks.myeventsdk.model.transaction
 import com.google.gson.annotations.SerializedName
 
 data class TransactionDetailResponse(
+
+
     @field:SerializedName("date")
     val date: String? = null,
 

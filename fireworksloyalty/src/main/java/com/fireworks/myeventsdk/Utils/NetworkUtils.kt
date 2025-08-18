@@ -68,6 +68,21 @@ object NetworkUtils {
         return getHash(decryptKey)
     }
 
+    fun getSignKey(id: String): String {
+        val ATRIA_PWD = "kjf93j9asr10"
+        val decryptKey = ATRIA_PWD + id
+        return createVC(decryptKey)
+    }
+
+    fun createVC(input: String): String {
+        return try {
+            val digest = MessageDigest.getInstance("MD5") // or "SHA-1", "SHA-256" depending on your iOS implementation
+            val hashBytes = digest.digest(input.toByteArray())
+            hashBytes.joinToString("") { "%02x".format(it) }
+        } catch (e: Exception) {
+            ""
+        }
+    }
 
     fun getHash(str: String): String {
         return try {

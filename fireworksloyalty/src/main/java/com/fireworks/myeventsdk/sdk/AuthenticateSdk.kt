@@ -13,6 +13,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.OtpCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.NetworkUtils.deviceId
+import com.fireworks.myeventsdk.Utils.NetworkUtils.getSignKey
 import com.fireworks.myeventsdk.Utils.PrefConstant
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import kotlinx.coroutines.CoroutineScope
@@ -230,6 +231,67 @@ object AuthenticateSdk {
             }
         }
     }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun deleteUser(
+        context: Context,
+        custId : String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: OtpCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "svc" to Constants.svc,
+            "sign" to getSignKey(custId),
+            "pvc" to NetworkUtils.getHello(AppPreference.getInstance(context).getString(PrefConstant.USER_EMAIL) ?: ""),
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+//
+
+        // Merge additional fields from host app
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.deleteUser(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("OTP API failed: ${response.code()}")
+                    }
+                }
+
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("OTP request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
 
 
 }

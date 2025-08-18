@@ -455,6 +455,149 @@ object ProfileSdk {
         }
     }
 
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun forgot2Password(
+        context: Context,
+        type: String,
+        email: String,
+        phone: String,
+        countrycode: String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: SetPasswordCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val appPreference = AppPreference.getInstance(context)
+
+        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
+            callback.onFailure("Customer ID not found")
+            return
+        }
+
+        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
+            callback.onFailure("Merchant ID not found")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchantId,
+            "type" to type,
+            "email" to email,
+            "phone" to phone,
+            "phone_country" to countrycode,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge dynamic fields from host app
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.fogotPasswordAPI(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Set password failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun smsOTpReset(
+        context: Context,
+        type: String,
+        email: String,
+        pin : String,
+        phone: String,
+        countrycode: String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: SetPasswordCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val appPreference = AppPreference.getInstance(context)
+
+        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
+            callback.onFailure("Customer ID not found")
+            return
+        }
+
+        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
+            callback.onFailure("Merchant ID not found")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchantId,
+            "type" to type,
+            "email" to email,
+            "phone" to phone,
+            "otp_pin" to pin,
+            "phone_country" to countrycode,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge dynamic fields from host app
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.resetOtp(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Set password failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 }
 //
 //}

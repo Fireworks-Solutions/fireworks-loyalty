@@ -615,7 +615,7 @@ object RewardsSdk {
         context: Context,
         token: String,
         rewardId: String,
-        stateName: String,
+        stateId: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: ShippingPointCallback
     ) {
@@ -626,7 +626,7 @@ object RewardsSdk {
 
         val requestMap = mutableMapOf(
             "reward_id" to rewardId,
-            "statename" to stateName,
+            "stateid" to stateId,
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "vc" to NetworkUtils.getVCKey(),
             "os" to NetworkUtils.getOsVersion(),

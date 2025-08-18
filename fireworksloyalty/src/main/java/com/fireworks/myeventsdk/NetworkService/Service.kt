@@ -79,6 +79,12 @@ interface Service {
     @POST(Constants.LOGIN_API)
     suspend fun loginAPI(@FieldMap fields: Map<String, String>): Response<LoginResponse>
 
+
+   @FormUrlEncoded
+    @POST(Constants.DELETE_USER)
+    suspend fun deleteUser(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
     @FormUrlEncoded
     @POST(Constants.SEND_OTP_API)
     suspend fun getOTP(@FieldMap fields: Map<String, String>): Response<CommonResponse>
@@ -300,7 +306,13 @@ interface Service {
     suspend fun fogotPasswordAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
-    @FormUrlEncoded
+     @FormUrlEncoded
+     @POST(Constants.URL_SMS_RESET_OTP)
+     suspend fun resetOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+
+ @FormUrlEncoded
     @POST(Constants.UPLOAD_IMAGE_API)
     suspend fun uploadImageAPI(@FieldMap fields: Map<String, String>): Response<UploadImageResponse>
 

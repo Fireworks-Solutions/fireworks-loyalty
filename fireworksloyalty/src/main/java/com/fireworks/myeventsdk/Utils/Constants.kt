@@ -13,6 +13,7 @@ object Constants {
     const val ADD_DEVICE_TOKEN_API = "addDeviceToken.php?"
     const val CHECK_SESSION_API = "checkSession.php"
     const val VERIFY_PASSWORD_API = "get_verify_password.php?"
+    const val DELETE_USER = "deleteCust.php?"
 
     //SIGN UP API
     const val CHECK_MIGRATED_USER_API = "checkMigrateExist.php?"
