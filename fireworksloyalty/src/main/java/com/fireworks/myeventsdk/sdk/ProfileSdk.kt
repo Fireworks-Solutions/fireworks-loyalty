@@ -460,6 +460,8 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun forgot2Password(
         context: Context,
+        custId: String,
+        merchantId: String,
         type: String,
         email: String,
         phone: String,
@@ -473,17 +475,6 @@ object ProfileSdk {
             return
         }
 
-        val appPreference = AppPreference.getInstance(context)
-
-        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
-            callback.onFailure("Customer ID not found")
-            return
-        }
-
-        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
-            callback.onFailure("Merchant ID not found")
-            return
-        }
 
         val fields = mutableMapOf(
             "custid" to custId,
