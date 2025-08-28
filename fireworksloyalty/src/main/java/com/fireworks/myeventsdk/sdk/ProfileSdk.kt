@@ -259,6 +259,8 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun updatePassword(
         context: Context,
+        custId: String,
+        merchantId: String,
         newPassword: String,
         token: String,
         oldPassword: String,
@@ -270,17 +272,6 @@ object ProfileSdk {
             return
         }
 
-        val appPreference = AppPreference.getInstance(context)
-
-        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
-            callback.onFailure("Customer ID not found")
-            return
-        }
-
-        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
-            callback.onFailure("Merchant ID not found")
-            return
-        }
 
         val fields = mutableMapOf(
             "custid" to custId,
@@ -325,6 +316,8 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun setPassword(
         context: Context,
+        custId : String,
+        merchantId: String,
         newPassword: String,
         token: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -337,15 +330,6 @@ object ProfileSdk {
 
         val appPreference = AppPreference.getInstance(context)
 
-        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
-            callback.onFailure("Customer ID not found")
-            return
-        }
-
-        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
-            callback.onFailure("Merchant ID not found")
-            return
-        }
 
         val fields = mutableMapOf(
             "custid" to custId,
@@ -389,6 +373,8 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun forgotPassword(
         context: Context,
+        custId: String,
+        merchantId: String,
         type: String,
         email: String,
         phone: String,
@@ -402,17 +388,6 @@ object ProfileSdk {
             return
         }
 
-        val appPreference = AppPreference.getInstance(context)
-
-        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
-            callback.onFailure("Customer ID not found")
-            return
-        }
-
-        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
-            callback.onFailure("Merchant ID not found")
-            return
-        }
 
         val fields = mutableMapOf(
             "custid" to custId,
@@ -521,6 +496,8 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun smsOTpReset(
         context: Context,
+        custId: String,
+        merchantId: String,
         type: String,
         email: String,
         pin : String,
@@ -535,17 +512,6 @@ object ProfileSdk {
             return
         }
 
-        val appPreference = AppPreference.getInstance(context)
-
-        val custId = appPreference.getString(PrefConstant.CUSTOMER_ID) ?: run {
-            callback.onFailure("Customer ID not found")
-            return
-        }
-
-        val merchantId = appPreference.getString(PrefConstant.MERCHANT_ID) ?: run {
-            callback.onFailure("Merchant ID not found")
-            return
-        }
 
         val fields = mutableMapOf(
             "custid" to custId,
