@@ -12,6 +12,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.AddPointsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.PasswordUpdateCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ProfileUpdateCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SetPasswordCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.SetVerifyPasswordCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.NetworkUtils.deviceId
@@ -505,7 +506,7 @@ object ProfileSdk {
         countrycode: String,
         token: String,
         extraParams: Map<String, String> = emptyMap(),
-        callback: SetPasswordCallback
+        callback: SetVerifyPasswordCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onFailure("No Internet Connection")

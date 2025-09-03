@@ -11,6 +11,7 @@ import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import com.fireworks.myeventsdk.model.Result
 import com.fireworks.myeventsdk.model.UploadImageResponse
+import com.fireworks.myeventsdk.model.VerifyOtpResponse
 import com.fireworks.myeventsdk.model.country.CountryListResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
@@ -290,6 +291,12 @@ class CommonInterface {
 
     interface SetPasswordCallback {
         fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+
+    interface SetVerifyPasswordCallback {
+        fun onSuccess(response: VerifyOtpResponse)
         fun onFailure(errorMessage: String)
     }
 

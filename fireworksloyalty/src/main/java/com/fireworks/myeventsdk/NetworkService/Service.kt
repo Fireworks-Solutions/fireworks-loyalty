@@ -12,6 +12,7 @@ import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
+import com.fireworks.myeventsdk.model.VerifyOtpResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
 import com.fireworks.myeventsdk.model.directory.detail.DirectoryDetailResponse
@@ -308,7 +309,7 @@ interface Service {
 
      @FormUrlEncoded
      @POST(Constants.URL_SMS_RESET_OTP)
-     suspend fun resetOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+     suspend fun resetOtp(@FieldMap fields: Map<String, String>): Response<VerifyOtpResponse>
 
 
 
