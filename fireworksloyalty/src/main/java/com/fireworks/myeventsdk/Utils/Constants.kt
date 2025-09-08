@@ -10,6 +10,9 @@ object Constants {
      */
     //LOGIN API
     const val LOGIN_API = "login.php?"
+
+    const val LOGIN_OTP_API = "login_otp.php?"
+    const val loginV2_with_otp = "loginV2.php?"
     const val ADD_DEVICE_TOKEN_API = "addDeviceToken.php?"
     const val CHECK_SESSION_API = "checkSession.php"
     const val VERIFY_PASSWORD_API = "get_verify_password.php?"

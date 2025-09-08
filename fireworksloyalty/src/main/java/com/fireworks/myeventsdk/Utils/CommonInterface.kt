@@ -68,6 +68,10 @@ class CommonInterface {
         fun onSuccess(response: LoginResponse)
         fun onFailure(errorMessage: String)
     }
+  interface LoginOtpCallback {
+        fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
 
     interface OtpCallback {
         fun onSuccess(response: CommonResponse)

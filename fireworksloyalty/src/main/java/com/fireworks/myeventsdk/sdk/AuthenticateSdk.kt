@@ -8,6 +8,7 @@ import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
+import com.fireworks.myeventsdk.Utils.CommonInterface
 import com.fireworks.myeventsdk.Utils.CommonInterface.LoginCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.OtpCallback
 import com.fireworks.myeventsdk.Utils.Constants
@@ -122,6 +123,144 @@ object AuthenticateSdk {
             }
         }
     }
+
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun loginWithOtp(
+        context: Context,
+        phone: String,
+        phone_country: String,
+        otp: String,
+        extraParams: Map<String, String> = emptyMap(), // <-- optional dynamic fields
+        callback: LoginCallback
+    ) {
+        appPreference = AppPreference.getInstance(context)
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val fields = mutableMapOf(
+                    "phone" to phone,
+                    "phone_country" to phone_country,
+                    "otp"  to otp,
+                    "mercid" to "44",
+                    "date" to NetworkUtils.unixTimeStamp().toString(),
+                    "vc" to NetworkUtils.getVCKey(),
+                    "os" to NetworkUtils.getOsVersion(),
+                    "phonename" to NetworkUtils.getDeviceName(context),
+                    "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "lang" to AppUtil.language,
+                    "deviceid" to AppUtil.getDeviceId(context),
+                    "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "svc" to Constants.svc,
+                )
+
+                // Merge any extra fields passed from host app
+                fields.putAll(extraParams)
+
+                val response = retrofitService.loginWithOtp(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val loginResponse = response.body()!!
+
+                        appPreference.putBoolean(PrefConstant.CHANGE_PW, loginResponse.changePassword?.toBoolean() ?: false)
+                        appPreference.putBoolean(PrefConstant.REGISTER, loginResponse.register?.toBoolean() ?: false)
+                        appPreference.putString(PrefConstant.URL, loginResponse.url ?: "")
+
+                        if (loginResponse.sid != null) {
+                            appPreference.putBoolean(PrefConstant.LOGGED_IN_STATUS, true)
+                            appPreference.putString(PrefConstant.USER_EMAIL, loginResponse.email)
+                            appPreference.putString(PrefConstant.USER_PHONE, loginResponse.phone)
+                            appPreference.putString(PrefConstant.CUSTOMER_ID, loginResponse.custid)
+                            appPreference.putString(PrefConstant.MERCHANT_ID, "44")
+                            appPreference.putString(PrefConstant.SID, loginResponse.sid)
+
+                            appPreference.putString(PrefConstant.USER_FNAME, loginResponse.fname)
+                            appPreference.putString(PrefConstant.USER_LNAME, loginResponse.lname)
+                            appPreference.putString(PrefConstant.USER_TOKEN, loginResponse.token)
+                            appPreference.putBoolean(PrefConstant.REMEMBER_ME, true)
+
+//                            AppUtil.applicationToken = loginResponse.token ?: ""
+                        }
+
+                        Log.d("AuthenticateSdk", "Login successful: $loginResponse")
+                        callback.onSuccess(loginResponse)
+                    } else {
+                        callback.onFailure("Login failed with status: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun loginOtp(
+        context: Context,
+        phoneCountry: String,
+        phone: String,
+        extraParams: Map<String, String> = emptyMap(), // <-- optional dynamic fields
+        callback: CommonInterface.LoginOtpCallback
+    ) {
+        appPreference = AppPreference.getInstance(context)
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val fields = mutableMapOf(
+                    "phone_country" to phoneCountry,
+                    "phone" to phone,
+                    "date" to NetworkUtils.unixTimeStamp().toString(),
+                    "vc" to NetworkUtils.getVCKey(),
+                    "os" to NetworkUtils.getOsVersion(),
+                    "phonename" to NetworkUtils.getDeviceName(context),
+                    "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "lang" to AppUtil.language,
+                    "deviceid" to AppUtil.getDeviceId(context),
+                    "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "svc" to Constants.svc
+                )
+
+                // Merge any extra fields passed from host app
+                fields.putAll(extraParams)
+
+                val response = retrofitService.loginOtpAPI(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val loginResponse = response.body()!!
+
+                        Log.d("AuthenticateSdk", "Login successful: $loginResponse")
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Login failed with status: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getOtp(

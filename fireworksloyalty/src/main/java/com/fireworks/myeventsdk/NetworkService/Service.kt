@@ -82,6 +82,15 @@ interface Service {
 
 
    @FormUrlEncoded
+    @POST(Constants.loginV2_with_otp)
+    suspend fun loginWithOtp(@FieldMap fields: Map<String, String>): Response<LoginResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.LOGIN_OTP_API)
+    suspend fun loginOtpAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+   @FormUrlEncoded
     @POST(Constants.DELETE_USER)
     suspend fun deleteUser(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
