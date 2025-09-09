@@ -90,6 +90,7 @@ interface Service {
     suspend fun loginOtpAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
+
    @FormUrlEncoded
     @POST(Constants.DELETE_USER)
     suspend fun deleteUser(@FieldMap fields: Map<String, String>): Response<CommonResponse>

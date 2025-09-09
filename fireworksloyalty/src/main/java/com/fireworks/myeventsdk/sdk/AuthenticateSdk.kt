@@ -143,6 +143,7 @@ object AuthenticateSdk {
             return
         }
 
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val fields = mutableMapOf(
