@@ -12,6 +12,7 @@ import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import com.fireworks.myeventsdk.model.Result
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
+import com.fireworks.myeventsdk.model.VerifyPhoneNumberResponse
 import com.fireworks.myeventsdk.model.country.CountryListResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
@@ -68,6 +69,15 @@ class CommonInterface {
         fun onSuccess(response: LoginResponse)
         fun onFailure(errorMessage: String)
     }
+
+
+    interface VerifyPhoneCallback {
+        fun onSuccess(response: VerifyPhoneNumberResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+
+
   interface LoginOtpCallback {
         fun onSuccess(response: CommonResponse)
         fun onFailure(errorMessage: String)

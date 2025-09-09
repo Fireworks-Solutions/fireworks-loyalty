@@ -106,6 +106,60 @@ object RegisterSdk {
     }
 
 
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun registerAPI(
+        context: Context,
+        phone: String,
+        phonecountry: String,
+        name: String,
+        promo: String,
+        extraParams: Map<String, String> = emptyMap(),  // <== for host-provided dynamic fields
+        callback: RegisterCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "promo" to promo.toString(),
+            "name" to name,
+            "phone" to phone,
+            "phone_country" to phonecountry,
+            "vc" to NetworkUtils.getVCKey(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "lang" to AppUtil.language,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(AppPreference.getInstance(context).getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Merge additional host-supplied params
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.registerAPI(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Registration failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error occurred")
+                }
+            }
+        }
+    }
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getTitleList(
         context: Context,

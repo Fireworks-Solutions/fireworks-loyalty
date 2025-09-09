@@ -11,6 +11,7 @@ import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface
 import com.fireworks.myeventsdk.Utils.CommonInterface.LoginCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.OtpCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.VerifyPhoneCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.NetworkUtils.deviceId
@@ -128,6 +129,67 @@ object AuthenticateSdk {
 
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun validateMobileNumber(
+        context: Context,
+        phone: String,
+        phone_country: String,
+        extraParams: Map<String, String> = emptyMap(), // <-- optional dynamic fields
+        callback: VerifyPhoneCallback
+    ) {
+        appPreference = AppPreference.getInstance(context)
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val fields = mutableMapOf(
+                    "phone" to phone,
+                    "phone_country" to phone_country,
+                    "mercid" to "44",
+                    "date" to NetworkUtils.unixTimeStamp().toString(),
+                    "vc" to NetworkUtils.getVCKey(),
+                    "os" to NetworkUtils.getOsVersion(),
+                    "phonename" to NetworkUtils.getDeviceName(context),
+                    "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "lang" to AppUtil.language,
+                    "deviceid" to AppUtil.getDeviceId(context),
+                    "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "svc" to Constants.svc,
+                )
+
+                // Merge any extra fields passed from host app
+                fields.putAll(extraParams)
+
+                val response = retrofitService.validateMobileNumber(fields)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val validateResponse = response.body()!!
+
+
+                        Log.d("AuthenticateSdk", "Login successful: $validateResponse")
+                        callback.onSuccess(validateResponse)
+                    } else {
+                        callback.onFailure("Login failed with status: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun loginWithOtp(
         context: Context,
         phone: String,
@@ -205,6 +267,7 @@ object AuthenticateSdk {
             }
         }
     }
+
 
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)

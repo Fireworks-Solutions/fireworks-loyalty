@@ -13,6 +13,7 @@ import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
+import com.fireworks.myeventsdk.model.VerifyPhoneNumberResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
 import com.fireworks.myeventsdk.model.directory.detail.DirectoryDetailResponse
@@ -84,6 +85,12 @@ interface Service {
    @FormUrlEncoded
     @POST(Constants.loginV2_with_otp)
     suspend fun loginWithOtp(@FieldMap fields: Map<String, String>): Response<LoginResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.CHECK_MOBILENUMBER)
+    suspend fun validateMobileNumber(@FieldMap fields: Map<String, String>): Response<VerifyPhoneNumberResponse>
+
 
     @FormUrlEncoded
     @POST(Constants.LOGIN_OTP_API)
@@ -390,6 +397,11 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.SIGN_UP_API)
     suspend fun signUpAPI(@FieldMap fields: Map<String, String>): Response<RegisterResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.REGISTER_API)
+    suspend fun registerAPI(@FieldMap fields: Map<String, String>): Response<RegisterResponse>
 
 
     @FormUrlEncoded

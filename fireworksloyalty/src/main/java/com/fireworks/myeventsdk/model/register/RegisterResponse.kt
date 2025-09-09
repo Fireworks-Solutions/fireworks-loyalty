@@ -11,5 +11,13 @@ data class RegisterResponse (
         val message: String,
 
         @field:SerializedName("custid")
-        val custId: String
+        val custId: String,
+
+        @field:SerializedName("phone")
+        val phone: String,
+
+        @field:SerializedName("name")
+        val name: String
+
+
 )

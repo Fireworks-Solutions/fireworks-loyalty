@@ -17,6 +17,10 @@ object Constants {
     const val CHECK_SESSION_API = "checkSession.php"
     const val VERIFY_PASSWORD_API = "get_verify_password.php?"
     const val DELETE_USER = "deleteCust.php?"
+    const val CHECK_MOBILENUMBER = "checkMobileNumber.php"
+
+
+
 
     //SIGN UP API
     const val CHECK_MIGRATED_USER_API = "checkMigrateExist.php?"
@@ -24,6 +28,7 @@ object Constants {
     const val SEND_OTP_API = "otp_register.php?"
     const val OTP_VERIFY_API = "otp_register_verification.php?"
     const val SIGN_UP_API = "register.php?"
+    const val REGISTER_API = "registerV2.php"
     const val CHECK_EMAIL_API = "checkEmail.php?"
     const val SIGN_UP_FRIEND_API = "/registerfr.php?"
     const val SIGN_UP_JUNIOR_API = "/registerjr.php?"
