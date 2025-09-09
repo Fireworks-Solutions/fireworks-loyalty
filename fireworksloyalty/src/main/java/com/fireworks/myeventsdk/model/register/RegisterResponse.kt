@@ -17,7 +17,16 @@ data class RegisterResponse (
         val phone: String,
 
         @field:SerializedName("name")
-        val name: String
+        val name: String,
+
+        @field:SerializedName("email")
+        val email: String,
+
+        @field:SerializedName("token")
+        val token: String ,
+
+        @field:SerializedName("member_id")
+        val member_id: String
 
 
 )
