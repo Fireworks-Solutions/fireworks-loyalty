@@ -43,6 +43,7 @@ object ProfileSdk {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun profileAPI(
         context: Context,
+        custId: String,
         merchantId: String,
         token: String,
         extraParams: Map<String, String> = emptyMap(),
@@ -56,7 +57,7 @@ object ProfileSdk {
         }
 
         val baseParams = mutableMapOf(
-            "custid" to (appPreference.getString(PrefConstant.CUSTOMER_ID) ?: ""),
+            "custid" to custId,
             "mercid" to merchantId,
             "date" to NetworkUtils.unixTimeStamp().toString(),
             "vc" to NetworkUtils.getVCKey(),
