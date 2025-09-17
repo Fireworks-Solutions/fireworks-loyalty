@@ -20,5 +20,8 @@ data class TenantItem(
         var tenantLocation: String? = null,
 
         @field:SerializedName("created_at")
-        var tenantCreatedDate: String? = null
+        var tenantCreatedDate: String? = null,
+
+        @field:SerializedName("total_reward")
+        var totalReward: Int? = null
 )

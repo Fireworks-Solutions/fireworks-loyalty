@@ -9,5 +9,6 @@ data class Event(
     val img: String,
     val date: String,
     val expiry_date: String,
-    val is_rsvp: String
+    val is_rsvp: String,
+    val address: String
 )

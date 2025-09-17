@@ -18,6 +18,10 @@ data class MerchantDetails(
 	@field:SerializedName("facebook_url")
 	val facebookUrl: String? = null,
 
+	@field:SerializedName("email")
+	val email: String? = null,
+
+
 	@field:SerializedName("address")
 	val address: String? = null,
 
