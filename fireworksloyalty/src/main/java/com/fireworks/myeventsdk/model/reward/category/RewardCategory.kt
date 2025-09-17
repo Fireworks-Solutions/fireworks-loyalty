@@ -19,9 +19,9 @@ data class RewardCategory(
 data class FilterData(
 	val status: String,
 	val message: String,
-	val primaryFilter: List<FilterOption>,
-	val sortBy: List<SortOption>,
-	val rewardsType: List<RewardsType>,
+	val primary_filter: List<FilterOption>,
+	val sort_by: List<SortOption>,
+	val rewards_type: List<RewardsType>,
 	val category: List<Category>
 )
 
