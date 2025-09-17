@@ -29,6 +29,9 @@ data class RewardsItem(
 	@field:SerializedName("id")
 	val id: String? = null,
 
+	@field:SerializedName("end_date_text")
+	val end_date_text: String? = null,
+
 	@field:SerializedName("merchant_name")
 	val merchantName: String? = null,
 
@@ -57,5 +60,8 @@ data class RewardsItem(
 	val cashpayment: Boolean?= null,
 
 	@field:SerializedName("is_donation")
-	val isdonation: Boolean?= null
+	val isdonation: Boolean?= null,
+
+	@field:SerializedName("validity_days")
+	val validityDays: Boolean?= null
 )

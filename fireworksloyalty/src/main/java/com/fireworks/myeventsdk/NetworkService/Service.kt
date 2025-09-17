@@ -1,6 +1,7 @@
 package com.fireworks.myeventsdk.NetworkService
 
 import com.fireworks.myeventsdk.Utils.Constants
+import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.EventResponse
@@ -10,6 +11,7 @@ import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
@@ -46,6 +48,8 @@ import com.fireworks.myeventsdk.model.wallet.WalletResponse
 import com.fireworks.myeventsdk.model.migratedUser.MigratedUserDataResponse
 import com.fireworks.myeventsdk.model.register.RegisterResponse
 import com.fireworks.myeventsdk.model.country.CountryListResponse
+import com.fireworks.myeventsdk.model.reward.category.FilterData
+import com.fireworks.myeventsdk.model.reward.category.RewardCategory
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
@@ -137,6 +141,10 @@ interface Service {
     @FormUrlEncoded
     suspend fun dashboardAPI(@FieldMap params: Map<String, String>): Response<DashboardResponse>
 
+    @POST(Constants.PRIVILEGE_DASH)
+    @FormUrlEncoded
+    suspend fun privDashAPI(@FieldMap params: Map<String, String>): Response<MainResponse>
+
 
     @POST(Constants.MALL_LIST_API)
     @FormUrlEncoded
@@ -223,6 +231,19 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.REWARD_API)
     suspend fun rewardAPI(@FieldMap fields: Map<String, String>): Response<RewardResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.NEW_REWARDS)
+    suspend fun rewardnNewAPI(@FieldMap fields: Map<String, String>): Response<RewardResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.PURCHASED_COUNT)
+    suspend fun purchaseCountApi(@FieldMap fields: Map<String, String>): Response<ApiResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.REWARD_CATEGORIES)
+    suspend fun rewardCategoriesAPI(@FieldMap fields: Map<String, String>): Response<FilterData>
 
     @FormUrlEncoded
     @POST(Constants.NEARBY_REWARDS)

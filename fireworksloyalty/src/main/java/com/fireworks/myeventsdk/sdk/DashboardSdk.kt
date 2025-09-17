@@ -12,7 +12,10 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.DeviceTokenCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.InAppAlertCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.MultiMallCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.PayablePointsCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.PrivCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.PurchaseCountCallBack
 import com.fireworks.myeventsdk.Utils.CommonInterface.RatePurchaseCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.StatesCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.PrefConstant
@@ -96,6 +99,55 @@ object DashboardSdk {
     }
 
 
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getPurchseCount(
+        context: Context,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: PurchaseCountCallBack
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val requestMap = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "svc" to Constants.svc
+        )
+
+        requestMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.purchaseCountApi(requestMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Purchsee API failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun dashboardAPI(
         context: Context,
@@ -169,6 +221,73 @@ object DashboardSdk {
             }
         }
     }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun privdashboardAPI(
+        context: Context,
+        mall: String,
+        custId: String,
+        mercId: String,
+        token: String,
+        appVersion: String,
+        pv: String,
+        deviceFlavour: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: PrivCallback
+    ) {
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "mall" to mall,
+            "custid" to custId,
+            "mercid" to mercId,
+            "lat" to AppUtil.latitude.toString(),
+            "lng" to AppUtil.longitude.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "appversion" to appVersion,
+            "deviceflavour" to deviceFlavour,
+            "svc" to Constants.svc,
+            "pvc" to pv
+        )
+
+        // Allow host app to add or override any param
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.privDashAPI(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        Log.d("Dashboard", "successful: $response")
+
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Dashboard API failed: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)

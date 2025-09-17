@@ -1,10 +1,12 @@
 package com.fireworks.myeventsdk.Utils
 
+import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.Event
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
@@ -34,6 +36,7 @@ import com.fireworks.myeventsdk.model.news.NewsResponse
 import com.fireworks.myeventsdk.model.news.detail.NewsDetailResponse
 import com.fireworks.myeventsdk.model.notifications.NotificationResponse
 import com.fireworks.myeventsdk.model.register.RegisterResponse
+import com.fireworks.myeventsdk.model.reward.category.FilterData
 import com.fireworks.myeventsdk.model.shop.ShopResponse
 import com.fireworks.myeventsdk.model.support.SupportResponse
 import com.fireworks.myeventsdk.model.transaction.TransactionDetailResponse
@@ -128,6 +131,11 @@ class CommonInterface {
         fun onFailure(errorMessage: String)
     }
 
+    interface PrivCallback {
+        fun onSuccess(response: MainResponse)
+        fun onFailure(errorMessage: String)
+    }
+
     interface MultiMallCallback {
         fun onSuccess(response: MultiMallResponse)
         fun onFailure(errorMessage: String)
@@ -200,6 +208,10 @@ class CommonInterface {
         fun onSuccess(response: StatesResponse)
         fun onFailure(errorMessage: String)
     }
+    interface PurchaseCountCallBack {
+        fun onSuccess(response: ApiResponse)
+        fun onFailure(errorMessage: String)
+    }
 
     interface RewardDetailCallback {
         fun onSuccess(response: RewardDetailResponse)
@@ -213,6 +225,11 @@ class CommonInterface {
 
     interface RewardCategoryCallback {
         fun onSuccess(response: RewardCategoryResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+    interface RewardCategoryNewCallback {
+        fun onSuccess(response: FilterData)
         fun onFailure(errorMessage: String)
     }
 

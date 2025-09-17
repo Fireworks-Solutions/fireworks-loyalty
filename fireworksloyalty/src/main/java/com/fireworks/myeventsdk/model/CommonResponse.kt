@@ -15,3 +15,16 @@ data class CommonResponse(
 	@field:SerializedName("img")
 	val img: String? = null
 )
+
+data class ApiResponse(
+	val status: String,
+	val message: String,
+	val voucher: String,
+	val result: ResultData
+)
+
+data class ResultData(
+	val total_reward: String,
+	val total_reward_purchased: String,
+	val total_event_purchased: String
+)

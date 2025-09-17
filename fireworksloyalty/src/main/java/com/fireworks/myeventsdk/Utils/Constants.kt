@@ -36,6 +36,7 @@ object Constants {
 
     //DASHBOARD API
     const val DASHBOARD_API = "dashboard.php?"
+    const val PRIVILEGE_DASH = "privileges_dashboard.php?"
 
     //USER INFO API
     const val PROFILE_PIC_API = "getProfileImage.php?"
@@ -47,6 +48,9 @@ object Constants {
 
     //REWARD API
     const val REWARD_API = "webview_getRewards.php?"
+    const val NEW_REWARDS = "webview_getRewardsV2.php?"
+    const val PURCHASED_COUNT = "purchased_count.php?"
+    const val REWARD_CATEGORIES = "categoriesV2.php?"
     const val REWARD_DETAIL_API = "webview_getDetails.php?"
     const val REWARD_CATEGORY_API = "webview_getCategory.php?"
     const val REWARD_CHECKOUT_API = "checkout.php?"

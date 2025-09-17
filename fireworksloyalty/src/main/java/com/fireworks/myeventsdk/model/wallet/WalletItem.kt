@@ -41,6 +41,9 @@ data class WalletItem(
     @field:SerializedName("status")
     val itemStatus: String? = "",
 
+    @field:SerializedName("validity_days_message")
+    val validity_days_message: String? = "",
+
     @field:SerializedName("label_info")
     val label_info:LabelInfo?
 )
