@@ -12,6 +12,7 @@ import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import com.fireworks.myeventsdk.model.Result
+import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
 import com.fireworks.myeventsdk.model.VerifyPhoneNumberResponse
@@ -196,6 +197,10 @@ class CommonInterface {
 
     interface RewardCheckoutCallback {
         fun onSuccess(response: CheckOutResponse)
+        fun onFailure(errorMessage: String)
+    }
+    interface TimerRewardCallback {
+        fun onSuccess(response: TimerResponse)
         fun onFailure(errorMessage: String)
     }
 

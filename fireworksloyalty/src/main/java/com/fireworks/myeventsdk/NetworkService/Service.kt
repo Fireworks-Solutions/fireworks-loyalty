@@ -13,6 +13,7 @@ import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
+import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
 import com.fireworks.myeventsdk.model.VerifyPhoneNumberResponse
@@ -212,6 +213,10 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.REWARD_CHECKOUT_API)
     suspend fun rewardCheckoutAPI(@FieldMap fields: Map<String, String>): Response<CheckOutResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.TIMER_REWARD)
+    suspend fun timerRewardAPI(@FieldMap fields: Map<String, String>): Response<TimerResponse>
 
 
     @FormUrlEncoded

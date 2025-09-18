@@ -16,6 +16,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.RewardCheckoutCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.RewardDetailCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.RewardListCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ShippingPointCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.TimerRewardCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.VerifyPasswordCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.WalletCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.WalletDetailCallback
@@ -590,6 +591,66 @@ object RewardsSdk {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.rewardCheckoutAPI(fieldMap)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Checkout failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getTimerReward(
+        context: Context,
+        itemId: String,
+        token: String,
+        custId: String,
+        quantity: String,
+        method: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: TimerRewardCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        appPreference = AppPreference.getInstance(context)
+
+        val fieldMap = mutableMapOf(
+            "id" to itemId,
+            "custid" to custId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Allow host app to pass any additional dynamic fields
+        fieldMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.timerRewardAPI(fieldMap)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)
