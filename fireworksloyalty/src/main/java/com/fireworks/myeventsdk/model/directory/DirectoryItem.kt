@@ -21,6 +21,12 @@ data class DirectoryItem(
 	@field:SerializedName("floor")
 	val floor: String? = null,
 
+	@field:SerializedName("distance")
+	val distance: String? = null,
+
+	@field:SerializedName("total_voucher")
+	val total_voucher: String? = null,
+
 	@field:SerializedName("featured_img")
 	val featuredImg: String? = null,
 
