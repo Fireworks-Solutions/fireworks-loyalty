@@ -117,7 +117,7 @@ data class DetailsItem(
         val full_address: String? = null,
 
         @field:SerializedName("swipe")
-        val swipe: String? = null,
+        val swipe: Boolean? = null,
 
 
         @field:SerializedName("is_donation")
