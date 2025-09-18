@@ -33,5 +33,11 @@ data class CheckOutResponse(
 	@field:SerializedName("validity_period")
 	val validityPeriod: String? = null,
 
+	@field:SerializedName("walletid")
+	val walletid: String? = null,
+
+	@field:SerializedName("wallettype")
+	val wallettype: String? = null,
+
 
 )
