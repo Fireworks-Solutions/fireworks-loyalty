@@ -111,5 +111,12 @@ data class DetailsItem(
         val showTEXTCODE: Boolean? = null,
 
         @field:SerializedName("full_address")
-        val full_address: String? = null
+        val full_address: String? = null,
+
+        @field:SerializedName("swipe")
+        val swipe: String? = null,
+
+
+        @field:SerializedName("is_donation")
+        val is_donation: Boolean? = null
 )

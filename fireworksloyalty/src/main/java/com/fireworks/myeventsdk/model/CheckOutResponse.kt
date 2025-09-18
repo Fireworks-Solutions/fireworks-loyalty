@@ -25,5 +25,13 @@ data class CheckOutResponse(
 	val redemption_id: String? = null,
 
 	@field:SerializedName("rsvp_id")
-	val rsvp_id: String? = null
+	val rsvp_id: String? = null,
+
+	@field:SerializedName("countdown_timer")
+	val countdown_timer: Int? = null,
+
+	@field:SerializedName("validity_period")
+	val validityPeriod: Int? = null,
+
+
 )
