@@ -31,7 +31,7 @@ data class CheckOutResponse(
 	val countdown_timer: Int? = null,
 
 	@field:SerializedName("validity_period")
-	val validityPeriod: Int? = null,
+	val validityPeriod: String? = null,
 
 
 )
