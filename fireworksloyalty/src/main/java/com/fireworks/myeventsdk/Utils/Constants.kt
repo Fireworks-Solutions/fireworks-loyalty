@@ -94,6 +94,7 @@ object Constants {
 
     //MERCHANT BRANCH LIST API
     const val MERCHANT_BRANCH_API = "getMerchantBranchList.php?"
+    const val MERCHANT_CATEGORIES = "merchant_categories.php?"
     const val BRANCH_API = "webview_getBranches.php?"
 
     //DIRECTORY API

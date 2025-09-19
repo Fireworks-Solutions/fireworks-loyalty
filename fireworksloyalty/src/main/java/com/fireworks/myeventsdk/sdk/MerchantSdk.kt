@@ -6,6 +6,7 @@ import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
+import com.fireworks.myeventsdk.Utils.CommonInterface.MerchantCateCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ShopCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
@@ -61,6 +62,51 @@ object MerchantSdk {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.shopAPI(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Failed: ${response.code()} - ${response.message()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun merchantCategoryAPI(
+        context: Context,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: MerchantCateCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "svc" to Constants.svc
+        )
+
+        // Inject additional fields from host app
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.merchantCategory(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

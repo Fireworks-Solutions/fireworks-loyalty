@@ -11,6 +11,7 @@ import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.TimerResponse
@@ -373,6 +374,11 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.MERCHANT_BRANCH_API)
     suspend fun shopAPI(@FieldMap fields: Map<String, String>): Response<ShopResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.MERCHANT_CATEGORIES)
+    suspend fun merchantCategory(@FieldMap fields: Map<String, String>): Response<MerchantCategory>
 
 
     @FormUrlEncoded

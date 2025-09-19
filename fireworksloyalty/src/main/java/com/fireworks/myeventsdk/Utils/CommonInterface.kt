@@ -6,6 +6,7 @@ import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.Event
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
@@ -351,6 +352,10 @@ class CommonInterface {
 
     interface ShopCallback {
         fun onSuccess(response: ShopResponse)
+        fun onFailure(error: String)
+    }
+    interface MerchantCateCallback {
+        fun onSuccess(response: MerchantCategory)
         fun onFailure(error: String)
     }
 
