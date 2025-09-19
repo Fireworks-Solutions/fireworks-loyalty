@@ -40,7 +40,7 @@ data class SortFilter(
     )
 
 data class Statee(
-    val title: String,
+    val name: String,
     val id: String,
 
     )
