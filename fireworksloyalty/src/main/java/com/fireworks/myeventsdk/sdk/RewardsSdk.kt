@@ -930,6 +930,80 @@ object RewardsSdk {
     }
 
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getNewReward(
+        context: Context,
+        custId: String,
+        mall: String,
+        merchantId: String,
+        offset: String,
+        token: String,
+        location: String,
+        lat: String,
+        long: String,
+        lang: String,
+        categoryId: String,
+        start: Int,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: RewardListCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val appPreference = AppPreference.getInstance(context)
+
+        val fieldMap = mutableMapOf(
+            "mall" to mall,
+            "custid" to custId,
+            "mercid" to merchantId,
+            "offset" to offset,
+            "location" to location,
+            "latitude" to lat,
+            "longitude" to long,
+            "category" to categoryId,
+            "start" to start.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to lang,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Add any dynamic fields from the host app
+        fieldMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.rewardnNewAPI(fieldMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Failed to fetch rewards: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getRewardCategory(
