@@ -13,6 +13,7 @@ import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import com.fireworks.myeventsdk.model.Result
+import com.fireworks.myeventsdk.model.SubResponse
 import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
@@ -101,6 +102,11 @@ class CommonInterface {
 
     interface EventDetailCallback {
         fun onSuccess(detail: Detail?)
+        fun onFailure(errorMessage: String)
+    }
+
+    interface FavouriteCallback {
+        fun onSuccess(detail: SubResponse?)
         fun onFailure(errorMessage: String)
     }
 

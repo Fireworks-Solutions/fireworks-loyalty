@@ -14,6 +14,7 @@ import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
+import com.fireworks.myeventsdk.model.SubResponse
 import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
@@ -69,6 +70,13 @@ interface Service {
     @POST(Constants.EVENT_API)
     suspend fun getEvents(@Header("X-Auth-Token") sectoken: String,
     @FieldMap fields: Map<String, String>): Response<EventResponse>
+
+
+
+    @FormUrlEncoded
+    @POST(Constants.FAVOURITE_API)
+    suspend fun getFavouriteApi(@FieldMap fields: Map<String, String>): Response<SubResponse>
+
 
 
     @FormUrlEncoded

@@ -7,6 +7,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.Callback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CategoryCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CheckoutEventCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.EventDetailCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.FavouriteCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.model.Event
@@ -172,6 +173,55 @@ object EventSdk {
                             callback.onFailure(body.message ?: "Unknown error")
                         } else {
                             callback.onSuccess(body.details.firstOrNull())
+                        }
+                    } else {
+                        callback.onFailure("API failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Network error")
+                }
+            }
+        }
+    }
+
+
+
+
+    fun fetchFavourite(
+        context: Context,
+        token: String,
+        newsid: String,
+        custId: String,
+        mall: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: FavouriteCallback
+    ) {
+        val fieldMapp = mutableMapOf(
+            "custid" to custId,
+            "newsid" to newsid,
+            "date" to System.currentTimeMillis().toString(),
+            "mall" to mall,
+            "vc" to NetworkUtils.getVCKey()
+        )
+
+        // Add any extra fields from host app
+        fieldMapp.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getFavouriteApi(
+                    fields = fieldMapp
+                )
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val body = response.body()!!
+                        if (body.status.equals("failed", ignoreCase = true)) {
+                            callback.onFailure(body.message ?: "Unknown error")
+                        } else {
+                            callback.onSuccess(body)
                         }
                     } else {
                         callback.onFailure("API failed: ${response.code()}")

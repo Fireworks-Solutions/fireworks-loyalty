@@ -62,6 +62,7 @@ object Constants {
 
     //EVENT API
     const val EVENT_API = "webview_getEvents.php?"
+    const val FAVOURITE_API = "subNews.php?"
     const val EVENT_DETAIL_API = "webview_eventDetails.php?"
     const val EVENT_CHECKOUT_API = "event_checkout.php?"
     const val ADD_EVENT_URL = "e-commerceaddEventCart.php?"
