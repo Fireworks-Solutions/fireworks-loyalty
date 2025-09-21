@@ -41,5 +41,5 @@ data class NewsItem(
 	val address:String? = "",
 
 	@field:SerializedName("fav")
-	val Fav: Boolean? = false
+	val Fav: Boolean?
 )
