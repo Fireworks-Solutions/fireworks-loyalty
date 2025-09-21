@@ -4,6 +4,7 @@ import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
+import com.fireworks.myeventsdk.model.EventCategoryResponse
 import com.fireworks.myeventsdk.model.EventResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
@@ -89,6 +90,12 @@ interface Service {
     @POST(Constants.EVENT_CHECKOUT_API)
     suspend fun getEventCheckout(@Header("X-Auth-Token") secToken: String,
     @FieldMap fiellds: Map<String, String>): Response<CheckOutResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.EVENT_CATEGORIES_API)
+    suspend fun getEventCategory(@FieldMap fiellds: Map<String, String>): Response<EventCategoryResponse>
+
 
 
     @FormUrlEncoded

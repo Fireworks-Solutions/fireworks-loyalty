@@ -4,6 +4,7 @@ import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.Event
+import com.fireworks.myeventsdk.model.EventCategoryResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
@@ -115,6 +116,14 @@ class CommonInterface {
         fun onSuccess(detail: CheckOutResponse?)
         fun onFailure(errorMessage: String)
     }
+
+
+    interface EventCategoryCallback {
+        fun onSuccess(detail: EventCategoryResponse?)
+        fun onFailure(errorMessage: String)
+    }
+
+
     interface CategoryCallback {
         fun onSuccess(categories: List<Result>)
         fun onFailure(errorMessage: String)
