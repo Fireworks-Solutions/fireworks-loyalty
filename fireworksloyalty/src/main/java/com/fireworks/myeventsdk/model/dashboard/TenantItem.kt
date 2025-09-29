@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TenantItem(
 
+
         @field:SerializedName("id")
         var tenantId: String? = null,
 
