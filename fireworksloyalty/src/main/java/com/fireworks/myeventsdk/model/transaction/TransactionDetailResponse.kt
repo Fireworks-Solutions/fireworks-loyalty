@@ -104,6 +104,9 @@ data class TransactionDetailResponse(
     @field:SerializedName("refund_ref_no")
     val refundNumber: String,
 
+    @field:SerializedName("total_transaction")
+    val total_transaction: String,
+
     @field:SerializedName("transaction_type")
     val transaction_type: String? = "",
 
