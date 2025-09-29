@@ -23,8 +23,6 @@ data class DetailsItem(
         @field:SerializedName("tnc")
         val tnc: String? = null,
 
-
-
         @field:SerializedName("timer")
         val timer: Boolean? = null,
 
@@ -42,6 +40,12 @@ data class DetailsItem(
 
         @field:SerializedName("points")
         val points: String? = null,
+
+        @field:SerializedName("ins_desc")
+        val ins_desc: String? = null,
+
+        @field:SerializedName("ins_title")
+        val ins_title: String? = null,
 
         @field:SerializedName("share_link")
         val shareLink: String? = null,
