@@ -20,6 +20,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.TimerRewardCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.VerifyPasswordCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.WalletCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.WalletDetailCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.getDirectoryListInRewardCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.PrefConstant
@@ -736,7 +737,7 @@ object RewardsSdk {
         primaryfilter: String,
         rewardId: String,
         extraParams: Map<String, String> = emptyMap(),
-        callback: ShippingPointCallback
+        callback: getDirectoryListInRewardCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onFailure("No Internet Connection")
@@ -763,7 +764,7 @@ object RewardsSdk {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getShippingPointsByName(requestMap)
+                val response = retrofitService.getDirectoryListInReward(requestMap)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

@@ -55,6 +55,7 @@ import com.fireworks.myeventsdk.model.reward.detail.RewardDetailResponse
 import com.fireworks.myeventsdk.model.wallet.WalletResponse
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
+import com.incredibleqr.mysogo.data.remote.model.MerchantRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import digital.fireworks.kpdrm.data.dto.events_detail.Detail
 
@@ -222,6 +223,10 @@ class CommonInterface {
 
     interface ShippingPointCallback {
         fun onSuccess(response: ShippingPointResponse)
+        fun onFailure(errorMessage: String)
+    }
+    interface getDirectoryListInRewardCallback {
+        fun onSuccess(response: MerchantRewardResponse)
         fun onFailure(errorMessage: String)
     }
 

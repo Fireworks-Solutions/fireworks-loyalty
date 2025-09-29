@@ -36,6 +36,12 @@ data class DirectoryItem(
 	@field:SerializedName("floor_unit")
 	val floorUnit: String? = null,
 
+	@field:SerializedName("logo")
+	val logo: String? = null,
+
 	@field:SerializedName("verified_merchant")
-	val verified: String? = null
+	val verified: String? = null,
+
+	@field:SerializedName("address_google_map")
+	val address_google_map: String? = null
 )

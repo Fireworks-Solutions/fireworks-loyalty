@@ -16,6 +16,9 @@ data class TenantItem(
         @field:SerializedName("title")
         var tenantName: String? = null,
 
+        @field:SerializedName("logo")
+        var logo: String? = null,
+
         @field:SerializedName("location")
         var tenantLocation: String? = null,
 
