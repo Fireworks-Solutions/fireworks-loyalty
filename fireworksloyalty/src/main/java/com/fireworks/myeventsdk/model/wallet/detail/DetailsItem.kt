@@ -17,6 +17,9 @@ data class DetailsItem(
         @field:SerializedName("description")
         val description: String? = null,
 
+        @field:SerializedName("participant_outlet_count")
+        val participant_outlet_count: Int? = null,
+
         @field:SerializedName("title")
         val title: String? = null,
 

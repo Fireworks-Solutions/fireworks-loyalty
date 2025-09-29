@@ -56,6 +56,7 @@ import com.fireworks.myeventsdk.model.reward.category.FilterData
 import com.fireworks.myeventsdk.model.reward.category.RewardCategory
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
+import com.incredibleqr.mysogo.data.remote.model.MerchantRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import retrofit2.Response
 import retrofit2.http.FieldMap
@@ -238,6 +239,11 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.SHIPPING_POINTS_API)
     suspend fun getShippingPointsByName(@FieldMap fields: Map<String, String>): Response<ShippingPointResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.DIRECTORY_LIST_REWARD)
+    suspend fun getDirectoryListInReward(@FieldMap fields: Map<String, String>): Response<MerchantRewardResponse>
 
 
     @FormUrlEncoded

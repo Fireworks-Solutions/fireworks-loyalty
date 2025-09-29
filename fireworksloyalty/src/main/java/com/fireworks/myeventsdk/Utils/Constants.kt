@@ -59,6 +59,7 @@ object Constants {
     const val SHIPPING_POINTS_API = "get_shipping_points.php?"
     const val ADD_REWARD_URL = "e-commerce//addCart.php?"
     const val REWARD_WEBVIEW_URL = "ecom/promotion.php?"
+    const val DIRECTORY_LIST_REWARD = "getDirectoryListReward.php?"
 
     //EVENT API
     const val EVENT_API = "webview_getEvents.php?"

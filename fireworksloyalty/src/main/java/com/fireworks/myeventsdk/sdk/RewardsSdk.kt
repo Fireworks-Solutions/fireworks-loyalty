@@ -724,6 +724,66 @@ object RewardsSdk {
         }
     }
 
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getDirectoryListInReward(
+        context: Context,
+        token: String,
+        custId: String,
+        lat: String,
+        long: String,
+        primaryfilter: String,
+        rewardId: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: ShippingPointCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val requestMap = mutableMapOf(
+            "reward_id" to rewardId,
+            "custid" to custId,
+            "primary_filter" to primaryfilter,
+            "lon" to long,
+            "lat" to lat,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        requestMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getShippingPointsByName(requestMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Shipping point fetch failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getRewardDetail(
         context: Context,

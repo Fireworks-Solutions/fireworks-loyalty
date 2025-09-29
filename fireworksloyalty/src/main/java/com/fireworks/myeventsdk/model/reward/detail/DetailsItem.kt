@@ -24,6 +24,10 @@ data class DetailsItem(
 	@field:SerializedName("branches_available")
 	val branchesAvailable: Int? = null,
 
+
+	@field:SerializedName("participant_outlet_count")
+	val participant_outlet_count: Int? = null,
+
 	@field:SerializedName("description")
 	val description: String? = null,
 
