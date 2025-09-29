@@ -31,8 +31,8 @@ data class DetailsItem(
         @field:SerializedName("used_msg")
         val used_msg: String? = null,
 
-        @field:SerializedName("validity_days_message")
-        val validity_days_message: String? = null,
+        @field:SerializedName("validity_days")
+        val validity_days: String? = null,
 
         @field:SerializedName("gift_status")
         val giftStatus: String? = null,
