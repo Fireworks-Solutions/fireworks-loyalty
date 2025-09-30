@@ -14,6 +14,7 @@ import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
+import com.fireworks.myeventsdk.model.PRIVILEGEdASH.PrivRankResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.SubResponse
 import com.fireworks.myeventsdk.model.TimerResponse
@@ -163,6 +164,10 @@ interface Service {
     @FormUrlEncoded
     suspend fun privDashAPI(@FieldMap params: Map<String, String>): Response<MainResponse>
 
+
+    @POST(Constants.PRIVILEGE_RANK)
+    @FormUrlEncoded
+    suspend fun privRankAPI(@FieldMap params: Map<String, String>): Response<PrivRankResponse>
 
     @POST(Constants.MALL_LIST_API)
     @FormUrlEncoded

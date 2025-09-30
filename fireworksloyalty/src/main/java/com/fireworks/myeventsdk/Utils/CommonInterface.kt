@@ -9,6 +9,7 @@ import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
+import com.fireworks.myeventsdk.model.PRIVILEGEdASH.PrivRankResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
@@ -151,6 +152,10 @@ class CommonInterface {
 
     interface PrivCallback {
         fun onSuccess(response: MainResponse)
+        fun onFailure(errorMessage: String)
+    }
+  interface PrivRankCallback {
+        fun onSuccess(response: PrivRankResponse)
         fun onFailure(errorMessage: String)
     }
 

@@ -13,6 +13,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.InAppAlertCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.MultiMallCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.PayablePointsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.PrivCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.PrivRankCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.PurchaseCountCallBack
 import com.fireworks.myeventsdk.Utils.CommonInterface.RatePurchaseCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.StatesCallback
@@ -287,6 +288,75 @@ object DashboardSdk {
             }
         }
     }
+
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun privRankAPI(
+        context: Context,
+        mall: String,
+        custId: String,
+        mercId: String,
+        token: String,
+        appVersion: String,
+        pv: String,
+        deviceFlavour: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: PrivRankCallback
+    ) {
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "mall" to mall,
+            "custid" to custId,
+            "mercid" to mercId,
+            "lat" to AppUtil.latitude.toString(),
+            "lng" to AppUtil.longitude.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "appversion" to appVersion,
+            "deviceflavour" to deviceFlavour,
+            "svc" to Constants.svc,
+            "pvc" to pv
+        )
+
+        // Allow host app to add or override any param
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.privRankAPI(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        Log.d("Dashboard", "successful: $response")
+
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Dashboard API failed: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 
 
 
