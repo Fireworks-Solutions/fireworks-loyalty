@@ -3,8 +3,8 @@ package com.fireworks.myeventsdk.Utils
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
-import com.fireworks.myeventsdk.model.Event
 import com.fireworks.myeventsdk.model.EventCategoryResponse
+import com.fireworks.myeventsdk.model.EventResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
@@ -99,7 +99,7 @@ class CommonInterface {
 
 
     interface Callback {
-        fun onSuccess(events: List<Event>)
+        fun onSuccess(events: EventResponse?)
         fun onFailure(errorMessage: String)
     }
 

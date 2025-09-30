@@ -4,16 +4,12 @@ import android.content.Context
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface.Callback
-import com.fireworks.myeventsdk.Utils.CommonInterface.CategoryCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CheckoutEventCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.EventCategoryCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.EventDetailCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.FavouriteCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
-import com.fireworks.myeventsdk.model.Event
-import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
-import digital.fireworks.kpdrm.data.dto.events_detail.Detail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,7 +69,7 @@ object EventSdk {
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
-                        callback.onSuccess(response.body()!!.events)
+                        callback.onSuccess(response.body())
                     } else {
                         callback.onFailure("API failed with status: ${response.code()}")
                     }
