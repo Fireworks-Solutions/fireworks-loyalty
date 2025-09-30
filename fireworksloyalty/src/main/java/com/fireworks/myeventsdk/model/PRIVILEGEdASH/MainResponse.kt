@@ -31,6 +31,7 @@ data class Tenant(
     val title: String,
     val description: String,
     val location: String,
+    val logo: String,
     val featured_img: String,
     val created_at: String,
     val total_reward: Int
