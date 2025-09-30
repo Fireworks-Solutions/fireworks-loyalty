@@ -378,7 +378,7 @@ interface Service {
 
 
 
- @FormUrlEncoded
+     @FormUrlEncoded
     @POST(Constants.UPLOAD_IMAGE_API)
     suspend fun uploadImageAPI(@FieldMap fields: Map<String, String>): Response<UploadImageResponse>
 
