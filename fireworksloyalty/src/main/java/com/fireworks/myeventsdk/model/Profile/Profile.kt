@@ -1,5 +1,6 @@
 package com.fireworks.myeventsdk.model.Profile
 
+import com.fireworks.myeventsdk.model.PRIVILEGEdASH.PointsExpiry
 import com.google.gson.annotations.SerializedName
 import javax.annotation.processing.Generated
 
@@ -200,6 +201,9 @@ data class Profile(
 
     @field:SerializedName("phone_verified")
     val isPhoneVerified: Boolean = false,
+
+    @field:SerializedName("points_expiry")
+    val points_expiry: List<PointsExpiry>? = null,
 
     @field:SerializedName("phone_verified_error_message")
     val phoneVerificationErrorMessage: String? = null,
