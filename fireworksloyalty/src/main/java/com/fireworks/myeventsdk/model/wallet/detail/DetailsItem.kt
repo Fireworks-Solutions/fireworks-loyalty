@@ -50,6 +50,15 @@ data class DetailsItem(
         @field:SerializedName("ins_title")
         val ins_title: String? = null,
 
+     @field:SerializedName("is_third_party")
+        val is_third_party: String? = null,
+
+     @field:SerializedName("redirect_link")
+        val redirect_link: String? = null,
+
+        @field:SerializedName("third_party_redirect")
+        val third_party_redirect: String? = null,
+
         @field:SerializedName("share_link")
         val shareLink: String? = null,
 
