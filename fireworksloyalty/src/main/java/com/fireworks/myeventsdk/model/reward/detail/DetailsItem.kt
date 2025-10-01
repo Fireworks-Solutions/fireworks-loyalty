@@ -106,6 +106,9 @@ data class DetailsItem(
 	@field:SerializedName("is_swipe")
 	val isSwipe: Boolean? = null,
 
+	@field:SerializedName("is_third_party")
+	val is_third_party: Boolean? = null,
+
 	@field:SerializedName("pickup")
 	val pickup: Boolean? = null,
 
@@ -114,6 +117,9 @@ data class DetailsItem(
 
 	@field:SerializedName("label")
 	val label: String? = null,
+
+	@field:SerializedName("third_party_redirect")
+	val third_party_redirect: String? = null,
 
 	@field:SerializedName("full_address")
 	val fullAddress: String? = null,
