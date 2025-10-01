@@ -28,19 +28,30 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.SocketTimeoutException
+import java.util.concurrent.TimeUnit
 
 object RewardsSdk {
     //test
     private lateinit var retrofitService: Service
-    private lateinit var appPreference: AppPreference
 
+    private lateinit var appPreference: AppPreference
+    val okHttp = OkHttpClient.Builder()
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .callTimeout(60, TimeUnit.SECONDS)         // whole-call budget
+        .retryOnConnectionFailure(true)
+        .pingInterval(15, TimeUnit.SECONDS)        // keep-alive over HTTP/2
+        .build()
 
     fun init(baseUrl: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(okHttp)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitService = retrofit.create(Service::class.java)
