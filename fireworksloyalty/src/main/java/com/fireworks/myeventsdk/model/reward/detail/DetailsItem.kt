@@ -1,5 +1,6 @@
 package com.fireworks.myeventsdk.model.reward.detail
 
+import com.fireworks.myeventsdk.model.wallet.detail.validityInfo
 import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.reward.detail.CollectionItem
 import com.incredibleqr.mysogo.data.remote.model.reward.detail.MerchantItem
@@ -33,6 +34,12 @@ data class DetailsItem(
 
 	@field:SerializedName("purchase_limit")
 	val purchaseLimit: String? = null,
+
+	@field:SerializedName("is_premium")
+	val is_premium: Boolean? = null,
+
+	@field:SerializedName("validity_info")
+	val validity_info: validityInfo? = null,
 
 	@field:SerializedName("purchase_quantity")
 	val purchaseQuantity: String? = null,

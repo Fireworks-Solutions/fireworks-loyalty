@@ -31,6 +31,9 @@ data class WalletItem(
 	@field:SerializedName("point")
 	val point: String? = null,
 
+	@field:SerializedName("status_info")
+	val status_info: statusinfo? = null,
+
 
 	@field:SerializedName("timer")
 	val timer: Boolean? = null,
@@ -46,4 +49,17 @@ data class WalletItem(
 
 	@field:SerializedName("status")
 	val itemStatus: String? = ""
+)
+
+data class statusinfo(
+
+	@field:SerializedName("text_color")
+	val text_color: String? = null,
+
+	@field:SerializedName("prefix")
+	val prefix: String? = null,
+
+	@field:SerializedName("sufix")
+	val sufix: String? = null
+
 )

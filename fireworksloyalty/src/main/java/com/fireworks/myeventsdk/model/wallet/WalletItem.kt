@@ -1,5 +1,6 @@
 package com.fireworks.myeventsdk.model.wallet
 
+import com.fireworks.myeventsdk.model.wallet.detail.validityInfo
 import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.dashboard.LabelInfo
 
@@ -40,6 +41,12 @@ data class WalletItem(
 
     @field:SerializedName("status")
     val itemStatus: String? = "",
+
+    @field:SerializedName("is_premium")
+    val is_premium: Boolean? = "",
+
+    @field:SerializedName("validity_info")
+    val validity_info: validityInfo? = "",
 
     @field:SerializedName("validity_days_message")
     val validity_days_message: String? = "",
