@@ -119,6 +119,9 @@ data class DetailsItem(
 	@field:SerializedName("pickup")
 	val pickup: Boolean? = null,
 
+	@field:SerializedName("validity_days")
+	val validity_days: String? = null,
+
 	@field:SerializedName("delivery")
 	val delivery: Boolean? = null,
 
