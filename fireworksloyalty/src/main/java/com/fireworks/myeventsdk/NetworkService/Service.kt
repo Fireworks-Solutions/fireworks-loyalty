@@ -16,7 +16,9 @@ import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.PrivRankResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
+import com.fireworks.myeventsdk.model.SalutationResponse
 import com.fireworks.myeventsdk.model.SubResponse
+import com.fireworks.myeventsdk.model.SupportType
 import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
@@ -249,6 +251,14 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.DIRECTORY_LIST_REWARD)
     suspend fun getDirectoryListInReward(@FieldMap fields: Map<String, String>): Response<MerchantRewardResponse>
+
+   @FormUrlEncoded
+    @POST(Constants.GET_SALUTATION)
+    suspend fun getSalutation(@FieldMap fields: Map<String, String>): Response<SalutationResponse>
+
+   @FormUrlEncoded
+    @POST(Constants.SUPPORT_TYPE)
+    suspend fun getSupportType(@FieldMap fields: Map<String, String>): Response<SupportType>
 
 
     @FormUrlEncoded

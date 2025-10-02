@@ -235,6 +235,16 @@ class CommonInterface {
         fun onFailure(errorMessage: String)
     }
 
+    interface getSaluationCallback {
+        fun onSuccess(response: com.fireworks.myeventsdk.model.SalutationResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+    interface getSupportTypeCallback {
+        fun onSuccess(response: com.fireworks.myeventsdk.model.SupportType)
+        fun onFailure(errorMessage: String)
+    }
+
     interface StatesCallback {
         fun onSuccess(response: StatesResponse)
         fun onFailure(errorMessage: String)

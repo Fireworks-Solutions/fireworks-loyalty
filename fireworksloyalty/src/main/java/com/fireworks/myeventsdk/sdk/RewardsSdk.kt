@@ -21,6 +21,8 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.VerifyPasswordCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.WalletCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.WalletDetailCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.getDirectoryListInRewardCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.getSaluationCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.getSupportTypeCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.PrefConstant
@@ -782,6 +784,108 @@ object RewardsSdk {
                         callback.onSuccess(response.body()!!)
                     } else {
                         callback.onFailure("Shipping point fetch failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getSalutation(
+        context: Context,
+        token: String,
+
+        extraParams: Map<String, String> = emptyMap(),
+        callback: getSaluationCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val requestMap = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        requestMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getSalutation(requestMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Salutation failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getSupportType(
+        context: Context,
+        token: String,
+
+        extraParams: Map<String, String> = emptyMap(),
+        callback: getSupportTypeCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val requestMap = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "svc" to Constants.svc
+        )
+
+        requestMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getSupportType(requestMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("SupporT failed: ${response.code()}")
                     }
                 }
             } catch (e: SocketTimeoutException) {
