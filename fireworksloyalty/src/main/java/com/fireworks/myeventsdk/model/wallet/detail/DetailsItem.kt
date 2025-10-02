@@ -17,6 +17,12 @@ data class DetailsItem(
         @field:SerializedName("description")
         val description: String? = null,
 
+        @field:SerializedName("validity_info")
+        val validity_info: validityInfo? = null,
+
+        @field:SerializedName("is_premium")
+        val is_premium: Boolean? = null,
+
         @field:SerializedName("participant_outlet_count")
         val participant_outlet_count: Int? = null,
 
@@ -147,3 +153,16 @@ data class DetailsItem(
         @field:SerializedName("is_donation")
         val is_donation: Boolean? = null
 )
+
+data class validityInfo(
+
+        @field:SerializedName("text_color")
+        val text_color: String? = null,
+
+        @field:SerializedName("prefix")
+        val prefix: String? = null,
+
+        @field:SerializedName("sufix")
+        val sufix: String? = null,
+
+    )
