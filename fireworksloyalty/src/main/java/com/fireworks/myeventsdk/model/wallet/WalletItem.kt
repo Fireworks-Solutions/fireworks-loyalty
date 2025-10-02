@@ -43,10 +43,10 @@ data class WalletItem(
     val itemStatus: String? = "",
 
     @field:SerializedName("is_premium")
-    val is_premium: Boolean? = "",
+    val is_premium: Boolean? = false,
 
     @field:SerializedName("validity_info")
-    val validity_info: validityInfo? = "",
+    val validity_info: validityInfo? = null,
 
     @field:SerializedName("validity_days_message")
     val validity_days_message: String? = "",
