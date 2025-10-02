@@ -1,5 +1,6 @@
 package com.fireworks.myeventsdk.model.wallet.multiple
 
+import com.fireworks.myeventsdk.model.wallet.detail.validityInfo
 import com.google.gson.annotations.SerializedName
 
 data class WalletItem(
@@ -31,8 +32,8 @@ data class WalletItem(
 	@field:SerializedName("point")
 	val point: String? = null,
 
-	@field:SerializedName("status_info")
-	val status_info: statusinfo? = null,
+	@field:SerializedName("validity_info")
+	val validity_info: validityInfo? = null,
 
 
 	@field:SerializedName("timer")
