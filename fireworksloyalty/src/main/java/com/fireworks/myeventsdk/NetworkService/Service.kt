@@ -444,6 +444,10 @@ interface Service {
     @FormUrlEncoded
     suspend fun releasePoints(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
+    @POST(Constants.CLEAR_ALL_NOTIFICATION)
+    @FormUrlEncoded
+    suspend fun clearNotification(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
     @FormUrlEncoded
     @POST(Constants.ARCHIVE_TRANSACTION_API)
     suspend fun archiveTransaction(@FieldMap fields: Map<String, String>): Response<CommonResponse>

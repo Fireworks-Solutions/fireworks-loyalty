@@ -93,6 +93,7 @@ object Constants {
     const val TRANSACTION_HISTORY_DETAIL_API = "merchantTransactionHistorySingle.php?"
     const val GET_SETTINGS_API = "getnoti.php?"
     const val UPDATE_SETTINGS_API = "savenoti.php?"
+    const val CLEAR_ALL_NOTIFICATION = "clear_all_noti.php?"
     const val HOBBIES_INTERESTS_API = "/getInterestHobby.php?"
 
     //BOOKMARK API

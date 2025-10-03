@@ -425,6 +425,10 @@ class CommonInterface {
         fun onSuccess(response: CommonResponse)
         fun onFailure(errorMessage: String)
     }
+ interface ClearNotCallback {
+        fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
 
 
     interface TransactionArchiveCallback {
