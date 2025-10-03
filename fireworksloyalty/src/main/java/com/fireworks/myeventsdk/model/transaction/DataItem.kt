@@ -25,6 +25,9 @@ data class DataItem(
 	@field:SerializedName("points")
 	var points: String? = null,
 
+	@field:SerializedName("icon")
+	var icon: String? = null,
+
 	@field:SerializedName("points_label")
 	var points_label: String? = null,
 
