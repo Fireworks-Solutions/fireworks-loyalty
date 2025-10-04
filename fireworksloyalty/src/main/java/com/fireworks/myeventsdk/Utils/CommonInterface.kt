@@ -8,6 +8,7 @@ import com.fireworks.myeventsdk.model.EventResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
+import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.PrivRankResponse
 import com.fireworks.myeventsdk.model.PointDetailResponse
@@ -56,7 +57,6 @@ import com.fireworks.myeventsdk.model.reward.detail.RewardDetailResponse
 import com.fireworks.myeventsdk.model.wallet.WalletResponse
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
-import com.incredibleqr.mysogo.data.remote.model.MerchantRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import digital.fireworks.kpdrm.data.dto.events_detail.Detail
 

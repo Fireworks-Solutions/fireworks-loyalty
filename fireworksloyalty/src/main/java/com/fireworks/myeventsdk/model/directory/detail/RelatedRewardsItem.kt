@@ -1,5 +1,6 @@
 package com.fireworks.myeventsdk.model.directory.detail
 
+import com.fireworks.myeventsdk.model.wallet.detail.validityInfo
 import com.google.gson.annotations.SerializedName
 import javax.annotation.processing.Generated
 
