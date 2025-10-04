@@ -7,6 +7,7 @@ data class PointDetailResponse(
     @field:SerializedName("status")
     val status: String? = null,
 
+
     @field:SerializedName("register")
     val register: String? = null,
 
