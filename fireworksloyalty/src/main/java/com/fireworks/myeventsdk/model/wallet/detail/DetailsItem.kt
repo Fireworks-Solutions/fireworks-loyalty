@@ -11,6 +11,9 @@ data class DetailsItem(
         @field:SerializedName("purchase_end")
         val purchaseEnd: String? = null,
 
+        @field:SerializedName("time")
+        val time: String? = null,
+
         @field:SerializedName("branches_available")
         val branchesAvailable: Int? = null,
 

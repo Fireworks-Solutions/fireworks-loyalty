@@ -1,4 +1,4 @@
-package digital.fireworks.kpdrm.data.dto.events_detail
+package com.fireworks.myeventsdk.model.events_detail
 
 data class Detail(
     val address: String,
@@ -17,6 +17,7 @@ data class Detail(
     val purchase_end: String,
     val purchase_limit: String,
     val purchase_start: String,
+    val time: String,
     val quantity_message: String,
     val redeem_end: String,
     val redeem_start: String,

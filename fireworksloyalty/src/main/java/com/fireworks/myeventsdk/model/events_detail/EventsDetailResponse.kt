@@ -1,7 +1,6 @@
 package com.fireworks.myeventsdk.model.events_detail
 
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
-import digital.fireworks.kpdrm.data.dto.events_detail.Detail
 
 data class EventsDetailResponse(
     val custname: String,
