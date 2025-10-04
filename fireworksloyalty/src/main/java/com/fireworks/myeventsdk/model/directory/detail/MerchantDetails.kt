@@ -21,6 +21,9 @@ data class MerchantDetails(
 	@field:SerializedName("email")
 	val email: String? = null,
 
+	@field:SerializedName("logo")
+	val logo: String? = null,
+
 
 	@field:SerializedName("address")
 	val address: String? = null,

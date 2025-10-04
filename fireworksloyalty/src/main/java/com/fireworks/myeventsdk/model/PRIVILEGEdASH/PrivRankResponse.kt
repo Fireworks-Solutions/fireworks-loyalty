@@ -1,5 +1,7 @@
 package com.fireworks.myeventsdk.model.PRIVILEGEdASH
 
+import java.util.ArrayList
+
 data class PrivRankResponse(
     val status: String,
     val message: String,

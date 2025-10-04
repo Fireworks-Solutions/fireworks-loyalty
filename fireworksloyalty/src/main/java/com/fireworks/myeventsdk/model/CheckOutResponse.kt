@@ -15,6 +15,9 @@ data class CheckOutResponse(
 	@field:SerializedName("code")
 	val code: String? = null,
 
+	@field:SerializedName("time")
+	val time: String? = null,
+
 	@field:SerializedName("message")
 	val message: String? = null,
 
