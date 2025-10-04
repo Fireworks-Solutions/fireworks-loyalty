@@ -34,5 +34,8 @@ data class RelatedRewardsItem(
 	val point: String? = null,
 
 	@field:SerializedName("label")
-	val label: String? = null
+	val label: String? = null,
+
+	@field:SerializedName("validity_info")
+	val validity_info: validityInfo? = null
 )
