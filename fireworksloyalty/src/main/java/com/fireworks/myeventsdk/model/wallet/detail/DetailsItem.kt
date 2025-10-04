@@ -163,6 +163,6 @@ data class validityInfo(
         val prefix: String? = null,
 
         @field:SerializedName("sufix")
-        val sufix: String? = null,
+        val sufix: String? = null
 
     )

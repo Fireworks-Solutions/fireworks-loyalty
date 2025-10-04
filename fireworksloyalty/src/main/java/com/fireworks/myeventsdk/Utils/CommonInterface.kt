@@ -330,6 +330,8 @@ class CommonInterface {
         fun onFailure(errorMessage: String)
     }
 
+
+
     interface FacilityDetailCallback {
         fun onSuccess(response: FacilityDetailResponse)
         fun onFailure(errorMessage: String)
