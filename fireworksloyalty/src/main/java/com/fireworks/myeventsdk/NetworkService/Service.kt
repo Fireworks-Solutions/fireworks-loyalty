@@ -9,7 +9,6 @@ import com.fireworks.myeventsdk.model.EventResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
-import com.fireworks.myeventsdk.model.events_detail.EventsResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
@@ -56,10 +55,9 @@ import com.fireworks.myeventsdk.model.migratedUser.MigratedUserDataResponse
 import com.fireworks.myeventsdk.model.register.RegisterResponse
 import com.fireworks.myeventsdk.model.country.CountryListResponse
 import com.fireworks.myeventsdk.model.reward.category.FilterData
-import com.fireworks.myeventsdk.model.reward.category.RewardCategory
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
-import com.incredibleqr.mysogo.data.remote.model.MerchantRewardResponse
+import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import retrofit2.Response
 import retrofit2.http.FieldMap
