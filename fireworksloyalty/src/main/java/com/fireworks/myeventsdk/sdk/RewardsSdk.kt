@@ -9,6 +9,7 @@ import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface.CheckInCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.DailyRewardsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.MultiWalletCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.NearbyCategoryTypeCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.PickupCheckoutCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.RewardCategoryCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.RewardCategoryNewCallback
@@ -1011,6 +1012,72 @@ object RewardsSdk {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.nearByrewardAPI(fieldMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Failed to fetch rewards: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getNearByCategoryReward(
+        context: Context,
+        custId: String,
+        mall: String,
+        merchantId: String,
+        token: String,
+        lat: String,
+        long: String,
+        categoryId: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: NearbyCategoryTypeCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val appPreference = AppPreference.getInstance(context)
+
+        val fieldMap = mutableMapOf(
+            "mall" to mall,
+            "custid" to custId,
+            "mercid" to merchantId,
+            "lat" to lat,
+            "lon" to long,
+            "category" to categoryId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Add any dynamic fields from the host app
+        fieldMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.nearByrewardCatAPI(fieldMap)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

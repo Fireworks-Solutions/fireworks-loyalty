@@ -190,7 +190,8 @@ object Constants {
     const val RELEASE_POINTS_API = "releasePoints.php?"
 
     const val DAILY_REWARD_API = "get_daily_check_in_rewards.php?"
-    const val NEARBY_REWARDS = "nearby_rewards?"
+    const val NEARBY_REWARDS = "nearby_rewards.php?"
+    const val NEARBY_CAT_REWARDS = "categories_nearby.php"
     const val STAMPS_REWARDS_API = "get_stamp_rewards.php?"
     const val STAMPS_REWARDS_CHECKIN_API = "stamp_rewards.php?"
     const val CHECK_IN_API = "daily_check_in_rewards.php?"

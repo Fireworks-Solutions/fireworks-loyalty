@@ -58,6 +58,7 @@ import com.fireworks.myeventsdk.model.reward.category.FilterData
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.fireworks.myeventsdk.model.MerchantRewardResponse
+import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import retrofit2.Response
 import retrofit2.http.FieldMap
@@ -288,6 +289,10 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.NEARBY_REWARDS)
     suspend fun nearByrewardAPI(@FieldMap fields: Map<String, String>): Response<RewardResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.NEARBY_CAT_REWARDS)
+    suspend fun nearByrewardCatAPI(@FieldMap fields: Map<String, String>): Response<RewardCategoryTypeResponse>
 
     @FormUrlEncoded
     @POST(Constants.REWARD_CATEGORY_API)

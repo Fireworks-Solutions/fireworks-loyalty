@@ -59,6 +59,7 @@ import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import com.fireworks.myeventsdk.model.events_detail.Detail
+import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 
 class CommonInterface {
 
@@ -261,6 +262,11 @@ class CommonInterface {
 
     interface RewardListCallback {
         fun onSuccess(response: RewardResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+    interface NearbyCategoryTypeCallback {
+        fun onSuccess(response: RewardCategoryTypeResponse)
         fun onFailure(errorMessage: String)
     }
 
