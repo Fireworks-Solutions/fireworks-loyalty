@@ -11,6 +11,6 @@ data class RewardCategoryTypeResponse(
     @field:SerializedName("message")
 	val message: String? = null,
 
-    @field:SerializedName("categories")
+    @field:SerializedName("category")
     val categories: List<Category?>? = null
 )
