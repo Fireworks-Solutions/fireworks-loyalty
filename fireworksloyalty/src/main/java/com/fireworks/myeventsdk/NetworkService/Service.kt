@@ -58,6 +58,7 @@ import com.fireworks.myeventsdk.model.reward.category.FilterData
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.fireworks.myeventsdk.model.MerchantRewardResponse
+import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import retrofit2.Response
@@ -109,6 +110,34 @@ interface Service {
    @FormUrlEncoded
     @POST(Constants.loginV2_with_otp)
     suspend fun loginWithOtp(@FieldMap fields: Map<String, String>): Response<LoginResponse>
+
+
+   @FormUrlEncoded
+    @POST(Constants.checkEmailLogin)
+    suspend fun checkEmailLogin(@FieldMap fields: Map<String, String>): Response<LoginEmailResponse>
+
+
+   @FormUrlEncoded
+    @POST(Constants.sendEmailOtp)
+    suspend fun sendEmailOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+   @FormUrlEncoded
+    @POST(Constants.loginEmail)
+    suspend fun loginEmail(@FieldMap fields: Map<String, String>): Response<LoginResponse>
+
+
+
+   @FormUrlEncoded
+    @POST(Constants.registerEmailOtp)
+    suspend fun registerEmailOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+
+
+   @FormUrlEncoded
+    @POST(Constants.registerEmailOtpVerify)
+    suspend fun registerEmailOtpVerify(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
     @FormUrlEncoded

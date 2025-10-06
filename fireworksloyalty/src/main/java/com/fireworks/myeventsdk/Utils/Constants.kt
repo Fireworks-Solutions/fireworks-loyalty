@@ -12,6 +12,15 @@ object Constants {
     const val LOGIN_API = "login.php?"
     const val LOGIN_OTP_API = "loginOtp.php?"
     const val loginV2_with_otp = "loginV2.php?"
+    const val checkEmailLogin = "checkEmailLogin.php?"
+    const val sendEmailOtp = "sendEmailOtp.php?"
+    const val loginEmail = "loginEmail.php?"
+    const val registerEmailOtp = "registerEmailOtp.php?"
+    const val registerEmailOtpVerify = "registerEmailOtpVerify.php?"
+    const val REGISTER_API = "registerV2.php"
+
+
+
 
     const val ADD_DEVICE_TOKEN_API = "addDeviceToken.php?"
     const val CHECK_SESSION_API = "checkSession.php"
@@ -29,7 +38,7 @@ object Constants {
     const val SEND_OTP_API = "otp_register.php?"
     const val OTP_VERIFY_API = "otp_register_verification.php?"
     const val SIGN_UP_API = "register.php?"
-    const val REGISTER_API = "registerV2.php"
+
     const val CHECK_EMAIL_API = "checkEmail.php?"
     const val SIGN_UP_FRIEND_API = "/registerfr.php?"
     const val SIGN_UP_JUNIOR_API = "/registerjr.php?"
