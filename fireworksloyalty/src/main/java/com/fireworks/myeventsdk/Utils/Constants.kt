@@ -208,5 +208,11 @@ object Constants {
     const val SURVEY_API = "/view_survey_uncompleted.php?"
     const val COUNTRY_CODES_API = "getCountryCodes.php"
 
+    const val GET_ARTICLE = "getArticle.php?"
+    const val GET_ARTICLE_CATEGORY= "getArticleCategories.php?"
+    const val GET_ARTICLE_DETAIL= "getArticleById.php?"
+
+
+
 //test
 }

@@ -1,7 +1,10 @@
 package com.fireworks.myeventsdk.NetworkService
 
+import com.fireworks.myeventsdk.ArticleCategoryResponse
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.model.ApiResponse
+import com.fireworks.myeventsdk.model.ArticleDetailResponse
+import com.fireworks.myeventsdk.model.ArticleListResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.EventCategoryResponse
@@ -522,6 +525,18 @@ interface Service {
 
     @POST(Constants.POINT_DETAIL_API)
     suspend fun getPointDetails(): Response<PointDetailResponse>
+
+
+
+    @POST(Constants.GET_ARTICLE)
+    suspend fun getArticle(@FieldMap fields: Map<String, String>): Response<ArticleListResponse>
+
+
+    @POST(Constants.GET_ARTICLE_CATEGORY)
+    suspend fun getArticleCategory(@FieldMap fields: Map<String, String>): Response<ArticleCategoryResponse>
+
+    @POST(Constants.GET_ARTICLE_DETAIL)
+    suspend fun getArticleDetails(@FieldMap fields: Map<String, String>): Response<ArticleDetailResponse>
 
 
 }

@@ -32,5 +32,6 @@ data class Detail(
     val rank_text: String,
     val purchase_start_time: String,
     val interest: Boolean,
-    val is_rsvp : Int
+    val is_rsvp : Int,
+    val has_dob : Boolean,
 )

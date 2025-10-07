@@ -125,6 +125,9 @@ data class DetailsItem(
 	@field:SerializedName("delivery")
 	val delivery: Boolean? = null,
 
+	@field:SerializedName("has_dob")
+	val has_dob: Boolean? = null,
+
 	@field:SerializedName("label")
 	val label: String? = null,
 
