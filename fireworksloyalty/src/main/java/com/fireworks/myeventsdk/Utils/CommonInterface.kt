@@ -1,6 +1,9 @@
 package com.fireworks.myeventsdk.Utils
 
+import com.fireworks.myeventsdk.ArticleCategoryResponse
 import com.fireworks.myeventsdk.model.ApiResponse
+import com.fireworks.myeventsdk.model.ArticleDetailResponse
+import com.fireworks.myeventsdk.model.ArticleListResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.EventCategoryResponse
@@ -372,6 +375,18 @@ class CommonInterface {
 
     interface NewsListCallback {
         fun onSuccess(response: NewsResponse)
+        fun onFailure(errorMessage: String)
+    }
+  interface GetArticleListCallback {
+        fun onSuccess(response: ArticleListResponse)
+        fun onFailure(errorMessage: String)
+    }
+  interface GetArticleCategoryCallback {
+        fun onSuccess(response: ArticleCategoryResponse)
+        fun onFailure(errorMessage: String)
+    }
+ interface GetArticleDetailsCallback {
+        fun onSuccess(response: ArticleDetailResponse)
         fun onFailure(errorMessage: String)
     }
 
