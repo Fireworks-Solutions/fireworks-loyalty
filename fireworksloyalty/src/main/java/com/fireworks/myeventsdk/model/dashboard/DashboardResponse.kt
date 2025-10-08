@@ -1,5 +1,6 @@
 package com.fireworks.myeventsdk.model.dashboard
 
+import com.fireworks.myeventsdk.model.ArticleDetailResponse
 import com.google.gson.annotations.SerializedName
 import com.fireworks.myeventsdk.model.news.NewsItem
 
@@ -35,6 +36,9 @@ data class DashboardResponse(
         @field:SerializedName("events")
         val events: ArrayList<EventsItem>? = null,
 
+        @field:SerializedName("magazines")
+        val magazines: ArrayList<Magazines>? = null,
+
         @field:SerializedName("status")
         val status: String? = null,
 
@@ -49,4 +53,31 @@ data class DashboardResponse(
 
         @field:SerializedName("purchase_norating")
         val purchaseNoRating: ArrayList<PurchaseNoRatingItem>? = null
+)
+
+
+data class Magazines(
+
+        @field:SerializedName("id")
+        val id: String? = null,
+
+        @field:SerializedName("title")
+        val title: String? = null,
+
+        @field:SerializedName("content")
+        val content: String? = null,
+
+
+        @field:SerializedName("description")
+        val description: String? = null,
+
+
+        @field:SerializedName("image")
+        val image: String? = null,
+
+        @field:SerializedName("external_link")
+        val external_link: String? = null,
+
+        @field:SerializedName("cat_title")
+        val cat_title: Int? = null,
 )

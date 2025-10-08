@@ -213,6 +213,9 @@ object Constants {
     const val GET_ARTICLE_DETAIL= "getArticleById.php?"
 
 
+    const val SEARCH_FILTER= "searchFilter.php?"
+
+
 
 //test
 }

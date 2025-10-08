@@ -63,6 +63,7 @@ import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
+import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import retrofit2.Response
 import retrofit2.http.FieldMap
@@ -542,4 +543,47 @@ interface Service {
     suspend fun getArticleDetails(@FieldMap fields: Map<String, String>): Response<ArticleDetailResponse>
 
 
+    @FormUrlEncoded
+    @POST(Constants.SEARCH_FILTER)
+    suspend fun searchFilter(@FieldMap fields: Map<String, String>): Response<SerachFilterResponse>
+
+
 }
+
+data class SerachFilterResponse(
+
+    @field:SerializedName("status")
+    val status: String? = null,
+
+    @field:SerializedName("message")
+    val message: String? = null,
+
+    @field:SerializedName("searchterm")
+    val searchterm: String? = null,
+
+    @field:SerializedName("keyword")
+    val keyword: String? = null,
+
+    @field:SerializedName("vouchers")
+    val vouchers: ArrayList<Vouchers>? = null,
+
+
+    @field:SerializedName("merchants")
+    val merchants: ArrayList<Vouchers>? = null,
+
+
+
+ )
+
+data class Vouchers(
+ @field:SerializedName("id")
+ val id: String? = null,
+
+ @field:SerializedName("name")
+ val name: String? = null,
+
+ @field:SerializedName("type")
+ val type: String? = null
+
+
+ )
