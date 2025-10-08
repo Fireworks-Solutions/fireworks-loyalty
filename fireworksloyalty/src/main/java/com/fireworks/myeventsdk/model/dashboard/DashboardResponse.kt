@@ -79,5 +79,5 @@ data class Magazines(
         val external_link: String? = null,
 
         @field:SerializedName("cat_title")
-        val cat_title: Int? = null,
+        val cat_title: String? = null,
 )
