@@ -1,6 +1,7 @@
 package com.fireworks.myeventsdk.Utils
 
 import com.fireworks.myeventsdk.ArticleCategoryResponse
+import com.fireworks.myeventsdk.NetworkService.SerachFilterResponse
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.ArticleDetailResponse
 import com.fireworks.myeventsdk.model.ArticleListResponse
@@ -387,6 +388,10 @@ class CommonInterface {
     }
  interface GetArticleDetailsCallback {
         fun onSuccess(response: ArticleDetailResponse)
+        fun onFailure(errorMessage: String)
+    }
+ interface GetGlobalSearchCallback {
+        fun onSuccess(response: SerachFilterResponse)
         fun onFailure(errorMessage: String)
     }
 

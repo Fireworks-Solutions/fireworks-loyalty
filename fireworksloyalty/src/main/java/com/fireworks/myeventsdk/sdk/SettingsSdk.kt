@@ -9,6 +9,8 @@ import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface
 import com.fireworks.myeventsdk.Utils.CommonInterface.CountryCodesCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CountryListCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.GetArticleDetailsCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.GetGlobalSearchCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ReferralDataCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SettingsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SettingsUpdateCallback
@@ -88,6 +90,61 @@ object SettingsSdk {
             }
         }
     }
+
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getGlobalSearch(
+        context: Context,
+        id : String,
+        searchTerm: String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: GetGlobalSearchCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "custid" to id,
+            "searchterm" to searchTerm,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge any additional parameters from the host app
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.searchFilter(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("News API failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getCountryList(
