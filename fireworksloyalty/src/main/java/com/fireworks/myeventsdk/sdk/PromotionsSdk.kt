@@ -281,7 +281,7 @@ object PromotionsSdk {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = retrofitService.getArticleCategory(fields)
+                val response = retrofitService.getNewsCategory(fields)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
