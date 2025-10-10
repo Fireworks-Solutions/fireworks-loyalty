@@ -249,6 +249,57 @@ object PromotionsSdk {
     }
 
 
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getNewsCategory(
+        context: Context,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: GetArticleCategoryCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        // Merge any additional parameters from the host app
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.getArticleCategory(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("News API failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun getArticleDetail(
         context: Context,

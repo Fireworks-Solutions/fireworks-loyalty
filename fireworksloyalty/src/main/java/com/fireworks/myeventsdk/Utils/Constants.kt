@@ -214,6 +214,7 @@ object Constants {
 
 
     const val SEARCH_FILTER= "searchFilter.php?"
+    const val NEWS_CATEGORY= "getAllNewsCategory.php"
 
 
 

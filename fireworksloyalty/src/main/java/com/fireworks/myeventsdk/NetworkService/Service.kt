@@ -539,6 +539,10 @@ interface Service {
     suspend fun getArticleCategory(@FieldMap fields: Map<String, String>): Response<ArticleCategoryResponse>
 
     @FormUrlEncoded
+    @POST(Constants.NEWS_CATEGORY)
+    suspend fun getNewsCategory(@FieldMap fields: Map<String, String>): Response<ArticleCategoryResponse>
+
+    @FormUrlEncoded
     @POST(Constants.GET_ARTICLE_DETAIL)
     suspend fun getArticleDetails(@FieldMap fields: Map<String, String>): Response<ArticleDetailResponse>
 
