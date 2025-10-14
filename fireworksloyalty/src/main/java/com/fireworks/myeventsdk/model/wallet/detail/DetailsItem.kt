@@ -154,7 +154,10 @@ data class DetailsItem(
 
 
         @field:SerializedName("is_donation")
-        val is_donation: Boolean? = null
+        val is_donation: Boolean? = null,
+
+        @field:SerializedName("Images")
+        val Images: ArrayList<String>? = null
 )
 
 data class validityInfo(

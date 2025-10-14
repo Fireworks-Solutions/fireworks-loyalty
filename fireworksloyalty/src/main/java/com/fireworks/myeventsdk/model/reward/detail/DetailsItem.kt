@@ -138,5 +138,9 @@ data class DetailsItem(
 	val fullAddress: String? = null,
 
 	@field:SerializedName("collection_method")
-	val collectionMethod: ArrayList<CollectionItem>? = null
+	val collectionMethod: ArrayList<CollectionItem>? = null,
+
+	@field:SerializedName("Images")
+	val Images: ArrayList<String>? = null
 )
+
