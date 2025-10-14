@@ -140,7 +140,7 @@ data class DetailsItem(
 	@field:SerializedName("collection_method")
 	val collectionMethod: ArrayList<CollectionItem>? = null,
 
-	@field:SerializedName("Images")
+	@field:SerializedName("images")
 	val Images: ArrayList<String>? = null
 )
 
