@@ -1,6 +1,7 @@
 package com.fireworks.myeventsdk.Utils
 
 import android.content.Context
+import android.provider.Settings
 import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
 
 class AppUtil {
@@ -13,7 +14,8 @@ class AppUtil {
         var longitude = 0.0
         var mall = 0
         fun getDeviceId(context: Context): String {
-            return ""
+            return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
         }
     }
 
