@@ -52,7 +52,10 @@ data class DashboardResponse(
         val showDailyRewards: Boolean? = null,
 
         @field:SerializedName("purchase_norating")
-        val purchaseNoRating: ArrayList<PurchaseNoRatingItem>? = null
+        val purchaseNoRating: ArrayList<PurchaseNoRatingItem>? = null,
+
+        @field:SerializedName("brand")
+        val brand: ArrayList<Brand>? = null
 )
 
 
@@ -80,4 +83,17 @@ data class Magazines(
 
         @field:SerializedName("cat_title")
         val cat_title: String? = null,
+)
+
+data class Brand(
+
+        @field:SerializedName("id")
+        val id: String? = null,
+
+        @field:SerializedName("name")
+        val name: String? = null,
+
+        @field:SerializedName("logo")
+        val logo: String? = null,
+
 )
