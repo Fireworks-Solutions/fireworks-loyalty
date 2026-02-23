@@ -2,6 +2,7 @@ package com.fireworks.myeventsdk.Utils
 
 import com.fireworks.myeventsdk.ArticleCategoryResponse
 import com.fireworks.myeventsdk.NetworkService.SerachFilterResponse
+import com.fireworks.myeventsdk.model.AddSupplementaryResponse
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.ArticleDetailResponse
 import com.fireworks.myeventsdk.model.ArticleListResponse
@@ -11,6 +12,7 @@ import com.fireworks.myeventsdk.model.EventCategoryResponse
 import com.fireworks.myeventsdk.model.EventResponse
 import com.fireworks.myeventsdk.model.GetSettingsResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.ListSupplementaryResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
@@ -415,6 +417,17 @@ class CommonInterface {
     interface SetPasswordCallback {
         fun onSuccess(response: CommonResponse)
         fun onFailure(errorMessage: String)
+    }
+
+    interface AddSupplementaryCallback {
+        fun onSuccess(response: AddSupplementaryResponse)
+        fun onFailure(message: String)
+    }
+
+
+    interface ListSupplementaryCallback {
+        fun onSuccess(response: ListSupplementaryResponse)
+        fun onFailure(message: String)
     }
 
 

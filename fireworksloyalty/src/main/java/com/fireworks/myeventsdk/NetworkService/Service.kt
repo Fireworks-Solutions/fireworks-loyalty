@@ -2,6 +2,7 @@ package com.fireworks.myeventsdk.NetworkService
 
 import com.fireworks.myeventsdk.ArticleCategoryResponse
 import com.fireworks.myeventsdk.Utils.Constants
+import com.fireworks.myeventsdk.model.AddSupplementaryResponse
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.ArticleDetailResponse
 import com.fireworks.myeventsdk.model.ArticleListResponse
@@ -14,6 +15,7 @@ import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.events_detail.EventsDetailResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.HonorificListResponse
+import com.fireworks.myeventsdk.model.ListSupplementaryResponse
 import com.fireworks.myeventsdk.model.MerchantCategory
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.MainResponse
 import com.fireworks.myeventsdk.model.PRIVILEGEdASH.PrivRankResponse
@@ -423,11 +425,18 @@ interface Service {
     suspend fun fogotPasswordAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
-     @FormUrlEncoded
-     @POST(Constants.URL_SMS_RESET_OTP)
-     suspend fun resetOtp(@FieldMap fields: Map<String, String>): Response<VerifyOtpResponse>
+    @FormUrlEncoded
+    @POST(Constants.URL_SMS_RESET_OTP)
+    suspend fun resetOtp(@FieldMap fields: Map<String, String>): Response<VerifyOtpResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.ADD_SUPPLIMENTARY_CARD)
+    suspend fun addSupplementary(@FieldMap params: Map<String, String>): Response<AddSupplementaryResponse>
 
 
+    @FormUrlEncoded
+    @POST(Constants.LIST_SUPPLIMENTARY)
+    suspend fun listSupplementary(@FieldMap params: Map<String, String>): Response<ListSupplementaryResponse>
 
      @FormUrlEncoded
     @POST(Constants.UPLOAD_IMAGE_API)
