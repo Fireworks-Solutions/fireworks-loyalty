@@ -218,6 +218,8 @@ object Constants {
     const val SEARCH_FILTER= "searchFilter.php?"
     const val ADD_SUPPLIMENTARY_CARD= "add_supplementary.php?"
     const val LIST_SUPPLIMENTARY= "list_supplementary.php"
+    const val STORE_LOCATOR_FILTER = "store_locator_filter.php"
+    const val STORE_LOCATOR_RESULT = "store_locator_result.php?"
     const val NEWS_CATEGORY= "getAllNewsCategory.php"
 
 

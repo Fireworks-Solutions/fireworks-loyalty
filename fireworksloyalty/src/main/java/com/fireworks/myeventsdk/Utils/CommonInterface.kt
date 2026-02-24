@@ -22,6 +22,8 @@ import com.fireworks.myeventsdk.model.Profile.ProfileResponse
 import com.fireworks.myeventsdk.model.login.LoginResponse
 import com.fireworks.myeventsdk.model.rewards_search.SearchRewardItem
 import com.fireworks.myeventsdk.model.Result
+import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
+import com.fireworks.myeventsdk.model.StoreLocatorListResponse
 import com.fireworks.myeventsdk.model.SubResponse
 import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
@@ -430,6 +432,17 @@ class CommonInterface {
         fun onFailure(message: String)
     }
 
+
+
+    interface StoreLocatorFilterCallback {
+        fun onSuccess(response: StoreLocatorFilterResponse)
+        fun onFailure(error: String)
+    }
+
+    interface StoreLocatorResultCallback {
+        fun onSuccess(response: StoreLocatorListResponse)
+        fun onFailure(error: String)
+    }
 
     interface SetVerifyPasswordCallback {
         fun onSuccess(response: VerifyOtpResponse)

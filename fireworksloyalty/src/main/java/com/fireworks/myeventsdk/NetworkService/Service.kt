@@ -63,6 +63,8 @@ import com.fireworks.myeventsdk.model.reward.category.FilterData
 import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.fireworks.myeventsdk.model.MerchantRewardResponse
+import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
+import com.fireworks.myeventsdk.model.StoreLocatorListResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 import com.google.gson.annotations.SerializedName
@@ -437,6 +439,14 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.LIST_SUPPLIMENTARY)
     suspend fun listSupplementary(@FieldMap params: Map<String, String>): Response<ListSupplementaryResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.STORE_LOCATOR_FILTER)
+    suspend fun storeLocatorFilter(): Response<StoreLocatorFilterResponse>
+
+    @FormUrlEncoded
+    @POST(Constants.STORE_LOCATOR_RESULT)
+    suspend fun storeLocatorResult(@FieldMap params: Map<String, String>): Response<StoreLocatorListResponse>
 
      @FormUrlEncoded
     @POST(Constants.UPLOAD_IMAGE_API)

@@ -497,6 +497,8 @@ object ProfileSdk {
     }
 
 
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun listSupplementaryUsers(
         context: Context,
@@ -547,7 +549,71 @@ object ProfileSdk {
         }
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun storeLocatorFilterAPI(
+        context: Context,
+        callback: CommonInterface.StoreLocatorFilterCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
 
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.storeLocatorFilter()
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Store locator filter failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun storeLocatorResultAPI(
+        context: Context,
+        state: String,
+        serviceId: String,
+        callback: CommonInterface.StoreLocatorResultCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "state" to state,
+            "service" to serviceId
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.storeLocatorResult(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Store locator result failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun forgot2Password(
