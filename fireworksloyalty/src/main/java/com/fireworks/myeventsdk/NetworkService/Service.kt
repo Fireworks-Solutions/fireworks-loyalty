@@ -440,7 +440,6 @@ interface Service {
     @POST(Constants.LIST_SUPPLIMENTARY)
     suspend fun listSupplementary(@FieldMap params: Map<String, String>): Response<ListSupplementaryResponse>
 
-    @FormUrlEncoded
     @POST(Constants.STORE_LOCATOR_FILTER)
     suspend fun storeLocatorFilter(): Response<StoreLocatorFilterResponse>
 
