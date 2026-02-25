@@ -337,7 +337,7 @@ object RewardsSdk {
 
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    fun walletDetailAPI(
+    fun transferRewardsAPI(
         context: Context,
         custId: String,
         redeemId: String,
