@@ -65,6 +65,7 @@ import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
 import com.fireworks.myeventsdk.model.StoreLocatorListResponse
+import com.fireworks.myeventsdk.model.SupplimentaryProfileDetailResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 import com.google.gson.annotations.SerializedName
@@ -439,6 +440,11 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.LIST_SUPPLIMENTARY)
     suspend fun listSupplementary(@FieldMap params: Map<String, String>): Response<ListSupplementaryResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.SUPPLIMENTARY_PROFILE_DETAIL)
+    suspend fun supplementaryProfileDetail(@FieldMap params: Map<String, String>): Response<SupplimentaryProfileDetailResponse>
 
     @POST(Constants.STORE_LOCATOR_FILTER)
     suspend fun storeLocatorFilter(): Response<StoreLocatorFilterResponse>

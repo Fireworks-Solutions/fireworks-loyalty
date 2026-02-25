@@ -25,6 +25,7 @@ import com.fireworks.myeventsdk.model.Result
 import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
 import com.fireworks.myeventsdk.model.StoreLocatorListResponse
 import com.fireworks.myeventsdk.model.SubResponse
+import com.fireworks.myeventsdk.model.SupplimentaryProfileDetailResponse
 import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
@@ -429,6 +430,11 @@ class CommonInterface {
 
     interface ListSupplementaryCallback {
         fun onSuccess(response: ListSupplementaryResponse)
+        fun onFailure(message: String)
+    }
+
+    interface SupplementaryProfileDetailCallback {
+        fun onSuccess(response: SupplimentaryProfileDetailResponse)
         fun onFailure(message: String)
     }
 

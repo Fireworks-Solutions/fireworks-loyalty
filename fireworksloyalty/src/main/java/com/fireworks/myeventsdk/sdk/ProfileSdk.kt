@@ -13,6 +13,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.PasswordUpdateCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ProfileUpdateCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SetPasswordCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.SetVerifyPasswordCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.SupplementaryProfileDetailCallback
 import com.fireworks.myeventsdk.Utils.Constants
 import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.NetworkUtils.deviceId
@@ -539,6 +540,59 @@ object ProfileSdk {
                         callback.onSuccess(response.body()!!)
                     } else {
                         callback.onFailure("List supplementary failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getSupplementaryProfileDetail(
+        context: Context,
+        custId: String,
+        suppId: String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: SupplementaryProfileDetailCallback
+    ) {
+        appPreference = AppPreference.getInstance(context)
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val params = mutableMapOf(
+            "custid" to custId,
+            "supp_id" to suppId, // ✅ required by your URL
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc
+        )
+
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.supplementaryProfileDetail(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Supplementary profile failed: ${response.code()}")
                     }
                 }
             } catch (e: Exception) {
