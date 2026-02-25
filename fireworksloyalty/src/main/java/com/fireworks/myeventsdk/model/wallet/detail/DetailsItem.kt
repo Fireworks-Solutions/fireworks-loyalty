@@ -156,6 +156,15 @@ data class DetailsItem(
         @field:SerializedName("is_donation")
         val is_donation: Boolean? = null,
 
+        @field:SerializedName("transferable")
+        val transferable: Boolean? = null,
+
+        @field:SerializedName("is_rebate")
+        val is_rebate: String? = null,
+
+        @field:SerializedName("rebate_amount")
+        val rebate_amount: String? = null,
+
         @field:SerializedName("images")
         val Images: ArrayList<String>? = null
 )

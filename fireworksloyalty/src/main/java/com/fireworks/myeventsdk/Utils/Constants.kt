@@ -86,6 +86,7 @@ object Constants {
     const val WALLET_API = "webview_getWallet.php?"
     const val WALLET_MULTIPLE_API = "webview_multiWalletList.php?"
     const val WALLET_DETAIL_API = "webview_getWalletDetails.php?"
+    const val TRANSFER_VOUCHER = "transferVoucher.php?"
     const val USE_COUPON_URL = "ecom/qrvalidate.php?"
     const val QR_DETAIL_API = "/webview_getQrpage.php?"
     const val WALLET_SHARE_PEOPLE_API = "/custlist_dd.php?"
@@ -222,6 +223,8 @@ object Constants {
     const val STORE_LOCATOR_FILTER = "store_locator_filter.php"
     const val STORE_LOCATOR_RESULT = "store_locator_result.php?"
     const val NEWS_CATEGORY= "getAllNewsCategory.php"
+
+
 
 
 

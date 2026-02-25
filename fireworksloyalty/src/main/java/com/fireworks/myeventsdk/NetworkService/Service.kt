@@ -256,6 +256,11 @@ interface Service {
 
 
     @FormUrlEncoded
+    @POST(Constants.TRANSFER_VOUCHER)
+    suspend fun transferVoucherAPI(@FieldMap params: Map<String, String>): Response<CommonResponse>
+
+
+    @FormUrlEncoded
     @POST(Constants.WALLET_API)
     suspend fun walletAPI(@FieldMap params: Map<String, String>): Response<WalletResponse>
 

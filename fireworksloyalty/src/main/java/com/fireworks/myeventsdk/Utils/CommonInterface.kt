@@ -234,6 +234,12 @@ class CommonInterface {
         fun onFailure(errorMessage: String)
     }
 
+
+    interface TransferVoucherCallback {
+        fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
+
     interface WalletCallback {
         fun onSuccess(response: WalletResponse)
         fun onFailure(errorMessage: String)
