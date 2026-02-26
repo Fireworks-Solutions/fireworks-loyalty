@@ -22,6 +22,12 @@ data class Profile(
     @field:SerializedName("profile")
     val profile: String? = null,
 
+    @field:SerializedName("preferred_outlet_name")
+    val preferred_outlet_name: String? = null,
+
+    @field:SerializedName("preferred_outlet_id")
+    val preferred_outlet_id: String? = null,
+
     @field:SerializedName("postcode")
     val postcode: String? = null,
 
