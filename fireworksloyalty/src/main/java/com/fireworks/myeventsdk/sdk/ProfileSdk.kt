@@ -135,6 +135,8 @@ object ProfileSdk {
         city: String,
         postcode: String,
         preferredMall: Int,
+        extraParams: Map<String, String> = emptyMap(),
+
         callback: ProfileUpdateCallback
     ) {
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -194,7 +196,7 @@ object ProfileSdk {
             "svc" to Constants.svc,
             "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
         )
-
+        fields.putAll(extraParams)
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.updateProfileAPI(fields)
