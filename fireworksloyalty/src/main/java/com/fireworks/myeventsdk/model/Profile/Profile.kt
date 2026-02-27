@@ -217,4 +217,8 @@ data class Profile(
     @field:SerializedName("phone_verified_error_message")
     val phoneVerificationErrorMessage: String? = null,
 
+
+    @field:SerializedName("is_verified")
+    val is_verified: String? = null,
+
     )
