@@ -208,7 +208,7 @@ data class Profile(
     @field:SerializedName("phone_verified")
     val isPhoneVerified: Boolean = false,
 
-    @field:SerializedName("is_principal ")
+    @field:SerializedName("is_principal")
     val is_principal : Boolean = false,
 
     @field:SerializedName("points_expiry")
