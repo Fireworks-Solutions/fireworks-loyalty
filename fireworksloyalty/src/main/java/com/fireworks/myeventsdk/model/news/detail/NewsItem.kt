@@ -40,6 +40,9 @@ data class NewsItem(
 	@field:SerializedName("address")
 	val address:String? = "",
 
+	@field:SerializedName("end_date_text")
+	val end_date_text:String? = "",
+
 	@field:SerializedName("fav")
 	val Fav: Boolean?
 )
