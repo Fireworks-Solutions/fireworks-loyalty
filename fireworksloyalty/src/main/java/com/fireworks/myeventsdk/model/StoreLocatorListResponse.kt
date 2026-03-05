@@ -17,7 +17,8 @@ data class outlets(
     val latitude: String?,
     val longitude: String?,
     val address: String?,
-    val images: List<String>?
+    val images: List<String>?,
+    val images_full: List<String>?
 
 )
 
