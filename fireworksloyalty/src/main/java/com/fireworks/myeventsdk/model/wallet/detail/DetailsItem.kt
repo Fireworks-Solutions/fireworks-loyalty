@@ -152,6 +152,9 @@ data class DetailsItem(
         @field:SerializedName("swipe")
         val swipe: Boolean? = null,
 
+        @field:SerializedName("swipe_to_complete")
+        val swipe_to_complete: Boolean? = null,
+
 
         @field:SerializedName("is_donation")
         val is_donation: Boolean? = null,
