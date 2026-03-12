@@ -35,5 +35,11 @@ data class NewsItem(
 	val mall: Int? = null,
 
 	@field:SerializedName("start_date")
-	val startDate: String? = null
+	val startDate: String? = null,
+
+
+	@field:SerializedName("clickable")
+	val clickable: Boolean? = null,
+
+
 )
