@@ -65,6 +65,10 @@ data class DetailsItem(
      @field:SerializedName("redirect_link")
         val redirect_link: String? = null,
 
+
+      @field:SerializedName("transferred_info")
+        val transferredInfo: transferredInfo? = null,
+
         @field:SerializedName("third_party_redirect")
         val third_party_redirect: String? = null,
 
@@ -182,5 +186,16 @@ data class validityInfo(
 
         @field:SerializedName("sufix")
         val sufix: String? = null
+
+    )
+
+data class transferredInfo (
+
+        @field:SerializedName("name")
+        val name: String? = null,
+
+        @field:SerializedName("phonenumber ")
+        val phonenumber : String? = null
+
 
     )
