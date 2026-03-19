@@ -7,12 +7,11 @@ data class PrivRankResponse(
     val message: String,
     val general: General,
     val ranks: ArrayList<Ranks>,
-    val tiers: ArrayList<Tiers>,
-
+    val tiers: ArrayList<Tiers>
 )
 data class General(
     val title: String,
-    val desc: String,
+    val desc: String
 )
 
 data class Ranks(
@@ -22,9 +21,7 @@ data class Ranks(
     val row_1: String,
     val row_1_desc: String,
     val row_2: String,
-    val row_2_desc: String,
-
-    )
+    val row_2_desc: String)
 
 data class Tiers(
     val name: String,

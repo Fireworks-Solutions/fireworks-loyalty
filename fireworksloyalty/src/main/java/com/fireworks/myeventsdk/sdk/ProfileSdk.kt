@@ -19,6 +19,7 @@ import com.fireworks.myeventsdk.Utils.NetworkUtils
 import com.fireworks.myeventsdk.Utils.NetworkUtils.deviceId
 import com.fireworks.myeventsdk.Utils.PrefConstant
 import com.fireworks.myeventsdk.model.Profile.ProfileResponse
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,12 +32,14 @@ object ProfileSdk {
     //test
     private lateinit var retrofitService: Service
     private lateinit var appPreference: AppPreference
-
+    val lenientGson = GsonBuilder()
+        .setLenient()
+        .create()
 
     fun init(baseUrl: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(lenientGson)) // ← use lenientGson
             .build()
         ProfileSdk.retrofitService = retrofit.create(Service::class.java)
     }
