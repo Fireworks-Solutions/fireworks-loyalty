@@ -5,12 +5,9 @@ import java.util.ArrayList
 data class PrivRankResponse(
     val status: String,
     val message: String,
-    val card_image: String,
     val general: General,
     val ranks: ArrayList<Ranks>,
-    val tiers: ArrayList<Tiers>,
-    val eligibility_info: Eligible?
-
+    val tiers: ArrayList<Tiers>
 )
 data class General(
     val title: String,
@@ -32,10 +29,13 @@ data class Ranks(
     val row_2_desc: String)
 
 data class Tiers(
+    val id: String,
     val name: String,
     val title: String,
+    val card_image: String,
+    val eligibility_info: Eligible?,
     val sections: ArrayList<Sections>,
-    )
+)
 
 data class Sections(
     val title: String,
