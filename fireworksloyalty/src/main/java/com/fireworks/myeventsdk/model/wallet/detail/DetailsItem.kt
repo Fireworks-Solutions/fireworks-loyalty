@@ -194,7 +194,7 @@ data class transferredInfo (
         @field:SerializedName("name")
         val name: String? = null,
 
-        @field:SerializedName("phonenumber ")
+        @field:SerializedName("phonenumber")
         val phonenumber : String? = null
 
 
