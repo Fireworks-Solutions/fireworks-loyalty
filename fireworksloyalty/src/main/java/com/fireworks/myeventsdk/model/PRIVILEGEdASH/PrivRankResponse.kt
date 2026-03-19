@@ -5,13 +5,21 @@ import java.util.ArrayList
 data class PrivRankResponse(
     val status: String,
     val message: String,
+    val card_image: String,
     val general: General,
     val ranks: ArrayList<Ranks>,
-    val tiers: ArrayList<Tiers>
+    val tiers: ArrayList<Tiers>,
+    val eligibility_info: Eligible?
+
 )
 data class General(
     val title: String,
     val desc: String
+)
+
+data class Eligible(
+    val title: String,
+    val description: String
 )
 
 data class Ranks(
