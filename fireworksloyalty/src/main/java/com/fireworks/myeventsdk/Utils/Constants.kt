@@ -166,7 +166,7 @@ object Constants {
     const val BEACON_DETAIL_API = "push_details.php"
     const val ACTION_BUTTON_ANALYTIC_API = "action_button_respond.php?"
     const val VERSION_DIALOG_CHECKING_API = "alertList.php?"
-    const val IN_APP_ALERT_API = "/member_alertList.php?"
+    const val IN_APP_ALERT_API = "member_alertList.php?"
     const val REFRESH_TOKEN = "/refreshToken.php?"
 
     //SCAN RECEIPT API
