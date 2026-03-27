@@ -204,9 +204,8 @@ interface Service {
     suspend fun privDashAPI(@FieldMap params: Map<String, String>): Response<MainResponse>
 
 
-    @POST(Constants.PRIVILEGE_RANK)
-    @FormUrlEncoded
-    suspend fun privRankAPI(@FieldMap params: Map<String, String>): Response<PrivRankResponse>
+    @GET("getRankInfo.php")
+    suspend fun privRankAPI(@QueryMap params: Map<String, String>): Response<PrivRankResponse>
 
     @POST(Constants.MALL_LIST_API)
     @FormUrlEncoded
