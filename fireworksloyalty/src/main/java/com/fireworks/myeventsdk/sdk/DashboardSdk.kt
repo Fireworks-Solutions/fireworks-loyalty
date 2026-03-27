@@ -291,17 +291,13 @@ object DashboardSdk {
 
 
 
-
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun privRankAPI(
         context: Context,
         mall: String,
         custId: String,
-        mercId: String,
         token: String,
-        appVersion: String,
         pv: String,
-        deviceFlavour: String,
         extraParams: Map<String, String> = emptyMap(),
         callback: PrivRankCallback
     ) {
@@ -314,25 +310,17 @@ object DashboardSdk {
         val params = mutableMapOf(
             "mall" to mall,
             "custid" to custId,
-            "mercid" to mercId,
-            "lat" to AppUtil.latitude.toString(),
-            "lng" to AppUtil.longitude.toString(),
-            "date" to NetworkUtils.unixTimeStamp().toString(),
-            "vc" to NetworkUtils.getVCKey(),
-            "os" to NetworkUtils.getOsVersion(),
-            "phonename" to NetworkUtils.getDeviceName(context),
-            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
-            "sectoken" to token,
-            "lang" to AppUtil.language,
-            "deviceid" to AppUtil.getDeviceId(context),
             "devicetype" to NetworkUtils.getDeviceLayoutType(context),
-            "appversion" to appVersion,
-            "deviceflavour" to deviceFlavour,
+            "os" to NetworkUtils.getOsVersion(),
+            "deviceid" to AppUtil.getDeviceId(context),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "lang" to AppUtil.language,
             "svc" to Constants.svc,
+            "sectoken" to token,
+            "vc" to NetworkUtils.getVCKey(),
             "pvc" to pv
         )
 
-        // Allow host app to add or override any param
         params.putAll(extraParams)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -342,7 +330,6 @@ object DashboardSdk {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         Log.d("Dashboard", "successful: $response")
-
                         callback.onSuccess(response.body()!!)
                     } else {
                         callback.onFailure("Dashboard API failed: ${response.code()}")
@@ -356,7 +343,6 @@ object DashboardSdk {
             }
         }
     }
-
 
 
 
