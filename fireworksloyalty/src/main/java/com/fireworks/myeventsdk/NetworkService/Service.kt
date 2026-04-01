@@ -142,11 +142,21 @@ interface Service {
     suspend fun registerEmailOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
+   @FormUrlEncoded
+    @POST(Constants.registerEmailOtpV3)
+    suspend fun registerEmailOtpV3(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
 
 
    @FormUrlEncoded
     @POST(Constants.registerEmailOtpVerify)
     suspend fun registerEmailOtpVerify(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+   @FormUrlEncoded
+    @POST(Constants.registerEmailOtpVerifyV3)
+    suspend fun registerEmailOtpVerifyV3(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
     @FormUrlEncoded
@@ -538,6 +548,11 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.REGISTER_API)
     suspend fun registerAPI(@FieldMap fields: Map<String, String>): Response<RegisterResponse>
+
+
+    @FormUrlEncoded
+    @POST(Constants.REGISTER_APIV3)
+    suspend fun registerAPIV3(@FieldMap fields: Map<String, String>): Response<RegisterResponse>
 
 
     @FormUrlEncoded
