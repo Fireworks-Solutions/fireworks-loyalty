@@ -7,6 +7,7 @@ import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
 import com.fireworks.myeventsdk.Utils.CommonInterface
+import com.fireworks.myeventsdk.Utils.CommonInterface.BaseUrlCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CountryCodesCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CountryListCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.GetArticleDetailsCallback
@@ -63,6 +64,7 @@ object SettingsSdk {
             "phonename" to NetworkUtils.getDeviceName(context),
             "phonetype" to NetworkUtils.getDeviceLayoutType(context),
             "sectoken" to token,
+            "appversion" to token,
             "svc" to Constants.svc
         )
 
@@ -90,6 +92,55 @@ object SettingsSdk {
             }
         }
     }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getBaseUrl(
+        context: Context,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: BaseUrlCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val requestMap = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "svc" to Constants.svc
+        )
+
+        requestMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.baseUrlApi(requestMap)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("BaseUrl API failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 
 
 

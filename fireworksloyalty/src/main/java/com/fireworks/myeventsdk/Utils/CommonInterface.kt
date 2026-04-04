@@ -6,6 +6,7 @@ import com.fireworks.myeventsdk.model.AddSupplementaryResponse
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.ArticleDetailResponse
 import com.fireworks.myeventsdk.model.ArticleListResponse
+import com.fireworks.myeventsdk.model.BaseUrlResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.EventCategoryResponse
@@ -285,6 +286,10 @@ class CommonInterface {
 
     interface StatesCallback {
         fun onSuccess(response: StatesResponse)
+        fun onFailure(errorMessage: String)
+    }
+    interface BaseUrlCallback {
+        fun onSuccess(response: BaseUrlResponse)
         fun onFailure(errorMessage: String)
     }
     interface PurchaseCountCallBack {

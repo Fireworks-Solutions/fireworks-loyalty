@@ -6,6 +6,7 @@ import com.fireworks.myeventsdk.model.AddSupplementaryResponse
 import com.fireworks.myeventsdk.model.ApiResponse
 import com.fireworks.myeventsdk.model.ArticleDetailResponse
 import com.fireworks.myeventsdk.model.ArticleListResponse
+import com.fireworks.myeventsdk.model.BaseUrlResponse
 import com.fireworks.myeventsdk.model.CheckOutResponse
 import com.fireworks.myeventsdk.model.CommonResponse
 import com.fireworks.myeventsdk.model.EventCategoryResponse
@@ -114,6 +115,12 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.LOGIN_API)
     suspend fun loginAPI(@FieldMap fields: Map<String, String>): Response<LoginResponse>
+
+
+
+    @FormUrlEncoded
+    @POST(Constants.BASE_URL)
+    suspend fun baseUrlApi(@FieldMap fields: Map<String, String>): Response<BaseUrlResponse>
 
 
    @FormUrlEncoded

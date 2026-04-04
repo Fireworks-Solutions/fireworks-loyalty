@@ -8,6 +8,12 @@ object Constants {
     /**
      * network
      */
+
+
+    //BASE URL
+
+    const val BASE_URL = "base_url.php"
+
     //LOGIN API
     const val LOGIN_API = "login.php?"
     const val LOGIN_OTP_API = "loginOtp.php?"
