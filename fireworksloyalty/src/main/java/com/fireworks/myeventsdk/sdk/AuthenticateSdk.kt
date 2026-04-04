@@ -14,6 +14,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface.OtpCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.VerifyPhoneCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.checkEmailLoginCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.checkEmailSSOLoginCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.getCognitoUserCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.loginEmailOtpCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.registerEmailOtpCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.sendEmailOtpCallback
@@ -810,6 +811,61 @@ object AuthenticateSdk {
                     if (response.isSuccessful && response.body() != null) {
                         val loginResponse = response.body()!!
                         Log.d("AuthenticateSdk", "Login successful: $loginResponse")
+                        callback.onSuccess(loginResponse)
+                    } else {
+                        callback.onFailure("Login failed with status: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+
+  @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getCognitoUser(
+        context: Context,
+        email: String,
+        extraParams: Map<String, String> = emptyMap(), // <-- optional dynamic fields
+        callback: getCognitoUserCallback
+    ) {
+        appPreference = AppPreference.getInstance(context)
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val fields = mutableMapOf(
+                    "email" to email,
+                    "date" to NetworkUtils.unixTimeStamp().toString(),
+                    "vc" to NetworkUtils.getVCKey(),
+                    "os" to NetworkUtils.getOsVersion(),
+                    "phonename" to NetworkUtils.getDeviceName(context),
+                    "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "lang" to AppUtil.language,
+                    "deviceid" to AppUtil.getDeviceId(context),
+                    "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+                    "svc" to Constants.svc,
+                )
+
+                // Merge any extra fields passed from host app
+                fields.putAll(extraParams)
+
+                val response = retrofitService.getCognitoUser(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val loginResponse = response.body()!!
+                        Log.d("SSOUserInfo", "Login successful: $loginResponse")
                         callback.onSuccess(loginResponse)
                     } else {
                         callback.onFailure("Login failed with status: ${response.code()}")

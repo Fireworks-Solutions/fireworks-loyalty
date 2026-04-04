@@ -67,6 +67,7 @@ import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
 import com.fireworks.myeventsdk.model.StoreLocatorListResponse
 import com.fireworks.myeventsdk.model.SupplimentaryProfileDetailResponse
+import com.fireworks.myeventsdk.model.getSSOUserInfo
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailSSOResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
@@ -186,7 +187,7 @@ interface Service {
 
    @FormUrlEncoded
     @POST(Constants.getCognitoUser)
-    suspend fun getCognitoUser(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+    suspend fun getCognitoUser(@FieldMap fields: Map<String, String>): Response<getSSOUserInfo>
 
 
     @FormUrlEncoded

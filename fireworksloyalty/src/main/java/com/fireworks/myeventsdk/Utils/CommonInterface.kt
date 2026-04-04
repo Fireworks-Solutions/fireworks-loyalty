@@ -69,6 +69,7 @@ import com.fireworks.myeventsdk.model.wallet.detail.WalletDetailResponse
 import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import com.fireworks.myeventsdk.model.events_detail.Detail
+import com.fireworks.myeventsdk.model.getSSOUserInfo
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailSSOResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
@@ -129,6 +130,11 @@ class CommonInterface {
 
   interface registerEmailOtpCallback {
         fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+  interface getCognitoUserCallback {
+        fun onSuccess(response: getSSOUserInfo)
         fun onFailure(errorMessage: String)
     }
 
