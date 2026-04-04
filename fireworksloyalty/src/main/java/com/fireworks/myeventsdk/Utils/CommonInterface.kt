@@ -70,6 +70,7 @@ import com.fireworks.myeventsdk.model.wallet.multiple.WalletMultipleResponse
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
 import com.fireworks.myeventsdk.model.events_detail.Detail
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
+import com.fireworks.myeventsdk.model.login.LoginEmailSSOResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 
 class CommonInterface {
@@ -93,6 +94,12 @@ class CommonInterface {
 
     interface checkEmailLoginCallback {
         fun onSuccess(response: LoginEmailResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+
+    interface checkEmailSSOLoginCallback {
+        fun onSuccess(response: LoginEmailSSOResponse)
         fun onFailure(errorMessage: String)
     }
 

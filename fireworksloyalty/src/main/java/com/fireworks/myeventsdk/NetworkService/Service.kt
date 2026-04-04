@@ -68,6 +68,7 @@ import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
 import com.fireworks.myeventsdk.model.StoreLocatorListResponse
 import com.fireworks.myeventsdk.model.SupplimentaryProfileDetailResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
+import com.fireworks.myeventsdk.model.login.LoginEmailSSOResponse
 import com.fireworks.myeventsdk.model.reward.RewardCategoryTypeResponse
 import com.google.gson.annotations.SerializedName
 import com.incredibleqr.mysogo.data.remote.model.country_codes.CountryCodesResponse
@@ -134,6 +135,11 @@ interface Service {
 
 
    @FormUrlEncoded
+    @POST(Constants.checkEmailLoginSSO)
+    suspend fun checkEmailLoginSSO(@FieldMap fields: Map<String, String>): Response<LoginEmailSSOResponse>
+
+
+   @FormUrlEncoded
     @POST(Constants.sendEmailOtp)
     suspend fun sendEmailOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
@@ -154,6 +160,11 @@ interface Service {
     suspend fun registerEmailOtpV3(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
+   @FormUrlEncoded
+    @POST(Constants.registerEmailOtpV4)
+    suspend fun registerEmailOtpV4(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
 
 
    @FormUrlEncoded
@@ -164,6 +175,18 @@ interface Service {
    @FormUrlEncoded
     @POST(Constants.registerEmailOtpVerifyV3)
     suspend fun registerEmailOtpVerifyV3(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+
+   @FormUrlEncoded
+    @POST(Constants.registerEmailOtpVerifyV4)
+    suspend fun registerEmailOtpVerifyV4(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+
+   @FormUrlEncoded
+    @POST(Constants.getCognitoUser)
+    suspend fun getCognitoUser(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
     @FormUrlEncoded
@@ -560,6 +583,12 @@ interface Service {
     @FormUrlEncoded
     @POST(Constants.REGISTER_APIV3)
     suspend fun registerAPIV3(@FieldMap fields: Map<String, String>): Response<RegisterResponse>
+
+
+
+    @FormUrlEncoded
+    @POST(Constants.REGISTER_APIV4)
+    suspend fun registerAPIV4(@FieldMap fields: Map<String, String>): Response<RegisterResponse>
 
 
     @FormUrlEncoded

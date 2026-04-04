@@ -19,14 +19,19 @@ object Constants {
     const val LOGIN_OTP_API = "loginOtp.php?"
     const val loginV2_with_otp = "loginV2.php?"
     const val checkEmailLogin = "checkEmailLogin.php?"
+    const val checkEmailLoginSSO = "checkEmailSso.php?"
     const val sendEmailOtp = "sendEmailOtp.php?"
     const val loginEmail = "loginEmail.php?"
     const val registerEmailOtp = "registerEmailOtp.php?"
     const val registerEmailOtpV3 = "registerEmailOtp_V3.php"
+    const val registerEmailOtpV4 = "registerEmailOtp_v4.php?"
     const val registerEmailOtpVerify = "registerEmailOtpVerify.php?"
     const val registerEmailOtpVerifyV3 = "registerEmailOtpVerify_V3.php?"
+    const val registerEmailOtpVerifyV4 = "registerEmailOtpVerify_v4.php?"
+    const val getCognitoUser = "getCognitoUser.php?"
     const val REGISTER_API = "registerV2.php?"
     const val REGISTER_APIV3 = "registerV3.php"
+    const val REGISTER_APIV4 = "register_v4.php"
 
 
 
