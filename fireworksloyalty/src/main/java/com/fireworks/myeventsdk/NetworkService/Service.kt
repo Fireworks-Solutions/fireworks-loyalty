@@ -145,6 +145,12 @@ interface Service {
     suspend fun sendEmailOtp(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
 
+
+   @FormUrlEncoded
+    @POST(Constants.sendEmailOtpSSO)
+    suspend fun sendEmailOtpSSO(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
    @FormUrlEncoded
     @POST(Constants.loginEmail)
     suspend fun loginEmail(@FieldMap fields: Map<String, String>): Response<LoginResponse>

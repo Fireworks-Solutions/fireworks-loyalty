@@ -21,6 +21,7 @@ object Constants {
     const val checkEmailLogin = "checkEmailLogin.php?"
     const val checkEmailLoginSSO = "checkEmailSso.php?"
     const val sendEmailOtp = "sendEmailOtp.php?"
+    const val sendEmailOtpSSO = "sendEmailOtp_v4.php?"
     const val loginEmail = "loginEmail.php?"
     const val registerEmailOtp = "registerEmailOtp.php?"
     const val registerEmailOtpV3 = "registerEmailOtp_V3.php"
