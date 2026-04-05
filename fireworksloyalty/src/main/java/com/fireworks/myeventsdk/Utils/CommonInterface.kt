@@ -31,6 +31,7 @@ import com.fireworks.myeventsdk.model.TimerResponse
 import com.fireworks.myeventsdk.model.UploadImageResponse
 import com.fireworks.myeventsdk.model.VerifyOtpResponse
 import com.fireworks.myeventsdk.model.VerifyPhoneNumberResponse
+import com.fireworks.myeventsdk.model.checkSSOEmail
 import com.fireworks.myeventsdk.model.country.CountryListResponse
 import com.fireworks.myeventsdk.model.directory.DirectoryResponse
 import com.fireworks.myeventsdk.model.directory.category.DirectoryCategoryResponse
@@ -130,6 +131,11 @@ class CommonInterface {
 
   interface registerEmailOtpCallback {
         fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+  interface checkCognitoEmail {
+        fun onSuccess(response: checkSSOEmail)
         fun onFailure(errorMessage: String)
     }
 

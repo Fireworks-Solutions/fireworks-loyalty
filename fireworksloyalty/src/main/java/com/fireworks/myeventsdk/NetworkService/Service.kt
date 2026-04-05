@@ -67,6 +67,7 @@ import com.fireworks.myeventsdk.model.MerchantRewardResponse
 import com.fireworks.myeventsdk.model.StoreLocatorFilterResponse
 import com.fireworks.myeventsdk.model.StoreLocatorListResponse
 import com.fireworks.myeventsdk.model.SupplimentaryProfileDetailResponse
+import com.fireworks.myeventsdk.model.checkSSOEmail
 import com.fireworks.myeventsdk.model.getSSOUserInfo
 import com.fireworks.myeventsdk.model.login.LoginEmailResponse
 import com.fireworks.myeventsdk.model.login.LoginEmailSSOResponse
@@ -170,6 +171,11 @@ interface Service {
    @FormUrlEncoded
     @POST(Constants.registerEmailOtpV4)
     suspend fun registerEmailOtpV4(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+
+   @FormUrlEncoded
+    @POST(Constants.checkCognitoEmail)
+    suspend fun checkCognitoEmail(@FieldMap fields: Map<String, String>): Response<checkSSOEmail>
 
 
 
