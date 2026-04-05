@@ -25,10 +25,10 @@ data class DataUrls(
     @field:SerializedName("marketplace_base_url")
     val marketPlaceBaseUrl: String? = null,
 
-    @field:SerializedName("remote_config_intervel ")
+    @field:SerializedName("remote_config_intervel")
     val remoteConfigInterval: Int? = null,
 
-    @field:SerializedName("remote_config_enabled ")
+    @field:SerializedName("remote_config_enabled")
     val remoteConfigEnabled: Boolean? = false
 
 )
