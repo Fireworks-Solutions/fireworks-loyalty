@@ -19,16 +19,16 @@ data class DashboardResponse(
         val tenants: ArrayList<TenantItem>? = null,
 
         @field:SerializedName("news")
-        val news: ArrayList<NewsItem>? = null,
+        val news: ArrayList<com.fireworks.myeventsdk.model.dashboard.NewsItem>? = null,
 
         @field:SerializedName("promotions")
-        val promotions: ArrayList<NewsItem>? = null,
+        val promotions: ArrayList<com.fireworks.myeventsdk.model.dashboard.NewsItem>? = null,
 
         @field:SerializedName("members_news")
-        val members: ArrayList<NewsItem>? = null,
+        val members: ArrayList<com.fireworks.myeventsdk.model.dashboard.NewsItem>? = null,
 
         @field:SerializedName("banner_news")
-        val banners: ArrayList<NewsItem>? = null,
+        val banners: ArrayList<com.fireworks.myeventsdk.model.dashboard.NewsItem>? = null,
 
         @field:SerializedName("rewards")
         val rewards: ArrayList<RewardsItem>? = null,
