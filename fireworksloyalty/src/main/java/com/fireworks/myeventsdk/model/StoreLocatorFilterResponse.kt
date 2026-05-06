@@ -17,5 +17,6 @@ data class states(
 data class services(
     val id: String?,
     val name: String?,
-    val icon: String?
+    val icon: String?,
+    val icon_full: String?
 )
