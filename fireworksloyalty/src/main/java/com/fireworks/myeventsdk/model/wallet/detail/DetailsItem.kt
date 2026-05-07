@@ -20,6 +20,9 @@ data class DetailsItem(
         @field:SerializedName("description")
         val description: String? = null,
 
+        @field:SerializedName("remarks")
+        val remarks: String? = null,
+
         @field:SerializedName("validity_info")
         val validity_info: validityInfo? = null,
 

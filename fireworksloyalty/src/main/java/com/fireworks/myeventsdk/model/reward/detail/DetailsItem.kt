@@ -107,6 +107,9 @@ data class DetailsItem(
 	@field:SerializedName("gift")
 	val gift: Boolean? = null,
 
+	@field:SerializedName("remarks")
+	val remarks: String? = null,
+
 	@field:SerializedName("is_donation")
 	val is_donation: Boolean? = null,
 
