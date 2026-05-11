@@ -20,5 +20,8 @@ data class ResultItem(
 	val url: String? = null,
 
 	@field:SerializedName("close_type")
-	val closeType: String? = null
+	val closeType: String? = null,
+
+	@field:SerializedName("button_title")
+	val buttonTitle: String? = null
 )
