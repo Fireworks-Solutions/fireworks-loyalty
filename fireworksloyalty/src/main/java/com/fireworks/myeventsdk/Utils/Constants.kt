@@ -81,6 +81,7 @@ object Constants {
     const val REWARD_DETAIL_API = "webview_getDetails.php?"
     const val REWARD_CATEGORY_API = "webview_getCategory.php?"
     const val REWARD_CHECKOUT_API = "checkout.php?"
+    const val REDEEM_VOUCHER_CODE= "redeem_using_voucher_code.php?"
     const val TIMER_REWARD = "timer_reward.php?"
     const val GIFT_CHECKOUT_API = "giftCheckout.php?"
     const val SHIPPING_POINTS_API = "get_shipping_points.php?"

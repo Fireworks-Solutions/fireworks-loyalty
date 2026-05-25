@@ -279,6 +279,11 @@ class CommonInterface {
         fun onSuccess(response: CheckOutResponse)
         fun onFailure(errorMessage: String)
     }
+
+    interface RedeemCodeCallback {
+        fun onSuccess(response: CommonResponse)
+        fun onFailure(errorMessage: String)
+    }
     interface TimerRewardCallback {
         fun onSuccess(response: TimerResponse)
         fun onFailure(errorMessage: String)

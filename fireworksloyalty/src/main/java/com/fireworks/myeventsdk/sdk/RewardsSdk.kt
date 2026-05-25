@@ -6,6 +6,7 @@ import androidx.annotation.RequiresPermission
 import com.fireworks.myeventsdk.NetworkService.Service
 import com.fireworks.myeventsdk.Utils.AppPreference
 import com.fireworks.myeventsdk.Utils.AppUtil
+import com.fireworks.myeventsdk.Utils.CommonInterface
 import com.fireworks.myeventsdk.Utils.CommonInterface.CheckInCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.DailyRewardsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.MultiWalletCallback
@@ -666,6 +667,63 @@ object RewardsSdk {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = retrofitService.rewardCheckoutAPI(fieldMap)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Checkout failed: ${response.code()}")
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure("Request timed out")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun redeemCodeAPI(
+        context: Context,
+        token: String,
+        custId: String,
+        voucherCode: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: CommonInterface.RedeemCodeCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        appPreference = AppPreference.getInstance(context)
+
+        val fieldMap = mutableMapOf(
+            "custid" to custId,
+            "voucher_code" to voucherCode,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Allow host app to pass any additional dynamic fields
+        fieldMap.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.redeemCodeAPI(fieldMap)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
                         callback.onSuccess(response.body()!!)

@@ -340,6 +340,10 @@ interface Service {
     suspend fun rewardCheckoutAPI(@FieldMap fields: Map<String, String>): Response<CheckOutResponse>
 
     @FormUrlEncoded
+    @POST(Constants.REDEEM_VOUCHER_CODE)
+    suspend fun redeemCodeAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
+
+    @FormUrlEncoded
     @POST(Constants.TIMER_REWARD)
     suspend fun timerRewardAPI(@FieldMap fields: Map<String, String>): Response<TimerResponse>
 
