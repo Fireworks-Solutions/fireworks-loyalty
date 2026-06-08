@@ -123,6 +123,10 @@ data class DetailsItem(
         @field:SerializedName("qrcode")
         val qrCode: String? = null,
 
+
+        @field:SerializedName("qrCode")
+        val qrCoode: String? = null,
+
         @field:SerializedName("mall")
         val mall: Int? = null,
 
