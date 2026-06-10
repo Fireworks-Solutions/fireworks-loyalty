@@ -141,6 +141,9 @@ data class DetailsItem(
 	@field:SerializedName("full_address")
 	val fullAddress: String? = null,
 
+	@field:SerializedName("share_link")
+	val share_link: String? = null,
+
 	@field:SerializedName("collection_method")
 	val collectionMethod: ArrayList<CollectionItem>? = null,
 
