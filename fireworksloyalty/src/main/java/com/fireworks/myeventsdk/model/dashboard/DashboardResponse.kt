@@ -15,6 +15,12 @@ data class DashboardResponse(
         @field:SerializedName("custname")
         val custname: String? = null,
 
+        @field:SerializedName("tjourney")
+        val tjourney: Boolean? = null,
+
+        @field:SerializedName("tjourney_link")
+        val tjourneylink: String? = null,
+
         @field:SerializedName("tenants")
         val tenants: ArrayList<TenantItem>? = null,
 
