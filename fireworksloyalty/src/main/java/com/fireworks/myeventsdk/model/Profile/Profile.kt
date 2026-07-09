@@ -20,6 +20,12 @@ data class Profile(
     @field:SerializedName("order_url")
     val orderUrl: String? = null,
 
+    @field:SerializedName("voucher_ai_url")
+    val voucherUrl: String? = null,
+
+    @field:SerializedName("ai_id")
+    val aiId: String? = null,
+
 
     @field:SerializedName("voucher")
     val voucher: String? = null,
