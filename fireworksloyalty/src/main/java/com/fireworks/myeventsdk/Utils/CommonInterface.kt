@@ -40,6 +40,7 @@ import com.incredibleqr.mysogo.data.remote.model.branch.states.StatesResponse
 import com.incredibleqr.mysogo.data.remote.model.dailyReward.DailyRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.daily_check_in.DailyCheckInResponse
 import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
+import com.fireworks.myeventsdk.model.dashboardlayout.DashboardLayoutResponse
 import com.fireworks.myeventsdk.model.dialogs.VersionChecking
 import com.fireworks.myeventsdk.model.directory.detail.DirectoryDetailResponse
 import com.fireworks.myeventsdk.model.directory.floor.DirectoryFloorResponse
@@ -199,6 +200,11 @@ class CommonInterface {
 
     interface DashboardCallback {
         fun onSuccess(response: DashboardResponse)
+        fun onFailure(errorMessage: String)
+    }
+
+    interface DashboardLayoutCallback {
+        fun onSuccess(response: DashboardLayoutResponse)
         fun onFailure(errorMessage: String)
     }
 
