@@ -10,6 +10,7 @@ import com.fireworks.myeventsdk.Utils.CommonInterface
 import com.fireworks.myeventsdk.Utils.CommonInterface.BaseUrlCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CountryCodesCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.CountryListCallback
+import com.fireworks.myeventsdk.Utils.CommonInterface.DashboardLayoutCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.GetArticleDetailsCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.GetGlobalSearchCallback
 import com.fireworks.myeventsdk.Utils.CommonInterface.ReferralDataCallback
@@ -478,6 +479,51 @@ object SettingsSdk {
                         callback.onSuccess(response.body()!!)
                     } else {
                         callback.onFailure("Update failed: ${response.code()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun getDashboardLayout(
+        context: Context,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: DashboardLayoutCallback
+    ) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val fields = mutableMapOf(
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "svc" to Constants.svc
+        )
+
+        // Allow host to add/override fields dynamically
+        fields.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.dashboardLayoutAPI(fields)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Dashboard Layout API failed: ${response.code()}")
                     }
                 }
             } catch (e: Exception) {

@@ -62,6 +62,7 @@ object Constants {
 
     //DASHBOARD API
     const val DASHBOARD_API = "dashboard.php?"
+    const val DASHBOARD_LAYOUT_API = "dashboard_layout.php?"
     const val PRIVILEGE_DASH = "privileges_dashboard.php?"
     const val PRIVILEGE_RANK = "getRankInfo.php?"
 

@@ -37,6 +37,7 @@ import com.incredibleqr.mysogo.data.remote.model.branch.states.StatesResponse
 import com.incredibleqr.mysogo.data.remote.model.dailyReward.DailyRewardResponse
 import com.incredibleqr.mysogo.data.remote.model.daily_check_in.DailyCheckInResponse
 import com.fireworks.myeventsdk.model.dashboard.DashboardResponse
+import com.fireworks.myeventsdk.model.dashboardlayout.DashboardLayoutResponse
 import com.fireworks.myeventsdk.model.dialogs.VersionChecking
 import com.fireworks.myeventsdk.model.facility.FacilityResponse
 import com.fireworks.myeventsdk.model.facility.category.FacilityCategoryResponse
@@ -258,6 +259,10 @@ interface Service {
     @POST(Constants.DASHBOARD_API)
     @FormUrlEncoded
     suspend fun dashboardAPI(@FieldMap params: Map<String, String>): Response<DashboardResponse>
+
+    @POST(Constants.DASHBOARD_LAYOUT_API)
+    @FormUrlEncoded
+    suspend fun dashboardLayoutAPI(@FieldMap params: Map<String, String>): Response<DashboardLayoutResponse>
 
     @POST(Constants.PRIVILEGE_DASH)
     @FormUrlEncoded
