@@ -15,6 +15,9 @@ data class DashboardResponse(
         @field:SerializedName("custname")
         val custname: String? = null,
 
+        @field:SerializedName("order_url")
+        val orderUrl: String? = null,
+
         @field:SerializedName("tjourney")
         val tjourney: Boolean? = null,
 

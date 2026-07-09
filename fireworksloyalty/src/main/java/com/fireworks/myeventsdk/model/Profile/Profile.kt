@@ -16,6 +16,11 @@ data class Profile(
     @field:SerializedName("qrcode")
     val qrcode: String? = null,
 
+
+    @field:SerializedName("order_url")
+    val orderUrl: String? = null,
+
+
     @field:SerializedName("voucher")
     val voucher: String? = null,
 
