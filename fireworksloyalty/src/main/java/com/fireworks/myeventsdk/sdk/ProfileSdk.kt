@@ -106,6 +106,68 @@ object ProfileSdk {
         }
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun profileAPICache(
+        context: Context,
+        custId: String,
+        merchantId: String,
+        token: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: CommonInterface.ProfileCallback
+    ) {
+        appPreference = AppPreference.getInstance(context)
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            return
+        }
+
+        val baseParams = mutableMapOf(
+            "custid" to custId,
+            "mercid" to merchantId,
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "svc" to Constants.svc,
+            "pvc" to NetworkUtils.getHello(appPreference.getString(PrefConstant.USER_EMAIL) ?: "")
+        )
+
+        // Merge any extra fields passed from the host app
+        baseParams.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.profileAPICache(baseParams)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val profile = response.body()!!
+
+                        // Optional: cache profile
+                        appPreference.putString(PrefConstant.USER_FNAME, profile.profile?.fname)
+                        appPreference.putString(PrefConstant.USER_LNAME, profile.profile?.lname)
+
+                        Log.d("ProfileSdk", "Profile API success: $profile")
+                        callback.onSuccess(profile)
+                    } else {
+                        callback.onFailure("Profile API failed with status: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun updateProfileAPI(

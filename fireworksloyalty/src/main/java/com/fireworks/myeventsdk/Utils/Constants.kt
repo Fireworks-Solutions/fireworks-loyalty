@@ -62,6 +62,7 @@ object Constants {
 
     //DASHBOARD API
     const val DASHBOARD_API = "dashboard.php?"
+    const val DASHBOARD_API_CACHE = "dashboard_cache.php?"
     const val DASHBOARD_LAYOUT_API = "dashboard_layout.php?"
     const val PRIVILEGE_DASH = "privileges_dashboard.php?"
     const val PRIVILEGE_RANK = "getRankInfo.php?"
@@ -155,6 +156,7 @@ object Constants {
 
     //PROFILE API
     const val PROFILE_API = "profile.php?"
+    const val PROFILE_API_CACHE = "profile_cache.php"
     const val UPDATE_PROFILE_API = "updateProfile.php?"
     const val UPDATE_PROFILE_PIC_API = "uploadProfilePic.php?"
     const val RESEND_ACTIVATION_LINK = "/resend_activation_link.php?"

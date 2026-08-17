@@ -224,6 +224,82 @@ object DashboardSdk {
     }
 
 
+
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    fun dashboardAPICache(
+        context: Context,
+        mall: String,
+        custId: String,
+        mercId: String,
+        token: String,
+        appVersion: String,
+        pv: String,
+        deviceFlavour: String,
+        extraParams: Map<String, String> = emptyMap(),
+        callback: DashboardCallback
+    ) {
+        val cachedDashboard = GetJsonResponse.getDashboardApi()
+
+        if (cachedDashboard != null && !OfflineCacheUtils.getIfCanFetchOnlineData()) {
+            AppUtil.dashboardResponse = cachedDashboard
+            callback.onSuccess(cachedDashboard)
+            return
+        }
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onFailure("No Internet Connection")
+            AppUtil.dashboardResponse?.let { callback.onSuccess(it) }
+            return
+        }
+
+        val params = mutableMapOf(
+            "mall" to mall,
+            "custid" to custId,
+            "mercid" to mercId,
+            "lat" to AppUtil.latitude.toString(),
+            "lng" to AppUtil.longitude.toString(),
+            "date" to NetworkUtils.unixTimeStamp().toString(),
+            "vc" to NetworkUtils.getVCKey(),
+            "os" to NetworkUtils.getOsVersion(),
+            "phonename" to NetworkUtils.getDeviceName(context),
+            "phonetype" to NetworkUtils.getDeviceLayoutType(context),
+            "sectoken" to token,
+            "lang" to AppUtil.language,
+            "deviceid" to AppUtil.getDeviceId(context),
+            "devicetype" to NetworkUtils.getDeviceLayoutType(context),
+            "appversion" to appVersion,
+            "deviceflavour" to deviceFlavour,
+            "svc" to Constants.svc,
+            "pvc" to pv
+        )
+
+        // Allow host app to add or override any param
+        params.putAll(extraParams)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = retrofitService.dashboardAPICache(params)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        Log.d("Dashboard", "successful: $response")
+
+                        AppUtil.dashboardResponse = response.body()!!
+                        callback.onSuccess(response.body()!!)
+                    } else {
+                        callback.onFailure("Dashboard API failed: ${response.code()}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback.onFailure(e.localizedMessage ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun privdashboardAPI(
         context: Context,

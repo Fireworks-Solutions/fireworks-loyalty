@@ -243,6 +243,11 @@ interface Service {
 
 
     @FormUrlEncoded
+    @POST(Constants.PROFILE_API_CACHE)
+    suspend fun profileAPICache(@FieldMap fields: Map<String, String>): Response<ProfileResponse>
+
+
+    @FormUrlEncoded
     @POST(Constants.UPDATE_PROFILE_API)
     suspend fun updateProfileAPI(@FieldMap fields: Map<String, String>): Response<CommonResponse>
 
@@ -259,6 +264,13 @@ interface Service {
     @POST(Constants.DASHBOARD_API)
     @FormUrlEncoded
     suspend fun dashboardAPI(@FieldMap params: Map<String, String>): Response<DashboardResponse>
+
+
+
+    @POST(Constants.DASHBOARD_API_CACHE)
+    @FormUrlEncoded
+   suspend fun dashboardAPICache(@FieldMap params: Map<String, String>): Response<DashboardResponse>
+
 
     @POST(Constants.DASHBOARD_LAYOUT_API)
     @FormUrlEncoded
