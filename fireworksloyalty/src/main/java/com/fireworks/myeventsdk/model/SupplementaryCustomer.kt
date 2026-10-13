@@ -10,5 +10,6 @@ data class SupplementaryCustomer(
     val phone: String?,
     val points_transferable: Boolean?,
     val rewards_transferable: Boolean?,
-    val dob: String?
+    val dob: String?,
+    val member_card: String? = null
 )
