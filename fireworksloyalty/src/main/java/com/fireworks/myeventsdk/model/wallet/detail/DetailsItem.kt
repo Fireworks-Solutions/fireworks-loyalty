@@ -173,6 +173,9 @@ data class DetailsItem(
         @field:SerializedName("transferable")
         val transferable: Boolean? = null,
 
+        @field:SerializedName("transferred")
+        val transferred: Boolean? = null,
+
         @field:SerializedName("is_rebate")
         val is_rebate: String? = null,
 
