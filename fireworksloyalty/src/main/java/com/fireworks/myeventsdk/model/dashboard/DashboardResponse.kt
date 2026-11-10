@@ -31,6 +31,9 @@ data class DashboardResponse(
         @field:SerializedName("tjourney_link")
         val tjourneylink: String? = null,
 
+        @field:SerializedName("tjourney_items")
+        val tjourneyItems: ArrayList<TJourneyItem>? = null,
+
         @field:SerializedName("tenants")
         val tenants: ArrayList<TenantItem>? = null,
 
