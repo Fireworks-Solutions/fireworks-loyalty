@@ -221,6 +221,10 @@ interface Service {
 
 
 
+    @FormUrlEncoded
+    @POST(Constants.ECOM_LOGIN)
+    suspend fun ecomLogin(@FieldMap fields: Map<String, String>): Response<com.fireworks.myeventsdk.model.EcomLoginResponse>
+
    @FormUrlEncoded
     @POST(Constants.DELETE_USER)
     suspend fun deleteUser(@FieldMap fields: Map<String, String>): Response<CommonResponse>

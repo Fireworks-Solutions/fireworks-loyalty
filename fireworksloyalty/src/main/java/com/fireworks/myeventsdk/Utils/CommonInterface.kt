@@ -145,6 +145,11 @@ class CommonInterface {
         fun onFailure(errorMessage: String)
     }
 
+    interface EcomLoginCallback {
+        fun onSuccess(response: com.fireworks.myeventsdk.model.EcomLoginResponse)
+        fun onFailure(errorMessage: String)
+    }
+
     interface OtpCallback {
         fun onSuccess(response: CommonResponse)
         fun onFailure(errorMessage: String)

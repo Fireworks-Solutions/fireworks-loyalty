@@ -43,6 +43,8 @@ object Constants {
     const val CHECK_SESSION_API = "checkSession.php"
     const val VERIFY_PASSWORD_API = "get_verify_password.php?"
     const val DELETE_USER = "deleteCust.php?"
+    // Relative to the /loyalty/ base URL
+    const val ECOM_LOGIN = "api/ecom-login.php?"
     const val CHECK_MOBILENUMBER = "checkMobileNumber.php"
 
 
